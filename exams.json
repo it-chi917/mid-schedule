@@ -1,0 +1,23 @@
+{
+  "COMP1117": {
+    "Section 1": { "teacher": "Dr. Mohammed Khan", "date": "06/11/2025", "time": "15:00 - 16:00" },
+    "Section 2": { "teacher": "Dr. Mohammed Khan", "date": "06/11/2025", "time": "10:00 - 11:00" },
+    "Section 5": { "teacher": "Dr. Mohammed Khan", "date": "06/11/2025", "time": "14:00 - 15:00" }
+  },
+  "COMP2107": {
+    "Section 1": { "teacher": "Dr. Mohammed Bany", "date": "06/11/2025", "time": "12:00 - 2:00" },
+    "Section 2": { "teacher": "Dr. Mohammed Bany", "date": "05/11/2025", "time": "5:00 - 6:00" },
+    "Section 3": { "teacher": "Dr. Mohammed Bany", "date": "06/11/2025", "time": "3:00 - 4:00" },
+    "Section 4": { "teacher": "Dr. Mohammed Bany", "date": "05/11/2025", "time": "12:00 - 1:00" },
+    "Section 5": { "teacher": "Dr. Mohammed Bany", "date": "05/11/2025", "time": "2:00 - 3:00" }
+  },
+  "COMP2108": {
+    "B1": { "teacher": "Dr. Nehal", "date": "09-12/11/2025", "time": "TBD" },
+    "I0-01": { "teacher": "Dr. Shumilya", "date": "10-11/11/2025", "time": "TBD" }
+  },
+  "COMP1118": {
+    "Section 2": { "teacher": "Dr. Khaled", "date": "12/11/2025", "time": "13:00 - 15:00" },
+    "Section 5": { "teacher": "Dr. Taher", "date": "10/11/2025", "time": "16:00 - 18:00" },
+    "Section 6": { "teacher": "Dr. Heba", "date": "13/11/2025", "time": "15:00 - 17:00" }
+  }
+}
