@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Midterm Exam Finder</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7fc;
+    text-align: center;
+    padding: 30px;
+  }
+  h1 {
+    color: #2b4d9f;
+  }
+  select, button {
+    padding: 10px;
+    margin: 10px;
+    font-size: 16px;
+  }
+  .card {
+    background: white;
+    border-radius: 10px;
+    display: inline-block;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    text-align: left;
+  }
+</style>
+</head>
+<body>
+ 
+<h1>Midterm Exam Schedule Finder</h1>
+ 
+<select id="subject" onchange="updateSections()">
+  <option value="">-- Select Subject --</option>
+</select>
+ 
+<select id="section">
+  <option value="">-- Select Section --</option>
+</select>
+ 
+<br>
+<button onclick="findExam()">Show Exam</button>
+ 
+<div id="result" class="card"></div>
+ 
+<script>
+  let exams = {};
+ 
+  async function loadData() {
+    const res = await fetch('data/exams.json');
+    exams = await res.json();
+    const subjectSelect = document.getElementById('subject');
+    Object.keys(exams).forEach(code => {
+      const opt = document.createElement('option');
+      opt.value = code;
+      opt.textContent = code;
+      subjectSelect.appendChild(opt);
+    });
+  }
+ 
+  function updateSections() {
+    const subject = document.getElementById('subject').value;
+    const sectionSelect = document.getElementById('section');
+    sectionSelect.innerHTML = '<option value="">-- Select Section --</option>';
+    if (subject && exams[subject]) {
+      Object.keys(exams[subject]).forEach(sec => {
+        const opt = document.createElement('option');
+        opt.value = sec;
+        opt.textContent = sec;
+        sectionSelect.appendChild(opt);
+      });
+    }
+  }
+ 
+  function findExam() {
+    const subject = document.getElementById('subject').value;
+    const section = document.getElementById('section').value;
+    const result = document.getElementById('result');
+    if (subject && section && exams[subject][section]) {
+      const e = exams[subject][section];
+      result.innerHTML = `
+        <h3>${subject} - ${section}</h3>
+        <p><b>Instructor:</b> ${e.teacher}</p>
+        <p><b>Date:</b> ${e.date}</p>
+        <p><b>Time:</b> ${e.time}</p>
+      `;
+    } else {
+      result.innerHTML = `<p>No exam data found for that selection.</p>`;
+    }
+  }
+ 
+  loadData();
+</script>
+ 
+</body>
+</html>
+ 
