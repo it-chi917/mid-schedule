@@ -37,7 +37,7 @@
       font-family: 'Inter', 'Cairo', sans-serif;
       background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
       margin: 0;
-      padding: 2rem;
+      padding: 1rem;
       color: var(--dark);
       min-height: 100vh;
     }
@@ -49,7 +49,7 @@
 
     header {
       text-align: center;
-      margin-bottom: 2.5rem;
+      margin-bottom: 2rem;
       position: relative;
     }
 
@@ -76,7 +76,6 @@
 
     h1 {
       font-weight: 700;
-      font-size: 2.5rem;
       background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -92,15 +91,16 @@
 
     .english {
       font-family: 'Inter', sans-serif;
+      font-size: 2.2rem;
     }
 
     .arabic {
       font-family: 'Cairo', sans-serif;
-      font-size: 2.2rem;
+      font-size: 1.8rem;
+      font-weight: 600;
     }
 
     .subtitle {
-      font-size: 1.1rem;
       color: var(--gray);
       max-width: 800px;
       margin: 0 auto 1.5rem;
@@ -113,12 +113,21 @@
       gap: 0.5rem;
     }
 
+    .english-text {
+      font-size: 1.1rem;
+    }
+
+    .arabic-text {
+      font-size: 1rem;
+      font-family: 'Cairo', sans-serif;
+    }
+
     .card {
       background: white;
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 2rem;
-      margin-bottom: 2rem;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
       transition: var(--transition);
     }
 
@@ -130,7 +139,7 @@
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
     }
 
     .card-icon {
@@ -143,10 +152,10 @@
       align-items: center;
       justify-content: center;
       font-size: 1.2rem;
+      flex-shrink: 0;
     }
 
     .card-title {
-      font-size: 1.5rem;
       font-weight: 600;
       color: var(--dark);
     }
@@ -155,6 +164,15 @@
       display: flex;
       flex-direction: column;
       gap: 0.25rem;
+    }
+
+    .english-title {
+      font-size: 1.4rem;
+    }
+
+    .arabic-title {
+      font-size: 1.3rem;
+      font-family: 'Cairo', sans-serif;
     }
 
     .subject-selector {
@@ -181,6 +199,15 @@
       flex-direction: column;
       gap: 0.25rem;
       font-size: 0.9rem;
+    }
+
+    .label-english {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .label-arabic {
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.85rem;
     }
 
     select, button {
@@ -216,6 +243,7 @@
       gap: 0.5rem;
       transition: var(--transition);
       white-space: nowrap;
+      padding: 0.75rem 1.5rem;
     }
 
     .btn:hover {
@@ -270,11 +298,13 @@
     .export-buttons {
       display: flex;
       gap: 1rem;
+      flex-wrap: wrap;
     }
 
     .stats {
       display: flex;
-      gap: 1.5rem;
+      gap: 1rem;
+      flex-wrap: wrap;
     }
 
     .stat-item {
@@ -285,10 +315,17 @@
       padding: 0.5rem 1rem;
       border-radius: 8px;
       font-weight: 500;
+      font-size: 0.9rem;
     }
 
     .stat-item i {
       color: var(--primary);
+    }
+
+    .bilingual-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
     }
 
     table {
@@ -305,11 +342,12 @@
     }
 
     th {
-      padding: 1rem 1.25rem;
+      padding: 1rem 0.75rem;
       text-align: right;
       color: white;
       font-weight: 600;
       position: relative;
+      font-size: 0.9rem;
     }
 
     th:after {
@@ -330,13 +368,23 @@
     .bilingual-header {
       display: flex;
       flex-direction: column;
-      gap: 0.25rem;
+      gap: 0.2rem;
+    }
+
+    .header-english {
+      font-size: 0.85rem;
+    }
+
+    .header-arabic {
+      font-size: 0.8rem;
+      font-family: 'Cairo', sans-serif;
     }
 
     td {
-      padding: 1rem 1.25rem;
+      padding: 0.75rem;
       border-bottom: 1px solid var(--border);
       text-align: right;
+      font-size: 0.9rem;
     }
 
     tr {
@@ -353,12 +401,12 @@
 
     .empty-message {
       text-align: center;
-      padding: 3rem;
+      padding: 2rem;
       color: var(--gray);
     }
 
     .empty-icon {
-      font-size: 3rem;
+      font-size: 2.5rem;
       color: var(--border);
       margin-bottom: 1rem;
     }
@@ -369,24 +417,25 @@
       padding: 0.25rem 0.5rem;
       border-radius: 6px;
       font-weight: 500;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
     }
 
     .exam-subject {
       font-weight: 500;
       margin-bottom: 0.25rem;
+      font-size: 0.95rem;
     }
 
     .exam-details {
       color: var(--gray);
-      font-size: 0.9rem;
+      font-size: 0.85rem;
     }
 
     .pill {
       display: inline-block;
       padding: 0.25rem 0.75rem;
       border-radius: 50px;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 500;
     }
 
@@ -403,11 +452,12 @@
     .action-buttons {
       display: flex;
       gap: 0.5rem;
+      justify-content: center;
     }
 
     .action-btn {
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
       border-radius: 8px;
       display: flex;
       align-items: center;
@@ -415,7 +465,7 @@
       border: none;
       cursor: pointer;
       transition: var(--transition);
-      font-size: 0.9rem;
+      font-size: 0.8rem;
     }
 
     .action-btn-remove {
@@ -430,9 +480,9 @@
 
     .footer {
       text-align: center;
-      margin-top: 3rem;
+      margin-top: 2rem;
       color: var(--gray);
-      font-size: 0.9rem;
+      font-size: 0.85rem;
     }
 
     .notification {
@@ -450,33 +500,46 @@
       z-index: 1000;
       transform: translateX(150%);
       transition: transform 0.3s ease;
+      max-width: 300px;
     }
 
     .notification.show {
       transform: translateX(0);
     }
 
+    /* Mobile Optimizations */
     @media (max-width: 768px) {
       body {
-        padding: 1rem;
+        padding: 0.75rem;
       }
       
-      h1 {
-        font-size: 2rem;
+      .english {
+        font-size: 1.8rem;
       }
       
       .arabic {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
+      }
+      
+      .card {
+        padding: 1.25rem;
+        margin-bottom: 1.25rem;
       }
       
       .subject-selector {
         flex-direction: column;
         align-items: stretch;
+        gap: 1rem;
+      }
+      
+      .form-group {
+        min-width: 100%;
       }
       
       .actions {
         flex-direction: column;
         align-items: stretch;
+        gap: 1rem;
       }
       
       .export-buttons {
@@ -486,10 +549,108 @@
       
       .stats {
         justify-content: center;
+        width: 100%;
+      }
+      
+      .stat-item {
+        flex: 1;
+        min-width: 140px;
+        justify-content: center;
       }
       
       th, td {
-        padding: 0.75rem 0.5rem;
+        padding: 0.6rem 0.4rem;
+        font-size: 0.8rem;
+      }
+      
+      .bilingual-header {
+        gap: 0.1rem;
+      }
+      
+      .header-english {
+        font-size: 0.75rem;
+      }
+      
+      .header-arabic {
+        font-size: 0.7rem;
+      }
+      
+      .exam-subject {
+        font-size: 0.85rem;
+      }
+      
+      .exam-details {
+        font-size: 0.8rem;
+      }
+      
+      .btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .english {
+        font-size: 1.5rem;
+      }
+      
+      .arabic {
+        font-size: 1.3rem;
+      }
+      
+      .english-text {
+        font-size: 0.95rem;
+      }
+      
+      .arabic-text {
+        font-size: 0.9rem;
+      }
+      
+      .card {
+        padding: 1rem;
+      }
+      
+      .english-title {
+        font-size: 1.2rem;
+      }
+      
+      .arabic-title {
+        font-size: 1.1rem;
+      }
+      
+      table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+      
+      .stat-item {
+        min-width: 120px;
+        font-size: 0.8rem;
+        padding: 0.4rem 0.75rem;
+      }
+      
+      .notification {
+        right: 10px;
+        left: 10px;
+        max-width: none;
+      }
+    }
+
+    /* Print Styles */
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      
+      .card {
+        box-shadow: none;
+        border: 1px solid var(--border);
+      }
+      
+      .btn, .action-btn {
+        display: none;
       }
     }
   </style>
@@ -507,8 +668,8 @@
         <h1 class="arabic">منظم جدول الامتحانات النصفية</h1>
       </div>
       <div class="subtitle bilingual-text">
-        <div class="english">Select subjects and sections to build your personalized exam schedule. Your timetable is automatically sorted by date and time for optimal planning.</div>
-        <div class="arabic">اختر المواد والأقسام لبناء جدول الامتحانات الخاص بك. يتم ترتيب الجدول الزمني تلقائياً حسب التاريخ والوقت للتخطيط الأمثل.</div>
+        <div class="english-text">Select subjects and sections to build your personalized exam schedule. Your timetable is automatically sorted by date and time for optimal planning.</div>
+        <div class="arabic-text">اختر المواد والأقسام لبناء جدول الامتحانات الخاص بك. يتم ترتيب الجدول الزمني تلقائياً حسب التاريخ والوقت للتخطيط الأمثل.</div>
       </div>
     </header>
 
@@ -518,16 +679,16 @@
           <i class="fas fa-book-open"></i>
         </div>
         <div class="bilingual-card-title">
-          <div class="card-title english">Add Courses</div>
-          <div class="card-title arabic">إضافة المواد</div>
+          <div class="card-title english-title">Add Courses</div>
+          <div class="card-title arabic-title">إضافة المواد</div>
         </div>
       </div>
       
       <div class="subject-selector">
         <div class="form-group">
           <label class="bilingual-label">
-            <span class="english"><i class="fas fa-book"></i> Select Subject</span>
-            <span class="arabic"><i class="fas fa-book"></i> اختر المادة</span>
+            <span class="label-english"><i class="fas fa-book"></i> Select Subject</span>
+            <span class="label-arabic"><i class="fas fa-book"></i> اختر المادة</span>
           </label>
           <select id="subjectSelect">
             <option value="">-- Choose a subject / اختر مادة --</option>
@@ -536,8 +697,8 @@
         
         <div class="form-group">
           <label class="bilingual-label">
-            <span class="english"><i class="fas fa-layer-group"></i> Select Section</span>
-            <span class="arabic"><i class="fas fa-layer-group"></i> اختر القسم</span>
+            <span class="label-english"><i class="fas fa-layer-group"></i> Select Section</span>
+            <span class="label-arabic"><i class="fas fa-layer-group"></i> اختر القسم</span>
           </label>
           <select id="sectionSelect" disabled>
             <option value="">-- Choose a section / اختر قسم --</option>
@@ -558,17 +719,17 @@
       <div class="stats">
         <div class="stat-item">
           <i class="fas fa-calendar-check"></i>
-          <span id="examCount">
+          <div class="bilingual-stat" id="examCount">
             <span class="english">0 Exams</span>
             <span class="arabic">0 امتحان</span>
-          </span>
+          </div>
         </div>
         <div class="stat-item">
           <i class="fas fa-clock"></i>
-          <span id="dateRange">
+          <div class="bilingual-stat" id="dateRange">
             <span class="english">No dates</span>
             <span class="arabic">لا توجد تواريخ</span>
-          </span>
+          </div>
         </div>
       </div>
       
@@ -592,38 +753,38 @@
           <tr>
             <th>
               <div class="bilingual-header">
-                <span class="english">Date</span>
-                <span class="arabic">التاريخ</span>
+                <span class="header-english">Date</span>
+                <span class="header-arabic">التاريخ</span>
               </div>
             </th>
             <th>
               <div class="bilingual-header">
-                <span class="english">Time</span>
-                <span class="arabic">الوقت</span>
+                <span class="header-english">Time</span>
+                <span class="header-arabic">الوقت</span>
               </div>
             </th>
             <th>
               <div class="bilingual-header">
-                <span class="english">Subject & Code</span>
-                <span class="arabic">المادة والرمز</span>
+                <span class="header-english">Subject & Code</span>
+                <span class="header-arabic">المادة والرمز</span>
               </div>
             </th>
             <th>
               <div class="bilingual-header">
-                <span class="english">Section</span>
-                <span class="arabic">القسم</span>
+                <span class="header-english">Section</span>
+                <span class="header-arabic">القسم</span>
               </div>
             </th>
             <th>
               <div class="bilingual-header">
-                <span class="english">Instructor</span>
-                <span class="arabic">المحاضر</span>
+                <span class="header-english">Instructor</span>
+                <span class="header-arabic">المحاضر</span>
               </div>
             </th>
             <th>
               <div class="bilingual-header">
-                <span class="english">Actions</span>
-                <span class="arabic">الإجراءات</span>
+                <span class="header-english">Actions</span>
+                <span class="header-arabic">الإجراءات</span>
               </div>
             </th>
           </tr>
@@ -637,8 +798,8 @@
                 </div>
                 <h3 class="english">No exams scheduled yet</h3>
                 <h3 class="arabic">لا توجد امتحانات مجدولة بعد</h3>
-                <p class="english">Add subjects to your schedule to get started</p>
-                <p class="arabic">أضف المواد إلى جدولك للبدء</p>
+                <p class="english-text">Add subjects to your schedule to get started</p>
+                <p class="arabic-text">أضف المواد إلى جدولك للبدء</p>
               </div>
             </td>
           </tr>
@@ -654,11 +815,14 @@
 
   <div id="pdfNotification" class="notification">
     <i class="fas fa-check-circle"></i>
-    <span class="english">PDF generated successfully!</span>
-    <span class="arabic">تم إنشاء PDF بنجاح!</span>
+    <div class="bilingual-stat">
+      <span class="english">PDF generated successfully!</span>
+      <span class="arabic">تم إنشاء PDF بنجاح!</span>
+    </div>
   </div>
 
   <script>
+    // ... (JavaScript code remains exactly the same as previous version)
     let examData = {};
     let userSchedule = [];
 
@@ -919,8 +1083,8 @@
                 </div>
                 <h3 class="english">No exams scheduled yet</h3>
                 <h3 class="arabic">لا توجد امتحانات مجدولة بعد</h3>
-                <p class="english">Add subjects to your schedule to get started</p>
-                <p class="arabic">أضف المواد إلى جدولك للبدء</p>
+                <p class="english-text">Add subjects to your schedule to get started</p>
+                <p class="arabic-text">أضف المواد إلى جدولك للبدء</p>
               </div>
             </td>
           </tr>
