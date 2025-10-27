@@ -17,6 +17,7 @@
       --success: #06d6a0;
       --danger: #ef476f;
       --warning: #ffd166;
+      --info: #118ab2;
       --light: #f8f9fa;
       --dark: #212529;
       --gray: #6c757d;
@@ -286,6 +287,18 @@
       background: #c0392b;
     }
 
+    /* Specific styling for Add to Schedule button */
+    #addBtn {
+      font-size: 0.85rem;
+      padding: 0.6rem 1rem;
+      line-height: 1.2;
+    }
+
+    #addBtn .english,
+    #addBtn .arabic {
+      font-size: 0.8rem;
+    }
+
     .actions {
       display: flex;
       justify-content: space-between;
@@ -326,6 +339,68 @@
       display: flex;
       flex-direction: column;
       gap: 0.1rem;
+    }
+
+    /* Conflict Warnings */
+    .conflict-warnings {
+      margin-bottom: 1.5rem;
+    }
+
+    .conflict-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 1rem;
+      border-radius: var(--radius);
+      margin-bottom: 0.75rem;
+      font-size: 0.9rem;
+    }
+
+    .conflict-info {
+      background: rgba(17, 138, 178, 0.1);
+      border-left: 4px solid var(--info);
+    }
+
+    .conflict-warning {
+      background: rgba(255, 209, 102, 0.15);
+      border-left: 4px solid var(--warning);
+    }
+
+    .conflict-danger {
+      background: rgba(239, 71, 111, 0.1);
+      border-left: 4px solid var(--danger);
+    }
+
+    .conflict-icon {
+      font-size: 1.2rem;
+      margin-top: 0.1rem;
+      flex-shrink: 0;
+    }
+
+    .conflict-info .conflict-icon {
+      color: var(--info);
+    }
+
+    .conflict-warning .conflict-icon {
+      color: var(--warning);
+    }
+
+    .conflict-danger .conflict-icon {
+      color: var(--danger);
+    }
+
+    .conflict-content {
+      flex: 1;
+    }
+
+    .conflict-title {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .conflict-details {
+      color: var(--dark);
+      line-height: 1.4;
     }
 
     table {
@@ -397,6 +472,10 @@
 
     tr:hover {
       background: rgba(67, 97, 238, 0.03);
+    }
+
+    .conflict-row {
+      background: rgba(255, 209, 102, 0.05);
     }
 
     .empty-message {
@@ -587,6 +666,22 @@
         padding: 0.75rem 1rem;
         font-size: 0.9rem;
       }
+      
+      /* Mobile adjustments for Add to Schedule button */
+      #addBtn {
+        font-size: 0.8rem;
+        padding: 0.5rem 0.75rem;
+      }
+      
+      #addBtn .english,
+      #addBtn .arabic {
+        font-size: 0.75rem;
+      }
+
+      .conflict-item {
+        padding: 0.75rem;
+        font-size: 0.85rem;
+      }
     }
 
     @media (max-width: 480px) {
@@ -635,6 +730,22 @@
         left: 10px;
         max-width: none;
       }
+      
+      /* Extra small screen adjustments for Add to Schedule button */
+      #addBtn {
+        font-size: 0.75rem;
+        padding: 0.45rem 0.6rem;
+      }
+      
+      #addBtn .english,
+      #addBtn .arabic {
+        font-size: 0.7rem;
+      }
+
+      .conflict-item {
+        padding: 0.6rem;
+        font-size: 0.8rem;
+      }
     }
 
     /* Print Styles */
@@ -650,6 +761,10 @@
       }
       
       .btn, .action-btn {
+        display: none;
+      }
+      
+      .conflict-warnings {
         display: none;
       }
     }
@@ -747,6 +862,11 @@
       </div>
     </div>
 
+    <!-- Conflict Warnings Section -->
+    <div class="conflict-warnings" id="conflictWarnings">
+      <!-- Warnings will be dynamically inserted here -->
+    </div>
+
     <div class="card">
       <table id="scheduleTable">
         <thead>
@@ -822,7 +942,6 @@
   </div>
 
   <script>
-    // ... (JavaScript code remains exactly the same as previous version)
     let examData = {};
     let userSchedule = [];
 
@@ -1045,6 +1164,7 @@
       sortSchedule();
       renderSchedule();
       updateStats();
+      checkConflicts();
     }
 
     function removeFromSchedule(code, section) {
@@ -1053,6 +1173,7 @@
       );
       renderSchedule();
       updateStats();
+      checkConflicts();
     }
 
     function sortSchedule() {
@@ -1094,10 +1215,20 @@
       
       tbody.innerHTML = '';
       
+      // Get conflicts for highlighting
+      const conflicts = findTimeConflicts();
+      
       userSchedule.forEach(exam => {
         const row = document.createElement('tr');
         
         const isTBD = exam.time === 'TBD';
+        const hasConflict = conflicts.some(conflict => 
+          conflict.exams.some(e => e.code === exam.code && e.section === exam.section)
+        );
+        
+        if (hasConflict) {
+          row.classList.add('conflict-row');
+        }
         
         row.innerHTML = `
           <td>
@@ -1137,9 +1268,116 @@
       });
     }
 
+    function checkConflicts() {
+      const warningsContainer = document.getElementById('conflictWarnings');
+      warningsContainer.innerHTML = '';
+      
+      if (userSchedule.length < 2) return;
+      
+      const sameDayConflicts = findSameDayConflicts();
+      const timeConflicts = findTimeConflicts();
+      
+      // Show same day conflicts (info)
+      sameDayConflicts.forEach(conflict => {
+        if (conflict.count > 1) {
+          const warningElement = document.createElement('div');
+          warningElement.className = 'conflict-item conflict-info';
+          warningElement.innerHTML = `
+            <div class="conflict-icon">
+              <i class="fas fa-info-circle"></i>
+            </div>
+            <div class="conflict-content">
+              <div class="conflict-title bilingual-text">
+                <span class="english">Multiple Exams on Same Day</span>
+                <span class="arabic">امتحانات متعددة في نفس اليوم</span>
+              </div>
+              <div class="conflict-details bilingual-text">
+                <span class="english">You have ${conflict.count} exams on ${formatDate(conflict.date)}. Plan your study time accordingly.</span>
+                <span class="arabic">لديك ${conflict.count} امتحانات في ${formatDateArabic(conflict.date)}. خطط وقت دراستك وفقاً لذلك.</span>
+              </div>
+            </div>
+          `;
+          warningsContainer.appendChild(warningElement);
+        }
+      });
+      
+      // Show time conflicts (warning)
+      timeConflicts.forEach(conflict => {
+        const warningElement = document.createElement('div');
+        warningElement.className = 'conflict-item conflict-danger';
+        warningElement.innerHTML = `
+          <div class="conflict-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <div class="conflict-content">
+            <div class="conflict-title bilingual-text">
+              <span class="english">Exam Time Conflict!</span>
+              <span class="arabic">تعارض في وقت الامتحان!</span>
+            </div>
+            <div class="conflict-details bilingual-text">
+              <span class="english">You have ${conflict.exams.length} exams at the same time on ${formatDate(conflict.date)} at ${conflict.time}. Please verify.</span>
+              <span class="arabic">لديك ${conflict.exams.length} امتحانات في نفس الوقت في ${formatDateArabic(conflict.date)} الساعة ${conflict.time}. يرجى التحقق.</span>
+            </div>
+          </div>
+        `;
+        warningsContainer.appendChild(warningElement);
+      });
+    }
+
+    function findSameDayConflicts() {
+      const dateGroups = {};
+      
+      userSchedule.forEach(exam => {
+        if (!dateGroups[exam.date]) {
+          dateGroups[exam.date] = [];
+        }
+        dateGroups[exam.date].push(exam);
+      });
+      
+      return Object.keys(dateGroups)
+        .map(date => ({
+          date: date,
+          count: dateGroups[date].length,
+          exams: dateGroups[date]
+        }))
+        .filter(group => group.count > 1)
+        .sort((a, b) => new Date(a.date) - new Date(b.date));
+    }
+
+    function findTimeConflicts() {
+      const timeGroups = {};
+      
+      userSchedule.forEach(exam => {
+        if (exam.time === 'TBD') return; // Skip TBD times
+        
+        const key = `${exam.date}-${exam.time}`;
+        if (!timeGroups[key]) {
+          timeGroups[key] = [];
+        }
+        timeGroups[key].push(exam);
+      });
+      
+      return Object.keys(timeGroups)
+        .map(key => {
+          const [date, time] = key.split('-');
+          return {
+            date: date,
+            time: time,
+            exams: timeGroups[key]
+          };
+        })
+        .filter(group => group.exams.length > 1)
+        .sort((a, b) => new Date(a.date) - new Date(b.date));
+    }
+
     function formatDate(dateString) {
       const date = new Date(dateString);
-      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+    }
+
+    function formatDateArabic(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('ar-EG', { weekday: 'short', month: 'short', day: 'numeric' });
     }
 
     function updateStats() {
