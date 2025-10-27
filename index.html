@@ -1,264 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Midterm Schedule Builder</title>
-<meta name="description" content="Select subjects and sections to build your midterm exam schedule" />
-<style>
-  body { font-family: Inter, Arial, sans-serif; background:#f4f7fc; padding:24px; color:#222; }
-  h1 { color:#2b4d9f; margin-bottom:6px; }
-  .controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-bottom:14px; }
-  select, button { padding:10px 12px; font-size:15px; border-radius:8px; border:1px solid #d6dbe8; background:white; }
-  button.primary { background:#2b4d9f; color:white; border:none; cursor:pointer; }
-  button.secondary { background:white; border:1px solid #cbd3f0; cursor:pointer; }
-  .card { background:white; border-radius:10px; padding:16px; box-shadow:0 6px 18px rgba(43,77,159,0.08); max-width:1100px; margin-top:12px; }
-  table { width:100%; border-collapse:collapse; margin-top:12px; }
-  th, td { padding:8px 10px; text-align:left; border-bottom:1px solid #eef2fb; font-size:14px; }
-  th { background:#fbfdff; color:#334; font-weight:600; }
-  .muted { color:#666; font-size:13px; }
-  .small { font-size:13px; }
-  .actions { display:flex; gap:8px; }
-  .pill { display:inline-block; padding:6px 10px; background:#eef3ff; border-radius:999px; color:#244; font-weight:600; }
-  .right { margin-left:auto; }
-  @media (max-width:720px){ .controls{flex-direction:column;align-items:stretch} }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exam Schedule Organizer</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #f4f6fb;
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #1b5e20;
+    }
+    #controls {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1rem;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    select, button, input {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #1db954;
+      color: white;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+    }
+    button:hover {
+      background: #169c45;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    th, td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background: #1db954;
+      color: white;
+    }
+  </style>
 </head>
 <body>
-  <h1>Midterm Schedule Builder</h1>
-  <p class="muted">Select subjects and sections (you can add many). The schedule is automatically sorted by date & start time.</p>
+  <h1>Exam Schedule Organizer</h1>
 
-  <div class="card">
-    <div class="controls">
-      <div>
-        <label for="subject"><strong>Subject</strong></label><br>
-        <select id="subject">
-          <option value="">-- Select Subject --</option>
-        </select>
-      </div>
-
-      <div>
-        <label for="section"><strong>Section</strong></label><br>
-        <select id="section">
-          <option value="">-- Select Section --</option>
-        </select>
-      </div>
-
-      <div style="display:flex;align-items:flex-end;">
-        <button id="addBtn" class="primary">Add to Schedule</button>
-      </div>
-
-      <div class="right" style="display:flex;gap:8px;align-items:center;">
-        <span class="pill" id="count">0 added</span>
-        <div class="actions">
-          <button id="clearBtn" class="secondary">Clear</button>
-          <button id="exportBtn" class="secondary">Export CSV</button>
-        </div>
-      </div>
-    </div>
-
-    <div id="scheduleContainer">
-      <table id="scheduleTable" aria-live="polite">
-        <thead>
-          <tr>
-            <th style="width:120px">Date</th>
-            <th style="width:120px">Time</th>
-            <th>Subject (code)</th>
-            <th style="width:110px">Section</th>
-            <th style="width:180px">Instructor</th>
-            <th style="width:60px"></th>
-          </tr>
-        </thead>
-        <tbody id="scheduleBody">
-          <tr><td colspan="6" class="muted small">No exams added yet. Choose a subject and section, then click <strong>Add to Schedule</strong>.</td></tr>
-        </tbody>
-      </table>
-    </div>
+  <div id="controls">
+    <input type="text" id="search" placeholder="Search subject..." />
+    <button id="exportBtn">Export CSV</button>
   </div>
 
-<script defer>
-let exams = {};
-let schedule = [];
+  <table id="scheduleTable">
+    <thead>
+      <tr>
+        <th>Subject</th>
+        <th>Code</th>
+        <th>Section</th>
+        <th>Teacher</th>
+        <th>Date</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody id="scheduleBody"></tbody>
+  </table>
 
-// Helpers
-function extractDateString(rawDate) {
-  if (!rawDate) return null;
-  const m = rawDate.match(/\d{2}\/\d{2}\/\d{4}/);
-  if (m) return m[0];
-  const m2 = rawDate.match(/\d{2}\/\d{2}\/\d{2}/);
-  if (m2) return m2[0];
-  const m3 = rawDate.match(/\d{2}-\d{2}\/\d{2,4}/);
-  if (m3) {
-    const parts = m3[0].split('-');
-    if (parts.length >= 2) {
-      const day = parts[0];
-      const rest = parts[1];
-      const monthYear = rest.split('/');
-      if (monthYear.length >= 2) {
-        return `${day}/${monthYear[0]}/${monthYear[1]}`;
+  <script>
+    async function loadData() {
+      try {
+        const res = await fetch("https://raw.githubusercontent.com/<YOUR_USERNAME>/<YOUR_REPO>/main/data/exams.json");
+        const data = await res.json();
+        renderTable(data);
+
+        // Search function
+        document.getElementById('search').addEventListener('input', e => {
+          renderTable(data, e.target.value);
+        });
+
+        // Export to CSV
+        document.getElementById('exportBtn').addEventListener('click', () => exportCSV(data));
+
+      } catch (err) {
+        alert("Error loading exams.json — check console");
+        console.error(err);
       }
     }
-  }
-  return null;
-}
 
-function parseDate(dateStr) {
-  if (!dateStr) return null;
-  const parts = dateStr.split('/');
-  if (parts.length < 3) return null;
-  const day = parseInt(parts[0],10);
-  const month = parseInt(parts[1],10)-1;
-  let year = parseInt(parts[2],10);
-  if (year < 100) year += 2000;
-  return new Date(year, month, day);
-}
+    function renderTable(data, filter = "") {
+      const tbody = document.getElementById('scheduleBody');
+      tbody.innerHTML = "";
+      const entries = [];
 
-function extractStartTime(rawTime) {
-  if (!rawTime) return null;
-  if (/TBD/i.test(rawTime)) return null;
-  const first = rawTime.split('/')[0].trim();
-  const left = first.split('-')[0].trim();
-  return left;
-}
+      for (const [code, subjectData] of Object.entries(data)) {
+        for (const [section, details] of Object.entries(subjectData)) {
+          if (section === "subject") continue;
+          const subj = subjectData.subject;
+          if (filter && !subj.toLowerCase().includes(filter.toLowerCase())) continue;
 
-function timeToNumber(t) {
-  if (!t) return 24*60;
-  const ampm = (t.match(/\b(AM|PM|am|pm)\b/) || [])[0];
-  let cleaned = t.replace(/\s*(AM|PM|am|pm)\b/,'').trim();
-  const hhmm = cleaned.split(':');
-  if (hhmm.length < 2) return 24*60;
-  let h = parseInt(hhmm[0],10);
-  const m = parseInt(hhmm[1],10) || 0;
-  if (ampm) {
-    if (/pm/i.test(ampm) && h!==12) h+=12;
-    if (/am/i.test(ampm) && h===12) h=0;
-  }
-  return h*60+m;
-}
+          entries.push({
+            code,
+            subject: subj,
+            section,
+            teacher: details.teacher,
+            date: details.date,
+            time: details.time
+          });
+        }
+      }
 
-function sortScheduleArray(arr) {
-  return arr.sort((a,b)=>{
-    const da=a._dateObj, db=b._dateObj;
-    if(!da && db) return 1;
-    if(da && !db) return -1;
-    if(da && db){
-      if(da-db!==0) return da-db;
-      const ta=timeToNumber(a._startTime), tb=timeToNumber(b._startTime);
-      return ta-tb;
+      // Sort by date
+      entries.sort((a, b) => (a.date > b.date ? 1 : -1));
+
+      for (const e of entries) {
+        const row = `<tr>
+          <td>${e.subject}</td>
+          <td>${e.code}</td>
+          <td>${e.section}</td>
+          <td>${e.teacher}</td>
+          <td>${e.date}</td>
+          <td>${e.time}</td>
+        </tr>`;
+        tbody.insertAdjacentHTML('beforeend', row);
+      }
     }
-    return (a.code+a.section).localeCompare(b.code+b.section);
-  });
-}
 
-// UI
-const subjectSelect=document.getElementById('subject');
-const sectionSelect=document.getElementById('section');
-const addBtn=document.getElementById('addBtn');
-const scheduleBody=document.getElementById('scheduleBody');
-const countPill=document.getElementById('count');
-const clearBtn=document.getElementById('clearBtn');
-const exportBtn=document.getElementById('exportBtn');
+    function exportCSV(data) {
+      let csv = "Subject,Code,Section,Teacher,Date,Time\n";
+      for (const [code, subjectData] of Object.entries(data)) {
+        for (const [section, details] of Object.entries(subjectData)) {
+          if (section === "subject") continue;
+          csv += `"${subjectData.subject}","${code}","${section}","${details.teacher}","${details.date}","${details.time}"\n`;
+        }
+      }
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'exam_schedule.csv';
+      a.click();
+    }
 
-async function loadData() {
-  try {
-    // ✅ Changed to GitHub raw URL
-    const res = await fetch('https://raw.githubusercontent.com/UI-GOKU/<repo>/main/data/exams.json', {cache:"no-store"});
-    if(!res.ok) throw new Error('Failed to load exams.json: '+res.status);
-    exams = await res.json();
-    populateSubjectOptions();
-    loadSavedSchedule();
-  } catch(err){
-    console.error(err);
-    subjectSelect.innerHTML='<option value="">Error loading data</option>';
-    scheduleBody.innerHTML=`<tr><td colspan="6" class="muted small">Error loading exams.json — open console for details.</td></tr>`;
-  }
-}
-
-function populateSubjectOptions(){
-  subjectSelect.innerHTML='<option value="">-- Select Subject --</option>';
-  Object.keys(exams).forEach(code=>{
-    const subj = exams[code].subject || code;
-    const opt = document.createElement('option');
-    opt.value = code;
-    opt.textContent = `${subj} — ${code}`;
-    subjectSelect.appendChild(opt);
-  });
-}
-
-subjectSelect.addEventListener('change',()=>{populateSections(subjectSelect.value);});
-function populateSections(code){
-  sectionSelect.innerHTML='<option value="">-- Select Section --</option>';
-  if(!code || !exams[code]) return;
-  Object.keys(exams[code]).filter(k=>k.toLowerCase()!=='subject').forEach(sec=>{
-    const opt=document.createElement('option');
-    opt.value=sec;
-    opt.textContent=sec;
-    sectionSelect.appendChild(opt);
-  });
-}
-
-function addToSchedule(){
-  const code=subjectSelect.value, section=sectionSelect.value;
-  if(!code){alert('Please select a subject.');return;}
-  if(!section){alert('Please select a section.');return;}
-  const subjectObj=exams[code];
-  if(!subjectObj || !subjectObj[section]){alert('No data for that selection.');return;}
-  const e=subjectObj[section];
-  const rawDate=e.date||'', dateStr=extractDateString(rawDate)||rawDate||'TBD', dateObj=parseDate(dateStr);
-  const rawTime=e.time||'', startTime=extractStartTime(rawTime);
-  const id=`${code}||${section}||${dateStr}||${rawTime}`;
-  if(schedule.some(s=>s.id===id)){alert('This exam is already in your schedule.');return;}
-  const item={id, code, subject:subjectObj.subject||code, section, teacher:e.teacher||'', date:dateStr, rawDate, time:rawTime, _dateObj:dateObj, _startTime:startTime};
-  schedule.push(item);
-  schedule=sortScheduleArray(schedule);
-  saveSchedule();
-  renderSchedule();
-}
-
-function renderSchedule(){
-  if(schedule.length===0){
-    scheduleBody.innerHTML=`<tr><td colspan="6" class="muted small">No exams added yet. Choose a subject and section, then click <strong>Add to Schedule</strong>.</td></tr>`;
-  }else{
-    scheduleBody.innerHTML='';
-    schedule.forEach(item=>{
-      const tr=document.createElement('tr');
-      const dateCell=document.createElement('td'); dateCell.textContent=item.date||'TBD';
-      const timeCell=document.createElement('td'); timeCell.textContent=item.time||'TBD';
-      const subjCell=document.createElement('td'); subjCell.innerHTML=`<strong>${item.subject}</strong><div class="muted small">${item.code}</div>`;
-      const secCell=document.createElement('td'); secCell.textContent=item.section;
-      const teacherCell=document.createElement('td'); teacherCell.textContent=item.teacher||'';
-      const removeCell=document.createElement('td');
-      const btn=document.createElement('button'); btn.textContent='Remove'; btn.className='secondary';
-      btn.addEventListener('click',()=>{schedule=schedule.filter(s=>s.id!==item.id); saveSchedule(); renderSchedule();});
-      removeCell.appendChild(btn);
-      tr.append(dateCell,timeCell,subjCell,secCell,teacherCell,removeCell);
-      scheduleBody.appendChild(tr);
-    });
-  }
-  countPill.textContent=`${schedule.length} added`;
-}
-
-function saveSchedule(){try{localStorage.setItem('midterm_schedule_v1',JSON.stringify(schedule));}catch(e){console.warn('Could not save schedule',e);}}
-function loadSavedSchedule(){try{const raw=localStorage.getItem('midterm_schedule_v1');if(!raw) return;const arr=JSON.parse(raw);if(Array.isArray(arr)){schedule=arr.map(a=>{const d=a.rawDate?extractDateString(a.rawDate):a.date; const dateObj=parseDate(d); return Object.assign({},a,{_dateObj:dateObj,_startTime:extractStartTime(a.time)});}); schedule=sortScheduleArray(schedule); renderSchedule();}}catch(e){console.warn('Failed to load saved schedule',e);}}
-
-function exportCSV(){
-  if(!schedule.length){alert('No items to export.'); return;}
-  const header=['Date','Time','Subject','Code','Section','Instructor'];
-  const rows=schedule.map(s=>[s.date||'', s.time||'', s.subject||'', s.code||'', s.section||'', s.teacher||'']);
-  const csv=[header,...rows].map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
-  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a'); a.href=url; a.download='midterm_schedule.csv'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-}
-
-function clearSchedule(){if(!confirm('Clear your schedule?')) return; schedule=[]; saveSchedule(); renderSchedule();}
-
-addBtn.addEventListener('click',addToSchedule);
-clearBtn.addEventListener('click',clearSchedule);
-exportBtn.addEventListener('click',exportCSV);
-document.addEventListener('keydown',(e)=>{if((e.key==='Enter'||e.key==='NumpadEnter')&&(subjectSelect.value||sectionSelect.value)){addToSchedule();}});
-
-loadData();
-</script>
+    loadData();
+  </script>
 </body>
 </html>
