@@ -1,101 +1,375 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Midterm Exam Finder</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Midterm Schedule Builder</title>
+<meta name="description" content="Select subjects and sections to build your midterm exam schedule" />
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f7fc;
-    text-align: center;
-    padding: 30px;
-  }
-  h1 {
-    color: #2b4d9f;
-  }
-  select, button {
-    padding: 10px;
-    margin: 10px;
-    font-size: 16px;
-  }
-  .card {
-    background: white;
-    border-radius: 10px;
-    display: inline-block;
-    padding: 20px;
-    margin-top: 20px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    text-align: left;
-  }
+  body { font-family: Inter, Arial, sans-serif; background:#f4f7fc; padding:24px; color:#222; }
+  h1 { color:#2b4d9f; margin-bottom:6px; }
+  .controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-bottom:14px; }
+  select, button { padding:10px 12px; font-size:15px; border-radius:8px; border:1px solid #d6dbe8; background:white; }
+  button.primary { background:#2b4d9f; color:white; border:none; cursor:pointer; }
+  button.secondary { background:white; border:1px solid #cbd3f0; cursor:pointer; }
+  .card { background:white; border-radius:10px; padding:16px; box-shadow:0 6px 18px rgba(43,77,159,0.08); max-width:1100px; margin-top:12px; }
+  table { width:100%; border-collapse:collapse; margin-top:12px; }
+  th, td { padding:8px 10px; text-align:left; border-bottom:1px solid #eef2fb; font-size:14px; }
+  th { background:#fbfdff; color:#334; font-weight:600; }
+  .muted { color:#666; font-size:13px; }
+  .small { font-size:13px; }
+  .actions { display:flex; gap:8px; }
+  .pill { display:inline-block; padding:6px 10px; background:#eef3ff; border-radius:999px; color:#244; font-weight:600; }
+  .right { margin-left:auto; }
+  @media (max-width:720px){ .controls{flex-direction:column;align-items:stretch} }
 </style>
 </head>
 <body>
- 
-<h1>Midterm Exam Schedule Finder</h1>
- 
-<select id="subject" onchange="updateSections()">
-  <option value="">-- Select Subject --</option>
-</select>
- 
-<select id="section">
-  <option value="">-- Select Section --</option>
-</select>
- 
-<br>
-<button onclick="findExam()">Show Exam</button>
- 
-<div id="result" class="card"></div>
- 
-<script>
-  let exams = {};
- 
-  async function loadData() {
-    const res = await fetch('data/exams.json');
+  <h1>Midterm Schedule Builder</h1>
+  <p class="muted">Select subjects and sections (you can add many). The schedule is automatically sorted by date & start time.</p>
+
+  <div class="card">
+    <div class="controls">
+      <div>
+        <label for="subject"><strong>Subject</strong></label><br>
+        <select id="subject">
+          <option value="">-- Select Subject --</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="section"><strong>Section</strong></label><br>
+        <select id="section">
+          <option value="">-- Select Section --</option>
+        </select>
+      </div>
+
+      <div style="display:flex;align-items:flex-end;">
+        <button id="addBtn" class="primary">Add to Schedule</button>
+      </div>
+
+      <div class="right" style="display:flex;gap:8px;align-items:center;">
+        <span class="pill" id="count">0 added</span>
+        <div class="actions">
+          <button id="clearBtn" class="secondary">Clear</button>
+          <button id="exportBtn" class="secondary">Export CSV</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="scheduleContainer">
+      <table id="scheduleTable" aria-live="polite">
+        <thead>
+          <tr>
+            <th style="width:120px">Date</th>
+            <th style="width:120px">Time</th>
+            <th>Subject (code)</th>
+            <th style="width:110px">Section</th>
+            <th style="width:180px">Instructor</th>
+            <th style="width:60px"></th>
+          </tr>
+        </thead>
+        <tbody id="scheduleBody">
+          <tr><td colspan="6" class="muted small">No exams added yet. Choose a subject and section, then click <strong>Add to Schedule</strong>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+<script defer>
+/*
+ Requirements:
+ - Expects data/exams.json in same repo.
+ - JSON structure: { "CODE": { "subject": "Name", "Section 1": {...}, ... } }
+*/
+
+let exams = {};
+let schedule = [];
+
+// Helpers to parse dates/times robustly
+function extractDateString(rawDate) {
+  if (!rawDate) return null;
+  // Try to match dd/mm/yyyy
+  const m = rawDate.match(/\d{2}\/\d{2}\/\d{4}/);
+  if (m) return m[0];
+  // try dd/mm/yy
+  const m2 = rawDate.match(/\d{2}\/\d{2}\/\d{2}/);
+  if (m2) return m2[0];
+  // try patterns like 09-12/11/2025 (range) -> pick first dd/mm/yyyy like
+  const m3 = rawDate.match(/\d{2}-\d{2}\/\d{2,4}/);
+  if (m3) {
+    // convert 09-12/11/2025 -> take 09/11/2025
+    const parts = m3[0].split('-');
+    if (parts.length >= 2) {
+      const day = parts[0];
+      const rest = parts[1]; // e.g. 12/11/2025
+      const monthYear = rest.split('/');
+      if (monthYear.length >= 2) {
+        return `${day}/${monthYear[0]}/${monthYear[1]}`;
+      }
+    }
+  }
+  return null;
+}
+
+function parseDate(dateStr) {
+  // dateStr expected dd/mm/yyyy
+  if (!dateStr) return null;
+  const parts = dateStr.split('/');
+  if (parts.length < 3) return null;
+  const day = parseInt(parts[0],10);
+  const month = parseInt(parts[1],10) - 1;
+  let year = parseInt(parts[2],10);
+  if (year < 100) year += 2000;
+  return new Date(year, month, day);
+}
+
+function extractStartTime(rawTime) {
+  if (!rawTime) return null;
+  // take first time range or single time -> examples: "11:00 - 12:00", "10:00 AM", "09:00 - 10:00 / 12:00 - 13:00", "TBD"
+  if (/TBD/i.test(rawTime)) return null;
+  // split on "/" and take first
+  const first = rawTime.split('/')[0].trim();
+  // take left part of range
+  const left = first.split('-')[0].trim();
+  // normalize AM/PM if present
+  return left;
+}
+
+function timeToNumber(t) {
+  // convert "17:00" or "10:00 AM" -> minutes since midnight
+  if (!t) return 24*60;
+  const ampm = (t.match(/\b(AM|PM|am|pm)\b/) || [])[0];
+  let cleaned = t.replace(/\s*(AM|PM|am|pm)\b/,'').trim();
+  const hhmm = cleaned.split(':');
+  if (hhmm.length < 2) return 24*60;
+  let h = parseInt(hhmm[0],10);
+  const m = parseInt(hhmm[1],10) || 0;
+  if (ampm) {
+    if (/pm/i.test(ampm) && h !== 12) h += 12;
+    if (/am/i.test(ampm) && h === 12) h = 0;
+  }
+  return h*60 + m;
+}
+
+function sortScheduleArray(arr) {
+  return arr.sort((a,b) => {
+    // compare date then start time
+    const da = a._dateObj, db = b._dateObj;
+    if (!da && db) return 1;
+    if (da && !db) return -1;
+    if (da && db) {
+      if (da - db !== 0) return da - db;
+      const ta = timeToNumber(a._startTime);
+      const tb = timeToNumber(b._startTime);
+      return ta - tb;
+    }
+    // fallback alphabetical
+    return (a.code + a.section).localeCompare(b.code + b.section);
+  });
+}
+
+// UI helpers
+const subjectSelect = document.getElementById('subject');
+const sectionSelect = document.getElementById('section');
+const addBtn = document.getElementById('addBtn');
+const scheduleBody = document.getElementById('scheduleBody');
+const countPill = document.getElementById('count');
+const clearBtn = document.getElementById('clearBtn');
+const exportBtn = document.getElementById('exportBtn');
+
+async function loadData() {
+  try {
+    const res = await fetch('data/exams.json', {cache: "no-store"});
+    if (!res.ok) throw new Error('Failed to load data/exams.json: ' + res.status);
     exams = await res.json();
-    const subjectSelect = document.getElementById('subject');
-    Object.keys(exams).forEach(code => {
-      const opt = document.createElement('option');
-      opt.value = code;
-      opt.textContent = code;
-      subjectSelect.appendChild(opt);
+    populateSubjectOptions();
+    loadSavedSchedule();
+  } catch (err) {
+    console.error(err);
+    subjectSelect.innerHTML = '<option value="">Error loading data</option>';
+    scheduleBody.innerHTML = `<tr><td colspan="6" class="muted small">Error loading exams.json — open console for details.</td></tr>`;
+  }
+}
+
+function populateSubjectOptions() {
+  subjectSelect.innerHTML = '<option value="">-- Select Subject --</option>';
+  Object.keys(exams).forEach(code => {
+    const subj = exams[code].subject || code;
+    const opt = document.createElement('option');
+    opt.value = code;
+    opt.textContent = `${subj} — ${code}`;
+    subjectSelect.appendChild(opt);
+  });
+}
+
+subjectSelect.addEventListener('change', () => {
+  const code = subjectSelect.value;
+  populateSections(code);
+});
+
+function populateSections(code) {
+  sectionSelect.innerHTML = '<option value="">-- Select Section --</option>';
+  if (!code || !exams[code]) return;
+  const keys = Object.keys(exams[code]).filter(k => k.toLowerCase() !== 'subject');
+  keys.forEach(sec => {
+    const opt = document.createElement('option');
+    opt.value = sec;
+    opt.textContent = sec;
+    sectionSelect.appendChild(opt);
+  });
+}
+
+function addToSchedule() {
+  const code = subjectSelect.value;
+  const section = sectionSelect.value;
+  if (!code) { alert('Please select a subject.'); return; }
+  if (!section) { alert('Please select a section.'); return; }
+  const subjectObj = exams[code];
+  if (!subjectObj || !subjectObj[section]) { alert('No data for that selection.'); return; }
+  const e = subjectObj[section];
+  // build item
+  const rawDate = e.date || '';
+  const dateStr = extractDateString(rawDate) || rawDate || 'TBD';
+  const dateObj = parseDate(dateStr);
+  const rawTime = e.time || '';
+  const startTime = extractStartTime(rawTime);
+  // create unique id
+  const id = `${code}||${section}||${dateStr}||${rawTime}`;
+  // prevent duplicates
+  if (schedule.some(s => s.id === id)) {
+    alert('This exam is already in your schedule.');
+    return;
+  }
+  const item = {
+    id,
+    code,
+    subject: subjectObj.subject || code,
+    section,
+    teacher: e.teacher || '',
+    date: dateStr,
+    rawDate: rawDate,
+    time: rawTime,
+    _dateObj: dateObj,
+    _startTime: startTime
+  };
+  schedule.push(item);
+  schedule = sortScheduleArray(schedule);
+  saveSchedule();
+  renderSchedule();
+}
+
+function renderSchedule() {
+  if (schedule.length === 0) {
+    scheduleBody.innerHTML = `<tr><td colspan="6" class="muted small">No exams added yet. Choose a subject and section, then click <strong>Add to Schedule</strong>.</td></tr>`;
+  } else {
+    scheduleBody.innerHTML = '';
+    schedule.forEach(item => {
+      const tr = document.createElement('tr');
+      const dateCell = document.createElement('td');
+      dateCell.textContent = item.date || 'TBD';
+      const timeCell = document.createElement('td');
+      timeCell.textContent = item.time || 'TBD';
+      const subjCell = document.createElement('td');
+      subjCell.innerHTML = `<strong>${item.subject}</strong><div class="muted small">${item.code}</div>`;
+      const secCell = document.createElement('td');
+      secCell.textContent = item.section;
+      const teacherCell = document.createElement('td');
+      teacherCell.textContent = item.teacher || '';
+      const removeCell = document.createElement('td');
+      const btn = document.createElement('button');
+      btn.textContent = 'Remove';
+      btn.className = 'secondary';
+      btn.addEventListener('click', () => {
+        schedule = schedule.filter(s => s.id !== item.id);
+        saveSchedule();
+        renderSchedule();
+      });
+      removeCell.appendChild(btn);
+      tr.appendChild(dateCell);
+      tr.appendChild(timeCell);
+      tr.appendChild(subjCell);
+      tr.appendChild(secCell);
+      tr.appendChild(teacherCell);
+      tr.appendChild(removeCell);
+      scheduleBody.appendChild(tr);
     });
   }
- 
-  function updateSections() {
-    const subject = document.getElementById('subject').value;
-    const sectionSelect = document.getElementById('section');
-    sectionSelect.innerHTML = '<option value="">-- Select Section --</option>';
-    if (subject && exams[subject]) {
-      Object.keys(exams[subject]).forEach(sec => {
-        const opt = document.createElement('option');
-        opt.value = sec;
-        opt.textContent = sec;
-        sectionSelect.appendChild(opt);
+  countPill.textContent = `${schedule.length} added`;
+}
+
+// persistent storage
+function saveSchedule() {
+  try {
+    localStorage.setItem('midterm_schedule_v1', JSON.stringify(schedule));
+  } catch(e) {
+    console.warn('Could not save schedule to localStorage', e);
+  }
+}
+
+function loadSavedSchedule() {
+  try {
+    const raw = localStorage.getItem('midterm_schedule_v1');
+    if (!raw) return;
+    const arr = JSON.parse(raw);
+    if (Array.isArray(arr)) {
+      // recalc date objects & start times
+      schedule = arr.map(a => {
+        const d = a.rawDate ? extractDateString(a.rawDate) : a.date;
+        const dateObj = parseDate(d);
+        return Object.assign({}, a, { _dateObj: dateObj, _startTime: extractStartTime(a.time) });
       });
+      schedule = sortScheduleArray(schedule);
+      renderSchedule();
     }
+  } catch(e) {
+    console.warn('Failed to load saved schedule', e);
   }
- 
-  function findExam() {
-    const subject = document.getElementById('subject').value;
-    const section = document.getElementById('section').value;
-    const result = document.getElementById('result');
-    if (subject && section && exams[subject][section]) {
-      const e = exams[subject][section];
-      result.innerHTML = `
-        <h3>${subject} - ${section}</h3>
-        <p><b>Instructor:</b> ${e.teacher}</p>
-        <p><b>Date:</b> ${e.date}</p>
-        <p><b>Time:</b> ${e.time}</p>
-      `;
-    } else {
-      result.innerHTML = `<p>No exam data found for that selection.</p>`;
-    }
+}
+
+// Export CSV
+function exportCSV() {
+  if (!schedule.length) {
+    alert('No items to export.');
+    return;
   }
- 
-  loadData();
+  const header = ['Date','Time','Subject','Code','Section','Instructor'];
+  const rows = schedule.map(s => [s.date || '', s.time || '', s.subject || '', s.code || '', s.section || '', s.teacher || '']);
+  const csv = [header, ...rows].map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  // download
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'midterm_schedule.csv';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+// Clear
+function clearSchedule() {
+  if (!confirm('Clear your schedule?')) return;
+  schedule = [];
+  saveSchedule();
+  renderSchedule();
+}
+
+// Event wiring
+addBtn.addEventListener('click', addToSchedule);
+clearBtn.addEventListener('click', clearSchedule);
+exportBtn.addEventListener('click', exportCSV);
+
+// keyboard: allow enter to add when selects filled
+document.addEventListener('keydown', (e) => {
+  if ((e.key === 'Enter' || e.key === 'NumpadEnter') && (subjectSelect.value || sectionSelect.value)) {
+    addToSchedule();
+  }
+});
+
+// init
+loadData();
 </script>
- 
 </body>
 </html>
- 
