@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Exam Schedule Organizer</title>
+  <title>Midterm Schedule Builder</title>
   <style>
     body {
       font-family: "Poppins", sans-serif;
@@ -15,15 +15,21 @@
     h1 {
       text-align: center;
       color: #1b5e20;
+      margin-bottom: 0.5rem;
+    }
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 2rem;
     }
     #controls {
       display: flex;
       justify-content: center;
-      margin-bottom: 1rem;
+      margin-bottom: 2rem;
       gap: 1rem;
       flex-wrap: wrap;
     }
-    select, button, input {
+    select, button {
       padding: 0.5rem 1rem;
       font-size: 1rem;
       border-radius: 8px;
@@ -39,11 +45,28 @@
     button:hover {
       background: #169c45;
     }
+    button.remove-btn {
+      background: #e74c3c;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.8rem;
+    }
+    button.remove-btn:hover {
+      background: #c0392b;
+    }
+    button.export-btn {
+      background: #3498db;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+    }
+    button.export-btn:hover {
+      background: #2980b9;
+    }
     table {
       width: 100%;
       border-collapse: collapse;
       background: white;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin-top: 1rem;
     }
     th, td {
       padding: 0.75rem;
@@ -54,104 +77,396 @@
       background: #1db954;
       color: white;
     }
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    .empty-message {
+      text-align: center;
+      padding: 2rem;
+      color: #666;
+      font-style: italic;
+    }
+    .subject-selector {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .selector-container {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 1.5rem;
+    }
+    .export-container {
+      text-align: right;
+      margin-bottom: 1rem;
+    }
   </style>
 </head>
 <body>
-  <h1>Exam Schedule Organizer</h1>
+  <h1>Midterm Schedule Builder</h1>
+  <p class="subtitle">Select subjects and sections (you can add many). The schedule is automatically sorted by date & start time.</p>
 
-  <div id="controls">
-    <input type="text" id="search" placeholder="Search subject..." />
-    <button id="exportBtn">Export CSV</button>
+  <div class="selector-container">
+    <h2>Subject</h2>
+    <div class="subject-selector">
+      <select id="subjectSelect">
+        <option value="">-- Select Subject --</option>
+      </select>
+      <select id="sectionSelect" disabled>
+        <option value="">-- Select Section --</option>
+      </select>
+      <button id="addBtn">Add to Schedule</button>
+    </div>
+  </div>
+
+  <div class="export-container">
+    <button id="exportBtn" class="export-btn">Export Timetable to CSV</button>
   </div>
 
   <table id="scheduleTable">
     <thead>
       <tr>
-        <th>Subject</th>
-        <th>Code</th>
-        <th>Section</th>
-        <th>Teacher</th>
         <th>Date</th>
         <th>Time</th>
+        <th>Subject (code)</th>
+        <th>Section</th>
+        <th>Instructor</th>
+        <th>Action</th>
       </tr>
     </thead>
-    <tbody id="scheduleBody"></tbody>
+    <tbody id="scheduleBody">
+      <tr>
+        <td colspan="6" class="empty-message">No exams added to schedule yet</td>
+      </tr>
+    </tbody>
   </table>
 
   <script>
+    let examData = {};
+    let userSchedule = [];
+
     async function loadData() {
       try {
-        const res = await fetch("https://raw.githubusercontent.com/<YOUR_USERNAME>/<YOUR_REPO>/main/data/exams.json");
-        const data = await res.json();
-        renderTable(data);
+        // In a real implementation, you would fetch from your JSON file
+        // For now, we'll use the data you provided
+        examData = {
+          "ARIN2101": {
+            "subject": "Artificial Intelligence: Knowledge",
+            "Section 1": { "teacher": "Dr. Rashid", "date": "2025-11-11", "time": "10:00 - 11:00" }
+          },
+          "COMP1116": {
+            "subject": "Computer Programming",
+            "Section 1": { "teacher": "Dr. Eimad", "date": "2025-11-06", "time": "14:00 - 15:00" },
+            "Section 2": { "teacher": "Dr. Eimad", "date": "2025-11-05", "time": "11:00 - 12:00" },
+            "Section 3": { "teacher": "Dr. Belal", "date": "2025-11-05", "time": "11:00 - 12:00" },
+            "Section 4": { "teacher": "Dr. Belal", "date": "2025-11-05", "time": "12:00 - 13:00" },
+            "Section 5": { "teacher": "Dr. Belal", "date": "2025-11-05", "time": "13:00 - 14:00" },
+            "Section 6": { "teacher": "Dr. Eimad", "date": "2025-11-05", "time": "12:00 - 13:00" },
+            "Section 7": { "teacher": "Dr. Eimad", "date": "2025-11-03", "time": "13:00 - 14:00" }
+          },
+          "COMP1117": {
+            "subject": "Computer Architecture & Organization",
+            "Section 1": { "teacher": "Dr. Mohammed Khan", "date": "2025-11-06", "time": "15:00 - 16:00" },
+            "Section 2": { "teacher": "Dr. Mohammed Khan", "date": "2025-11-06", "time": "10:00 - 11:00" },
+            "Section 5": { "teacher": "Dr. Mohammed Khan", "date": "2025-11-06", "time": "14:00 - 15:00" }
+          },
+          "COMP1118": {
+            "subject": "Discrete Mathematics",
+            "Section 2": { "teacher": "Dr. Khaled", "date": "2025-11-12", "time": "13:00 - 15:00" },
+            "Section 4": { "teacher": "Dr. Taher", "date": "2025-11-10", "time": "15:00 - 17:00" },
+            "Section 5": { "teacher": "Dr. Taher", "date": "2025-11-10", "time": "16:00 - 18:00" },
+            "Section 6": { "teacher": "Dr. Heba", "date": "2025-11-13", "time": "15:00 - 17:00" }
+          },
+          "COMP1217": {
+            "subject": "Fundamentals of Database Systems",
+            "Section 1": { "teacher": "Dr. Ibrahim Ahmed", "date": "2025-11-05", "time": "08:00 - 09:00" },
+            "Section 2": { "teacher": "Dr. Ibrahim Ahmed", "date": "2025-11-05", "time": "15:00 - 16:00" }
+          },
+          "COMP1218": {
+            "subject": "Introduction to Web & Multimedia",
+            "Section 1": { "teacher": "Dr. Furqan", "date": "2025-11-02", "time": "08:00 - 09:00" }
+          },
+          "COMP2000": {
+            "subject": "Computer Networks II",
+            "Section 1": { "teacher": "Dr. Abdallah", "date": "2025-11-13", "time": "09:00 - 10:00 / 12:00 - 13:00" }
+          },
+          "COMP2100": {
+            "subject": "Human Computer Interaction",
+            "Section 1": { "teacher": "Dr. Zakarya", "date": "2025-11-04", "time": "15:00 - 16:00" },
+            "Section 2": { "teacher": "Dr. Zakarya", "date": "2025-11-06", "time": "12:00 - 13:00" }
+          },
+          "COMP2108": {
+            "subject": "Object-Oriented Programming",
+            "Section 1": { "teacher": "Dr. Nehal", "date": "2025-11-12", "time": "10:00 - 11:00" },
+            "Section 2": { "teacher": "Dr. Nehal", "date": "2025-11-10", "time": "17:00 - 18:00" },
+            "Section 3": { "teacher": "Dr. Nehal", "date": "2025-11-11", "time": "17:00 - 18:00" },
+            "Section 4": { "teacher": "Dr. Nehal", "date": "2025-11-10", "time": "16:00 - 17:00" },
+            "Section 5": { "teacher": "Dr. Nehal", "date": "2025-11-10", "time": "12:00 - 13:00" },
+            "Section 6": { "teacher": "Dr. Nehal", "date": "2025-11-09", "time": "11:00 - 12:00" }
+          },
+          "COMP2132": {
+            "subject": "Software Requirement Engineering",
+            "Section 1": { "teacher": "Dr. Jabar", "date": "2025-11-19", "time": "TBD" }
+          },
+          "NEDB2101": {
+            "subject": "Database Administration",
+            "Section 1": { "teacher": "Ms. Maryam", "date": "2025-11-12", "time": "09:00 - 10:00" },
+            "Section 2": { "teacher": "Ms. Maryam", "date": "2025-11-12", "time": "11:00 - 12:00" }
+          },
+          "COMP3107": {
+            "subject": "Distributed Database Design",
+            "Section 1": { "teacher": "Dr. Falah", "date": "2025-11-05", "time": "TBD" }
+          },
+          "COMP3109": {
+            "subject": "Mobile Application",
+            "Section 1": { "teacher": "Dr. Syed", "date": "2025-11-02", "time": "TBD" },
+            "Section 3": { "teacher": "Dr. Syed", "date": "2025-11-05", "time": "TBD" }
+          },
+          "COMP3110": {
+            "subject": "Pattern Recognition",
+            "Section 1": { "teacher": "Dr. Sanad", "date": "2025-10-29", "time": "TBD" }
+          },
+          "COMP3111": {
+            "subject": "GIS & Spatial Databases",
+            "Section 1": { "teacher": "Dr. Amir", "date": "2025-11-04", "time": "10:00 AM" }
+          },
+          "COMP3113": {
+            "subject": "Cloud Computing and Web Services",
+            "Section 1": { "teacher": "Dr. Madi", "date": "2025-11-23", "time": "TBD" }
+          },
+          "COMP3131": {
+            "subject": "Software Constructions",
+            "Section 1": { "teacher": "Dr. Arshad", "date": "2025-11-23", "time": "TBD" }
+          },
+          "COMP3132": {
+            "subject": "Software Design & Architecture",
+            "Section 1": { "teacher": "Dr. Izaz", "date": "2025-11-05", "time": "13:00 - 14:00" }
+          },
+          "NEDB3101": {
+            "subject": "Switching & Routing Technique",
+            "Section 1": { "teacher": "Dr. Hussein", "date": "2025-11-10", "time": "TBD" }
+          },
+          "COMP4102": {
+            "subject": "Software Project Management",
+            "Section 1": { "teacher": "Dr. Abid", "date": "2025-11-09", "time": "17:00 - 18:00" },
+            "Section 2": { "teacher": "Dr. Abid", "date": "2025-11-11", "time": "16:00 - 17:00" }
+          },
+          "COMP4107": {
+            "subject": "Special Topics",
+            "Section 1": { "teacher": "Dr. Mahmood", "date": "2025-11-11", "time": "17:00 - 18:00" }
+          },
+          "COMP4108": {
+            "subject": "Big Data Analytics",
+            "Section 1": { "teacher": "Dr. Saeid", "date": "2025-11-13", "time": "12:00 - 13:00" }
+          },
+          "COMP4109": {
+            "subject": "Internet Of Things",
+            "Section 1": { "teacher": "Dr. Mahmood", "date": "2025-11-11", "time": "17:00 - 18:00" }
+          }
+        };
 
-        // Search function
-        document.getElementById('search').addEventListener('input', e => {
-          renderTable(data, e.target.value);
-        });
-
-        // Export to CSV
-        document.getElementById('exportBtn').addEventListener('click', () => exportCSV(data));
-
+        populateSubjectSelect();
+        setupEventListeners();
+        
       } catch (err) {
-        alert("Error loading exams.json — check console");
-        console.error(err);
+        console.error("Error loading exam data:", err);
+        document.getElementById('subjectSelect').innerHTML = '<option value="">Error loading data</option>';
       }
     }
 
-    function renderTable(data, filter = "") {
-      const tbody = document.getElementById('scheduleBody');
-      tbody.innerHTML = "";
-      const entries = [];
+    function populateSubjectSelect() {
+      const subjectSelect = document.getElementById('subjectSelect');
+      
+      // Clear existing options (except the first one)
+      subjectSelect.innerHTML = '<option value="">-- Select Subject --</option>';
+      
+      // Add subjects to the dropdown
+      Object.entries(examData).forEach(([code, subjectInfo]) => {
+        const option = document.createElement('option');
+        option.value = code;
+        option.textContent = `${subjectInfo.subject} (${code})`;
+        subjectSelect.appendChild(option);
+      });
+    }
 
-      for (const [code, subjectData] of Object.entries(data)) {
-        for (const [section, details] of Object.entries(subjectData)) {
-          if (section === "subject") continue;
-          const subj = subjectData.subject;
-          if (filter && !subj.toLowerCase().includes(filter.toLowerCase())) continue;
-
-          entries.push({
-            code,
-            subject: subj,
-            section,
-            teacher: details.teacher,
-            date: details.date,
-            time: details.time
+    function setupEventListeners() {
+      const subjectSelect = document.getElementById('subjectSelect');
+      const sectionSelect = document.getElementById('sectionSelect');
+      const addBtn = document.getElementById('addBtn');
+      const exportBtn = document.getElementById('exportBtn');
+      
+      // When subject changes, populate sections
+      subjectSelect.addEventListener('change', function() {
+        const selectedCode = this.value;
+        sectionSelect.innerHTML = '<option value="">-- Select Section --</option>';
+        
+        if (selectedCode) {
+          sectionSelect.disabled = false;
+          const subjectInfo = examData[selectedCode];
+          
+          // Add all sections for this subject
+          Object.keys(subjectInfo).forEach(key => {
+            if (key !== 'subject') {
+              const option = document.createElement('option');
+              option.value = key;
+              option.textContent = key;
+              sectionSelect.appendChild(option);
+            }
           });
+        } else {
+          sectionSelect.disabled = true;
         }
-      }
+      });
+      
+      // Add button click handler
+      addBtn.addEventListener('click', function() {
+        const selectedCode = subjectSelect.value;
+        const selectedSection = sectionSelect.value;
+        
+        if (!selectedCode || !selectedSection) {
+          alert('Please select both a subject and a section');
+          return;
+        }
+        
+        addToSchedule(selectedCode, selectedSection);
+      });
 
-      // Sort by date
-      entries.sort((a, b) => (a.date > b.date ? 1 : -1));
-
-      for (const e of entries) {
-        const row = `<tr>
-          <td>${e.subject}</td>
-          <td>${e.code}</td>
-          <td>${e.section}</td>
-          <td>${e.teacher}</td>
-          <td>${e.date}</td>
-          <td>${e.time}</td>
-        </tr>`;
-        tbody.insertAdjacentHTML('beforeend', row);
-      }
+      // Export button click handler
+      exportBtn.addEventListener('click', exportToCSV);
     }
 
-    function exportCSV(data) {
-      let csv = "Subject,Code,Section,Teacher,Date,Time\n";
-      for (const [code, subjectData] of Object.entries(data)) {
-        for (const [section, details] of Object.entries(subjectData)) {
-          if (section === "subject") continue;
-          csv += `"${subjectData.subject}","${code}","${section}","${details.teacher}","${details.date}","${details.time}"\n`;
-        }
+    function addToSchedule(code, section) {
+      const subjectInfo = examData[code];
+      const sectionInfo = subjectInfo[section];
+      
+      // Check if this exam is already in the schedule
+      const isDuplicate = userSchedule.some(item => 
+        item.code === code && item.section === section
+      );
+      
+      if (isDuplicate) {
+        alert('This exam is already in your schedule');
+        return;
       }
-      const blob = new Blob([csv], { type: 'text/csv' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'exam_schedule.csv';
-      a.click();
+      
+      // Add to user's schedule
+      userSchedule.push({
+        code: code,
+        subject: subjectInfo.subject,
+        section: section,
+        teacher: sectionInfo.teacher,
+        date: sectionInfo.date,
+        time: sectionInfo.time
+      });
+      
+      // Sort by date and time
+      sortSchedule();
+      
+      // Update the table
+      renderSchedule();
     }
 
+    function removeFromSchedule(code, section) {
+      userSchedule = userSchedule.filter(item => 
+        !(item.code === code && item.section === section)
+      );
+      renderSchedule();
+    }
+
+    function sortSchedule() {
+      userSchedule.sort((a, b) => {
+        // First sort by date
+        if (a.date < b.date) return -1;
+        if (a.date > b.date) return 1;
+        
+        // If same date, sort by time
+        // For TBD times, put them at the end
+        if (a.time === 'TBD') return 1;
+        if (b.time === 'TBD') return -1;
+        
+        // Extract start time for comparison
+        const aStartTime = a.time.split(' - ')[0];
+        const bStartTime = b.time.split(' - ')[0];
+        
+        return aStartTime.localeCompare(bStartTime);
+      });
+    }
+
+    function renderSchedule() {
+      const tbody = document.getElementById('scheduleBody');
+      
+      if (userSchedule.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="empty-message">No exams added to schedule yet</td></tr>';
+        return;
+      }
+      
+      tbody.innerHTML = '';
+      
+      userSchedule.forEach(exam => {
+        const row = document.createElement('tr');
+        
+        row.innerHTML = `
+          <td>${exam.date}</td>
+          <td>${exam.time}</td>
+          <td>${exam.subject} (${exam.code})</td>
+          <td>${exam.section}</td>
+          <td>${exam.teacher}</td>
+          <td><button class="remove-btn" data-code="${exam.code}" data-section="${exam.section}">Remove</button></td>
+        `;
+        
+        tbody.appendChild(row);
+      });
+      
+      // Add event listeners to remove buttons
+      document.querySelectorAll('.remove-btn').forEach(button => {
+        button.addEventListener('click', function() {
+          const code = this.getAttribute('data-code');
+          const section = this.getAttribute('data-section');
+          removeFromSchedule(code, section);
+        });
+      });
+    }
+
+    function exportToCSV() {
+      if (userSchedule.length === 0) {
+        alert('Your schedule is empty. Please add some exams before exporting.');
+        return;
+      }
+
+      // Create CSV header
+      let csvContent = "Date,Time,Subject,Code,Section,Instructor\n";
+      
+      // Add each exam to CSV
+      userSchedule.forEach(exam => {
+        const row = [
+          exam.date,
+          `"${exam.time}"`, // Wrap time in quotes in case it contains commas
+          `"${exam.subject}"`, // Wrap subject in quotes in case it contains commas
+          exam.code,
+          exam.section,
+          `"${exam.teacher}"` // Wrap teacher in quotes in case it contains commas
+        ];
+        csvContent += row.join(',') + '\n';
+      });
+
+      // Create and trigger download
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      
+      link.setAttribute('href', url);
+      link.setAttribute('download', 'midterm_schedule.csv');
+      link.style.visibility = 'hidden';
+      
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // Initialize the app
     loadData();
   </script>
 </body>
