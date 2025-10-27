@@ -1,112 +1,124 @@
 {
   "ARIN2101": {
+    "subject": "Artificial Intelligence: Knowledge",
     "Section 1": { "teacher": "Dr. Rashid", "date": "11/11/2025", "time": "10:00 - 11:00" }
   },
-  "COMP1109": {
+  "COMP1116": {
+    "subject": "Computer Programming",
     "Section 1": { "teacher": "Dr. Eimad", "date": "06/11/2025", "time": "14:00 - 15:00" },
     "Section 2": { "teacher": "Dr. Eimad", "date": "05/11/2025", "time": "11:00 - 12:00" },
+    "Section 3": { "teacher": "Dr. Belal", "date": "05/11/2025", "time": "11:00 - 12:00" },
+    "Section 4": { "teacher": "Dr. Belal", "date": "05/11/2025", "time": "12:00 - 13:00" },
+    "Section 5": { "teacher": "Dr. Belal", "date": "05/11/2025", "time": "13:00 - 14:00" },
     "Section 6": { "teacher": "Dr. Eimad", "date": "05/11/2025", "time": "12:00 - 13:00" },
     "Section 7": { "teacher": "Dr. Eimad", "date": "03/11/2025", "time": "13:00 - 14:00" }
   },
-  "COMP1110": {
-    "Section 3": { "teacher": "Dr. Belal", "date": "05/11/2025", "time": "11:00 - 12:00" },
-    "Section 4": { "teacher": "Dr. Belal", "date": "05/11/2025", "time": "12:00 - 13:00" },
-    "Section 5": { "teacher": "Dr. Belal", "date": "05/11/2025", "time": "13:00 - 14:00" }
-  },
-  "COMP1115": {
-    "Section 5": { "teacher": "Dr. Belal", "date": "05/11/2025", "time": "13:00 - 14:00" }
-  },
   "COMP1117": {
+    "subject": "Computer Architecture & Organization",
     "Section 1": { "teacher": "Dr. Mohammed Khan", "date": "06/11/2025", "time": "15:00 - 16:00" },
     "Section 2": { "teacher": "Dr. Mohammed Khan", "date": "06/11/2025", "time": "10:00 - 11:00" },
     "Section 5": { "teacher": "Dr. Mohammed Khan", "date": "06/11/2025", "time": "14:00 - 15:00" }
   },
   "COMP1118": {
+    "subject": "Discrete Mathematics",
     "Section 2": { "teacher": "Dr. Khaled", "date": "12/11/2025", "time": "13:00 - 15:00" },
     "Section 4": { "teacher": "Dr. Taher", "date": "10/11/2025", "time": "15:00 - 17:00" },
     "Section 5": { "teacher": "Dr. Taher", "date": "10/11/2025", "time": "16:00 - 18:00" },
     "Section 6": { "teacher": "Dr. Heba", "date": "13/11/2025", "time": "15:00 - 17:00" }
   },
   "COMP1217": {
+    "subject": "Fundementals of Database Systems",
     "Section 1": { "teacher": "Dr. Ibrahim Ahmed", "date": "05/11/2025", "time": "08:00 - 09:00" },
     "Section 2": { "teacher": "Dr. Ibrahim Ahmed", "date": "05/11/2025", "time": "15:00 - 16:00" }
   },
   "COMP1218": {
+    "subject": "Introduction to Web & Multimedia ",
     "Section 1": { "teacher": "Dr. Furqan", "date": "02/11/2025", "time": "08:00 - 09:00" }
   },
   "COMP2000": {
+    "subject": "Computer Networks II",
     "Section 1": { "teacher": "Dr. Abdallah", "date": "13/11/2025", "time": "09:00 - 10:00 / 12:00 - 13:00" }
   },
-  "COMP2099": {
-    "Section 1": { "teacher": "Dr. Zakarya", "date": "04/11/2025", "time": "16:00 - 17:00" }
-  },
   "COMP2100": {
-    "Section 1": { "teacher": "Dr. Zakarya", "date": "06/11/2025", "time": "12:00 - 13:00" }
+    "subject": "Human Computer Interaction",
+    "Section 1": { "teacher": "Dr. Zakarya", "date": "04/11/2025", "time": "15:00 - 16:00" },
+    "Section 2": { "teacher": "Dr. Zakarya", "date": "06/11/2025", "time": "12:00 - 13:00" }
   },
   "COMP2108": {
-    "B1": { "teacher": "Dr. Nehal", "date": "09-12/11/2025", "time": "TBD" },
-    "I0-01": { "teacher": "Dr. Shumilya", "date": "10-11/11/2025", "time": "TBD" },
-    "Section 2": { "teacher": "Dr. Mohammed Bany", "date": "05/11/2025", "time": "17:00 - 18:00" }
-  },
-  "COMP2107": {
-    "Section 1": { "teacher": "Dr. Mohammed Bany", "date": "06/11/2025", "time": "12:00 - 14:00" },
+    "subject": "System Analysis and Design",
+    "Section 1": { "teacher": "Dr. Mohammed Bany", "date": "06/11/2025", "time": "13:00 - 14:00" },
     "Section 2": { "teacher": "Dr. Mohammed Bany", "date": "05/11/2025", "time": "17:00 - 18:00" },
     "Section 3": { "teacher": "Dr. Mohammed Bany", "date": "06/11/2025", "time": "15:00 - 16:00" },
     "Section 4": { "teacher": "Dr. Mohammed Bany", "date": "05/11/2025", "time": "12:00 - 13:00" },
     "Section 5": { "teacher": "Dr. Mohammed Bany", "date": "05/11/2025", "time": "14:00 - 15:00" }
   },
-  "COMP2109": {
-    "Section 3": { "teacher": "Dr. Mohammed Bany", "date": "06/11/2025", "time": "15:00 - 16:00" }
   },
-  "COMP2110": {
-    "Section 4": { "teacher": "Dr. Mohammed Bany", "date": "05/11/2025", "time": "12:00 - 13:00" }
-  },
-  "COMP2111": {
-    "Section 5": { "teacher": "Dr. Mohammed Bany", "date": "05/11/2025", "time": "14:00 - 15:00" }
+  "COMP2108": {
+    "subject": "Object-Oriented Programming",
+    "Section 1": { "teacher": "Dr. Nehal", "date": "12/11/2025", "time": "10:00 - 11:00" },
+    "Section 2": { "teacher": "Dr. Nehal", "date": "10/11/2025", "time": "17:00 - 18:00" },
+    "Section 3": { "teacher": "Dr. Nehal", "date": "11/11/2025", "time": "17:00 - 18:00" },
+    "Section 4": { "teacher": "Dr. Nehal", "date": "10/11/2025", "time": "16:00 - 17:00" },
+    "Section 5": { "teacher": "Dr. Nehal", "date": "10/11/2025", "time": "12:00 - 13:00" },
+    "Section 6": { "teacher": "Dr. Nehal", "date": "09/11/2025", "time": "11:00 - 12:00" }
   },
   "COMP2132": {
+    "subject": "Software requirement engineering",
     "Section 1": { "teacher": "Dr. Jabar", "date": "19/11/2025", "time": "TBD" }
   },
   "NEDB2101": {
+    "subject": "Database adminstration",
     "Section 1": { "teacher": "Ms. Maryam", "date": "12/11/2025", "time": "09:00 - 10:00" },
     "Section 2": { "teacher": "Ms. Maryam", "date": "12/11/2025", "time": "11:00 - 12:00" }
   },
   "COMP3107": {
+    "subject": "Distributed database design",
     "Section 1": { "teacher": "Dr. Falah", "date": "05/11/2025", "time": "TBD" }
   },
   "COMP3109": {
+    "subject": "Mobile Application",
     "Section 1": { "teacher": "Dr. Syed", "date": "02/11/2025", "time": "TBD" },
     "Section 3": { "teacher": "Dr. Syed", "date": "05/11/2025", "time": "TBD" }
   },
   "COMP3110": {
+    "subject": "Pattern Recognition",
     "Section 1": { "teacher": "Dr. Sanad", "date": "29/10/2025", "time": "TBD" }
   },
   "COMP3111": {
+    "subject": "GIS & Spatial Databases",
     "Section 1": { "teacher": "Dr. Amir", "date": "04/11/2025", "time": "10:00 AM" }
   },
   "COMP3113": {
+    "subject": "Cloud Computing and Web Services",
     "Section 1": { "teacher": "Dr. Madi", "date": "23/11/2025", "time": "TBD" }
   },
   "COMP3131": {
+    "subject": "Software Constructions",
     "Section 1": { "teacher": "Dr. Arshad", "date": "23/11/2025", "time": "TBD" }
   },
   "COMP3132": {
+    "subject": "Software Design & Architecture",
     "Section 1": { "teacher": "Dr. Izaz", "date": "05/11/2025", "time": "13:00 - 14:00" }
   },
   "NEDB3101": {
+    "subject": "Switching & Routing Technique",
     "Section 1": { "teacher": "Dr. Hussein", "date": "10/11/2025", "time": "TBD" }
   },
   "COMP4102": {
+    "subject": "Software Project Managment",
     "Section 1": { "teacher": "Dr. Abid", "date": "09/11/2025", "time": "17:00 - 18:00" },
     "Section 2": { "teacher": "Dr. Abid", "date": "11/11/2025", "time": "16:00 - 17:00" }
   },
   "COMP4107": {
+    "subject": "Specital Topics",
     "Section 1": { "teacher": "Dr. Mahmood", "date": "11/11/2025", "time": "17:00 - 18:00" }
   },
   "COMP4108": {
+    "subject": "Big Data Analytics",
     "Section 1": { "teacher": "Dr. Saeid", "date": "13/11/2025", "time": "12:00 - 13:00" }
   },
   "COMP4109": {
+    "subject": "Internet Of Things",
     "Section 1": { "teacher": "Dr. Mahmood", "date": "11/11/2025", "time": "17:00 - 18:00" }
   }
 }
