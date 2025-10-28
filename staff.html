@@ -1,430 +1,1286 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Staff Info — معلومات الطاقم</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Timetable Viewer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .filter-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        select, input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .view-controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        button {
+            padding: 8px 15px;
+            background: #2a5298;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #1e3c72;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .tab {
+            padding: 15px 25px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-weight: 600;
+        }
+        
+        .tab:hover {
+            background: #f0f4ff;
+        }
+        
+        .tab.active {
+            background: #2a5298;
+            color: white;
+        }
+        
+        .level-indicator {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 8px;
+            font-size: 0.8rem;
+            text-align: center;
+            line-height: 20px;
+            color: white;
+        }
+        
+        .level-1 { background-color: #e74c3c; }
+        .level-2 { background-color: #3498db; }
+        .level-3 { background-color: #2ecc71; }
+        .level-4 { background-color: #f39c12; }
+        .level-5 { background-color: #9b59b6; }
+        .level-6 { background-color: #1abc9c; }
+        .level-7 { background-color: #34495e; }
+        
+        .timetable-container {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .timetable-header {
+            display: grid;
+            grid-template-columns: 200px repeat(10, 1fr);
+            background: #2a5298;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .time-header, .day-header {
+            padding: 15px 10px;
+            text-align: center;
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .day-header:last-child {
+            border-right: none;
+        }
+        
+        .timetable-body {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .staff-row {
+            display: grid;
+            grid-template-columns: 200px repeat(10, 1fr);
+            border-bottom: 1px solid #eee;
+        }
+        
+        .staff-row:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .staff-name {
+            padding: 15px 10px;
+            font-weight: 600;
+            background: #f8f9fa;
+            border-right: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .staff-rank {
+            font-size: 0.85rem;
+            color: #666;
+            font-weight: normal;
+            margin-top: 5px;
+        }
+        
+        .staff-levels {
+            display: flex;
+            gap: 5px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .level-badge {
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            color: white;
+        }
+        
+        .time-slot {
+            padding: 10px 5px;
+            border-right: 1px solid #eee;
+            min-height: 70px;
+            position: relative;
+        }
+        
+        .time-slot:last-child {
+            border-right: none;
+        }
+        
+        .lecture {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 8px;
+            margin: 2px 0;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        
+        .practical {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 8px;
+            margin: 2px 0;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        
+        .course-code {
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+        
+        .course-name {
+            font-size: 0.75rem;
+            margin-top: 2px;
+        }
+        
+        .location {
+            font-size: 0.7rem;
+            color: #666;
+            margin-top: 3px;
+        }
+        
+        .empty-slot {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        
+        .lecture-legend {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .practical-legend {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .modal-body {
+            margin-bottom: 20px;
+        }
+        
+        .course-details {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .course-details:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-item {
+            margin-bottom: 8px;
+        }
+        
+        .detail-label {
+            font-weight: bold;
+            display: inline-block;
+            width: 120px;
+        }
+        
+        @media (max-width: 1200px) {
+            .timetable-container {
+                overflow-x: auto;
+            }
+            
+            .timetable-header, .staff-row {
+                min-width: 1000px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .filter-controls {
+                flex-wrap: wrap;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-wrap: wrap;
+            }
+            
+            .tab {
+                flex: 1;
+                min-width: 120px;
+                text-align: center;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header class="site-header">
+    <header>
+        <div class="container">
+            <h1>Staff Timetable Viewer</h1>
+            <p class="subtitle">Solar University - First Semester 2025/2026</p>
+            <p class="subtitle">View staff schedules organized by teaching levels</p>
+        </div>
+    </header>
+    
     <div class="container">
-      <h1 class="site-title">Staff Info <span class="arabic">معلومات الطاقم</span></h1>
-      <p class="subtitle">Click a staff member to open details. Enter email, office and timetable manually below (one line per entry).</p>
-      <p class="subtitle arabic">اضغط على اسم عضو هيئة التدريس لفتح التفاصيل. اكتب البريد الإلكتروني والمكتب والجدول يدوياً (سطر لكل إدخال).</p>
-      <p class="muted">Tip: you can paste this file into any editor and update fields quickly.</p>
+        <div class="controls">
+            <div class="filter-controls">
+                <select id="staffFilter">
+                    <option value="all">All Staff</option>
+                </select>
+                
+                <select id="levelFilter">
+                    <option value="all">All Levels</option>
+                    <option value="1">Level 1</option>
+                    <option value="2">Level 2</option>
+                    <option value="3">Level 3</option>
+                    <option value="4">Level 4</option>
+                    <option value="5">Level 5</option>
+                    <option value="6">Level 6</option>
+                    <option value="7">Level 7</option>
+                </select>
+                
+                <select id="courseFilter">
+                    <option value="all">All Courses</option>
+                </select>
+            </div>
+            
+            <div class="view-controls">
+                <button id="expandAll">Expand All</button>
+                <button id="collapseAll">Collapse All</button>
+            </div>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active" data-day="all">All Days</div>
+            <div class="tab" data-day="SU">Sunday</div>
+            <div class="tab" data-day="MO">Monday</div>
+            <div class="tab" data-day="TU">Tuesday</div>
+            <div class="tab" data-day="WE">Wednesday</div>
+            <div class="tab" data-day="TH">Thursday</div>
+            <div class="tab" data-day="SA">Saturday</div>
+        </div>
+        
+        <div class="timetable-container">
+            <div class="timetable-header">
+                <div class="time-header">Staff / Time</div>
+                <div class="day-header">8:00-9:00</div>
+                <div class="day-header">9:00-10:00</div>
+                <div class="day-header">10:00-11:00</div>
+                <div class="day-header">11:00-12:00</div>
+                <div class="day-header">12:00-13:00</div>
+                <div class="day-header">13:00-14:00</div>
+                <div class="day-header">14:00-15:00</div>
+                <div class="day-header">15:00-16:00</div>
+                <div class="day-header">16:00-17:00</div>
+                <div class="day-header">17:00-18:00</div>
+            </div>
+            
+            <div class="timetable-body" id="timetableBody">
+                <!-- Timetable rows will be populated by JavaScript -->
+            </div>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color lecture-legend"></div>
+                <span>Lecture</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color practical-legend"></div>
+                <span>Practical</span>
+            </div>
+            <div class="legend-item">
+                <div class="level-indicator level-1">1</div>
+                <span>Level 1</span>
+            </div>
+            <div class="legend-item">
+                <div class="level-indicator level-2">2</div>
+                <span>Level 2</span>
+            </div>
+            <div class="legend-item">
+                <div class="level-indicator level-3">3</div>
+                <span>Level 3</span>
+            </div>
+            <div class="legend-item">
+                <div class="level-indicator level-4">4</div>
+                <span>Level 4</span>
+            </div>
+        </div>
     </div>
-  </header>
-
-  <main class="container">
-    <div class="staff-list">
-
-      <!-- Template for each staff: details>summary + fields -->
-      <!-- 1 -->
-      <details class="staff-card">
-        <summary>1. Jabar Al Matwari — <span class="arabic">جابر المطواري</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Software Requirement Engineering (Lecture & Practical), Master Dissertation</p>
-          <label>Email: <input type="email" placeholder="example@university.edu"></label>
-          <label>Office: <input type="text" placeholder="Building / Room"></label>
-          <label>Lecture / Free Time (one line per entry):<textarea placeholder="e.g. Sun 10:00-11:00 — Lecture"></textarea></label>
+    
+    <div class="modal" id="courseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Course Details</h2>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Course details will be populated by JavaScript -->
+            </div>
         </div>
-      </details>
-
-      <!-- 2 -->
-      <details class="staff-card">
-        <summary>2. Maryam Al jabri — <span class="arabic">مريم الجابري</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Specialization Project (A) (Practical & Lecture), Industrial Project I (Practical & Lecture), Database Administration (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder="e.g. Tue 14:00-16:00 — Practical"></textarea></label>
-        </div>
-      </details>
-
-      <!-- 3 -->
-      <details class="staff-card">
-        <summary>3. Eimad Eldin Abusham — <span class="arabic">عماد الدين أبو شام</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Computer Programming (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 4 -->
-      <details class="staff-card">
-        <summary>4. Abdullah Abukishik — <span class="arabic">عبدالله أبو كيشك</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Computer Networks (2) (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 5 -->
-      <details class="staff-card">
-        <summary>5. Ahmed Kayed — <span class="arabic">أحمد قايد</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Object-Oriented Programming (Practical), System Analysis & Design (Practical), Advanced Algorithms (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 6 -->
-      <details class="staff-card">
-        <summary>6. Saeid Hosseini — <span class="arabic">سعيد حسيني</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Big Data Analytics (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 7 -->
-      <details class="staff-card">
-        <summary>7. Mahmood Al Bahri — <span class="arabic">محمود البحري</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Special Topics (Practical & Lecture), Internet of Things (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 8 -->
-      <details class="staff-card">
-        <summary>8. Khaled Abu-Hmaidan — <span class="arabic">خالد أبو حميدان</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Discrete Mathematics (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 9 -->
-      <details class="staff-card">
-        <summary>9. Falah Hamode — <span class="arabic">فه‎ل‎ه حمودة</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Distributed Database Design (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 10 -->
-      <details class="staff-card">
-        <summary>10. Syed Gillani — <span class="arabic">سيد جيلاني</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Mobile Applications (Practical & Lecture), Big Data Analytics (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 11 -->
-      <details class="staff-card">
-        <summary>11. Marwan Al-Shar'e — <span class="arabic">مروان الشارع</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Introduction to Cybersecurity (Practical & Lecture), Computer Networks (2) (Practical)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 12 -->
-      <details class="staff-card">
-        <summary>12. Mohammed Zakarya — <span class="arabic">محمد زكريا</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Human Computer Interaction (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 13 -->
-      <details class="staff-card">
-        <summary>13. Amirhossein Mohajerzadah — <span class="arabic">أميرحسين محجرداه</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Computer Networks (2) (Practical), GIS & Spatial Databases (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 14 -->
-      <details class="staff-card">
-        <summary>14. Furqan Alam — <span class="arabic">فرقان عالم</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Computer Architecture & Organization (Practical), Introduction to Web & Multimedia Technology (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 15 -->
-      <details class="staff-card">
-        <summary>15. Rashid Ahmad — <span class="arabic">رشيد أحمد</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> AI: Knowledge Representation (Practical & Lecture), Computer Architecture & Organization (Practical), Advanced AI (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 16 -->
-      <details class="staff-card">
-        <summary>16. Nehal Mostafa Hassan — <span class="arabic">نهال مصطفى حسن</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Object-Oriented Programming (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 17 -->
-      <details class="staff-card">
-        <summary>17. Izaz Ur Rahman — <span class="arabic">عزاز الرحمن</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Computer Architecture & Organization (Practical), Software Design & Architecture (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 18 -->
-      <details class="staff-card">
-        <summary>18. Mohammed Madi — <span class="arabic">محمد ماضي</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Cloud Computing and Web Services (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 19 -->
-      <details class="staff-card">
-        <summary>19. Saqib Qamar — <span class="arabic">سقيب قمر</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Ethics and Research Methods in Computing (Practical & Lecture), Research Methodology (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 20 -->
-      <details class="staff-card">
-        <summary>20. Mohammed Bany Baker — <span class="arabic">محمد بني بكير</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> System Analysis & Design (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 21 -->
-      <details class="staff-card">
-        <summary>21. Arshad Ahmad — <span class="arabic">أرشاد أحمد</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Computer Programming (Practical), Software Construction (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 22 -->
-      <details class="staff-card">
-        <summary>22. Muhammad Khan — <span class="arabic">محمد خان</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Computer Architecture & Organization (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 23 -->
-      <details class="staff-card">
-        <summary>23. Hossein Al Maqbali — <span class="arabic">حسين المقابلي</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Object-Oriented Programming (Practical), Switching & Routing Techniques (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 24 -->
-      <details class="staff-card">
-        <summary>24. Muhammed Zeeshan — <span class="arabic">محمد زيشان</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Computer Architecture & Organization (Lecture & Practical), Advanced Database Systems (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 25 -->
-      <details class="staff-card">
-        <summary>25. Ibrahim Ahmed — <span class="arabic">إبراهيم أحمد</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Fundamentals of Database Systems (Practical & Lecture), System Analysis & Design (Practical)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 26 -->
-      <details class="staff-card">
-        <summary>26. Mohammed Mohammed — <span class="arabic">محمد محمد</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Computer Programming (Practical), Computer Networks (2) (Practical), Numerical Analysis (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 27 -->
-      <details class="staff-card">
-        <summary>27. Taher Ghazal — <span class="arabic">طاهر غزال</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Discrete Mathematics (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 28 -->
-      <details class="staff-card">
-        <summary>28. Abid Ghaffar — <span class="arabic">عبيد غفار</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Fundamentals of Database Systems (Practical), Software Project Management (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 29 -->
-      <details class="staff-card">
-        <summary>29. Belal Al Ifan — <span class="arabic">بلال الإيفان</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Computer Programming (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 30 -->
-      <details class="staff-card">
-        <summary>30. Heba Zedan — <span class="arabic">هيبا زيدان</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Discrete Mathematics (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 31 -->
-      <details class="staff-card">
-        <summary>31. Hesham Sakr — <span class="arabic">هشام صقر</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> System Analysis & Design (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 32 -->
-      <details class="staff-card">
-        <summary>32. Shumayla Yaqoob — <span class="arabic">شميلا يعقوب</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Computer Programming (Practical), Object-Oriented Programming (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 33 -->
-      <details class="staff-card">
-        <summary>33. Mohammed Muthanna — <span class="arabic">محمد مثنى</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Human Computer Interaction (Practical & Lecture), System Analysis & Design (Practical)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 34 -->
-      <details class="staff-card">
-        <summary>34. Aisha Shabbir — <span class="arabic">عائشة شبر</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Computer Programming (Practical), Computer Architecture & Organization (Practical), Big Data Analytics (Practical)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 35 -->
-      <details class="staff-card">
-        <summary>35. Sultan Khan — <span class="arabic">سلطان خان</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Object-Oriented Programming (Practical), Pattern Recognition (Practical & Lecture)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-      <!-- 36 -->
-      <details class="staff-card">
-        <summary>36. Shaukat Hayat — <span class="arabic">شوكات حيات</span></summary>
-        <div class="staff-body">
-          <p><strong>Subjects:</strong> Object-Oriented Programming (Practical), Specialization (B) (Practical & Lecture), Database Administration (Practical)</p>
-          <label>Email: <input type="email" placeholder=""></label>
-          <label>Office: <input type="text" placeholder=""></label>
-          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
-        </div>
-      </details>
-
-    </div> <!-- /.staff-list -->
-
-    <p class="muted">Hint: To save edits permanently, copy the modified file to your computer and re-upload to your hosting (GitHub Pages, etc.).</p>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <a class="back" href="index.html">← Back to Home</a>
     </div>
-  </footer>
+
+    <script>
+        // Complete staff data extracted from the PDF
+        const staffData = [
+            {
+                name: "Jabar Al Matwari",
+                rank: "Professor",
+                contactHours: 14,
+                courses: [
+                    { code: "COMP2131", name: "Software Requirement Engineering", units: 0, activity: "Practical", section: 1, time: "MO [ 08:00_10:00 ] F2-24", count: 35 },
+                    { code: "COMP2131", name: "Software Requirement Engineering", units: 4, activity: "Lecture", section: 1, time: "WE [ 14:00_15:00 ] F3-01 / MO [ 11:00_12:00 ] G1-25 / TU [ 12:00_13:00 ] G0-03", count: 17 },
+                    { code: "COMP2131", name: "Software Requirement Engineering", units: 0, activity: "Practical", section: 2, time: "MO [ 12:00_14:00 ] F2-24", count: 36 },
+                    { code: "COMP2131", name: "Software Requirement Engineering", units: 4, activity: "Lecture", section: 2, time: "WE [ 15:00_16:00 ] F2-30 / WE [ 09:00_10:00 ] G1-16 / WE [ 10:00_11:00 ] B1-14", count: 78 },
+                    { code: "COMP2131", name: "Software Requirement Engineering", units: 0, activity: "Practical", section: 3, time: "TU [ 10:00_12:00 ] F3-21", count: 24 },
+                    { code: "COMP6220A", name: "Master Dissertation A", units: 3, activity: "Lecture", section: 1, time: "SA [ 12:00_14:00 ] F2-29", count: 5 }
+                ]
+            },
+            {
+                name: "Maryam Al Jabri",
+                rank: "Assistant Professor",
+                contactHours: 18,
+                courses: [
+                    { code: "COMP4000A", name: "Specialization Project (A)", units: 0, activity: "Practical", section: 1, time: "SU [ 18:00_20:00 ] DL", count: 118 },
+                    { code: "COMP4000A", name: "Specialization Project (A)", units: 3, activity: "Lecture", section: 1, time: "WE [ 15:00_16:00 ] F0-10 / MO [ 18:00_19:00 ] DL", count: 82 },
+                    { code: "COMP4000A", name: "Specialization Project (A)", units: 3, activity: "Lecture", section: 2, time: "WE [ 09:00_10:00 ] DL / TH [ 09:00_10:00 ] F2-32", count: 36 },
+                    { code: "COMP4001A", name: "Industrial Project I", units: 0, activity: "Practical", section: 1, time: "SU [ 18:00_20:00 ] DL", count: 4 },
+                    { code: "COMP4001A", name: "Industrial Project I", units: 3, activity: "Lecture", section: 1, time: "WE [ 15:00_16:00 ] E1-06 / MO [ 18:00_19:00 ] DL", count: 4 },
+                    { code: "NEDB2101", name: "Database Administration", units: 0, activity: "Practical", section: 1, time: "MO [ 12:00_14:00 ] F2-29", count: 40 },
+                    { code: "NEDB2101", name: "Database Administration", units: 4, activity: "Lecture", section: 1, time: "TH [ 08:00_09:00 ] F1-09 / WE [ 08:00_09:00 ] F0-11 / TU [ 09:00_10:00 ] G2-07", count: 65 },
+                    { code: "NEDB2101", name: "Database Administration", units: 0, activity: "Practical", section: 2, time: "MO [ 14:00_16:00 ] F2-29", count: 40 },
+                    { code: "NEDB2101", name: "Database Administration", units: 4, activity: "Lecture", section: 2, time: "TH [ 12:00_13:00 ] 10-03 / WE [ 11:00_12:00 ] B1-00 / TU [ 11:00_12:00 ] G2-08", count: 70 },
+                    { code: "NEDB2101", name: "Database Administration", units: 0, activity: "Practical", section: 4, time: "SU [ 16:00_18:00 ] F2-29", count: 17 }
+                ]
+            },
+            {
+                name: "Elmad Eldin Abusham",
+                rank: "Assistant Professor",
+                contactHours: 14,
+                courses: [
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 1, time: "SU [ 12:00_14:00 ] F2-29", count: 40 },
+                    { code: "COMP1116", name: "Computer Programming", units: 4, activity: "Lecture", section: 1, time: "TH [ 15:00_16:00 ] 10-02 / TH [ 14:00_15:00 ] G0-00 / SU [ 11:00_12:00 ] B1-00", count: 140 },
+                    { code: "COMP1116", name: "Computer Programming", units: 4, activity: "Lecture", section: 2, time: "TH [ 17:00_18:00 ] F0-02 / WE [ 14:00_15:00 ] B1-00 / SU [ 17:00_18:00 ] F0-10", count: 128 },
+                    { code: "COMP1116", name: "Computer Programming", units: 4, activity: "Lecture", section: 6, time: "TH [ 09:00_10:00 ] F1-09 / MO [ 09:00_10:00 ] G2-19 / WE [ 11:00_12:00 ] F1-05", count: 60 },
+                    { code: "COMP1116", name: "Computer Programming", units: 4, activity: "Lecture", section: 7, time: "MO [ 15:00_16:00 ] E1-06 / MO [ 13:00_14:00 ] G1-22 / MO [ 08:00_09:00 ] A1-01", count: 37 }
+                ]
+            },
+            {
+                name: "Abdallah Abualkishik",
+                rank: "Associate Professor",
+                contactHours: 11,
+                courses: [
+                    { code: "COMP2000", name: "Computer Networks (2)", units: 4, activity: "Lecture", section: 1, time: "TH [ 09:00_10:00 ] 10-01 / MO [ 09:00_10:00 ] A1-00 / TH [ 15:00_16:00 ] G0-00", count: 119 },
+                    { code: "COMP2000", name: "Computer Networks (2)", units: 4, activity: "Lecture", section: 2, time: "WE [ 15:00_16:00 ] G2-06 / SU [ 12:00_13:00 ] G1-01 / TH [ 12:00_13:00 ] I0-02", count: 59 },
+                    { code: "COMP2000", name: "Computer Networks (2)", units: 4, activity: "Lecture", section: 3, time: "SU [ 14:00_15:00 ] I0-03 / TH [ 10:00_11:00 ] E1-06 / WE [ 14:00_15:00 ] E1-08", count: 83 },
+                    { code: "COMP2000", name: "Computer Networks (2)", units: 0, activity: "Practical", section: 10, time: "WE [ 12:00_14:00 ] F2-20", count: 32 }
+                ]
+            },
+            {
+                name: "Ahmad Kayed",
+                rank: "Professor",
+                contactHours: 8,
+                courses: [
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 7, time: "WE [ 10:00_12:00 ] F3-21", count: 26 },
+                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 4, time: "MO [ 14:00_16:00 ] F2-20", count: 32 },
+                    { code: "COMP5105", name: "Advanced Algorithms", units: 0, activity: "Practical", section: 1, time: "WE [ 16:00_18:00 ] G1-12", count: 5 },
+                    { code: "COMP5105", name: "Advanced Algorithms", units: 3, activity: "Lecture", section: 1, time: "SA [ 10:00_12:00 ] F2-30", count: 5 }
+                ]
+            },
+            {
+                name: "Saeld Hosseini",
+                rank: "Associate Professor",
+                contactHours: 15,
+                courses: [
+                    { code: "COMP4108", name: "Big Data Analytics", units: 4, activity: "Lecture", section: 1, time: "WE [ 12:00_13:00 ] F1-11 / MO [ 12:00_13:00 ] A0-02 / MO [ 09:00_10:00 ] A1-05", count: 53 },
+                    { code: "COMP4108", name: "Big Data Analytics", units: 0, activity: "Practical", section: 2, time: "WE [ 08:00_10:00 ] G2-13", count: 31 },
+                    { code: "COMP4108", name: "Big Data Analytics", units: 4, activity: "Lecture", section: 2, time: "TH [ 14:00_15:00 ] F0-11 / MO [ 16:00_17:00 ] F2-30 / TH [ 13:00_14:00 ] E0-04", count: 47 },
+                    { code: "COMP4108", name: "Big Data Analytics", units: 0, activity: "Practical", section: 3, time: "TU [ 14:00_16:00 ] G2-14", count: 49 },
+                    { code: "COMP4108", name: "Big Data Analytics", units: 4, activity: "Lecture", section: 3, time: "MO [ 13:00_14:00 ] F1-11 / WE [ 13:00_14:00 ] F1-11 / TU [ 13:00_14:00 ] A1-01", count: 40 },
+                    { code: "COMP4108", name: "Big Data Analytics", units: 0, activity: "Practical", section: 4, time: "TU [ 08:00_10:00 ] G0-03", count: 31 }
+                ]
+            },
+            {
+                name: "Mahmood Al Bahri",
+                rank: "Assistant Professor",
+                contactHours: 11,
+                courses: [
+                    { code: "COMP4107", name: "Special Topics", units: 4, activity: "Lecture", section: 1, time: "WE [ 17:00_18:00 ] F0-10 / TU [ 17:00_18:00 ] F0-11 / WE [ 16:00_17:00 ] 10-02", count: 73 },
+                    { code: "COMP4107", name: "Special Topics", units: 0, activity: "Practical", section: 1, time: "TU [ 14:00_16:00 ] G2-13", count: 19 },
+                    { code: "COMP4107", name: "Special Topics", units: 0, activity: "Practical", section: 2, time: "TU [ 12:00_14:00 ] F2-24", count: 19 },
+                    { code: "COMP4107", name: "Special Topics", units: 0, activity: "Practical", section: 3, time: "WE [ 14:00_16:00 ] G2-13", count: 17 },
+                    { code: "COMP4107", name: "Special Topics", units: 0, activity: "Practical", section: 4, time: "WE [ 08:00_10:00 ] G0-03", count: 18 },
+                    { code: "COMP4109", name: "Internet of Things", units: 4, activity: "Lecture", section: 1, time: "WE [ 17:00_18:00 ] F0-10 / TU [ 17:00_18:00 ] F0-11 / WE [ 16:00_17:00 ] 10-02", count: 69 },
+                    { code: "COMP4109", name: "Internet of Things", units: 0, activity: "Practical", section: 1, time: "TU [ 12:00_14:00 ] F2-24", count: 21 },
+                    { code: "COMP4109", name: "Internet of Things", units: 0, activity: "Practical", section: 2, time: "TU [ 14:00_16:00 ] G2-13", count: 27 },
+                    { code: "COMP4109", name: "Internet of Things", units: 0, activity: "Practical", section: 3, time: "WE [ 14:00_16:00 ] G2-13", count: 19 },
+                    { code: "COMP4109", name: "Internet of Things", units: 0, activity: "Practical", section: 4, time: "WE [ 08:00_10:00 ] G0-03", count: 2 }
+                ]
+            },
+            {
+                name: "Khaled Abu-Hmaidan",
+                rank: "Associate Professor",
+                contactHours: 14,
+                courses: [
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 1, time: "MO [ 14:00_16:00 ] B1-13", count: 30 },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 3, activity: "Lecture", section: 1, time: "SU [ 14:00_15:00 ] G2-11 / WE [ 14:00_15:00 ] A1-00", count: 103 },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 3, activity: "Lecture", section: 2, time: "WE [ 12:00_13:00 ] G0-00 / TU [ 10:00_11:00 ] E1-01", count: 214 },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 3, time: "SU [ 12:00_14:00 ] F2-21", count: 37 },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 5, time: "WE [ 08:00_10:00 ] F2-20", count: 30 },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 6, time: "TU [ 12:00_14:00 ] B1-13", count: 31 },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 12, time: "MO [ 16:00_18:00 ] G1-16", count: 29 }
+                ]
+            },
+            {
+                name: "Falah Hamode",
+                rank: "Associate Professor",
+                contactHours: 16,
+                courses: [
+                    { code: "COMP3107", name: "Distributed Database Design", units: 4, activity: "Lecture", section: 1, time: "TH [ 08:00_09:00 ] F1-10 / WE [ 08:00_09:00 ] F0-10 / TH [ 14:00_15:00 ] A1-00", count: 126 },
+                    { code: "COMP3107", name: "Distributed Database Design", units: 0, activity: "Practical", section: 2, time: "MO [ 14:00_16:00 ] F2-21", count: 30 },
+                    { code: "COMP3107", name: "Distributed Database Design", units: 0, activity: "Practical", section: 3, time: "MO [ 16:00_18:00 ] F3-21", count: 27 },
+                    { code: "COMP3107", name: "Distributed Database Design", units: 4, activity: "Lecture", section: 3, time: "SU [ 09:00_10:00 ] G1-21 / TU [ 09:00_10:00 ] A0-13 / SU [ 13:00_14:00 ] A1-01", count: 28 },
+                    { code: "COMP3107", name: "Distributed Database Design", units: 0, activity: "Practical", section: 4, time: "TU [ 14:00_16:00 ] F2-21", count: 26 },
+                    { code: "COMP3107", name: "Distributed Database Design", units: 0, activity: "Practical", section: 5, time: "WE [ 12:00_14:00 ] F2-24", count: 50 },
+                    { code: "COMP3107", name: "Distributed Database Design", units: 0, activity: "Practical", section: 6, time: "WE [ 14:00_16:00 ] F3-21", count: 21 }
+                ]
+            },
+            {
+                name: "Syed Gillani",
+                rank: "Assistant Professor",
+                contactHours: 16,
+                courses: [
+                    { code: "COMP3109", name: "Mobile Applications", units: 0, activity: "Practical", section: 1, time: "WE [ 10:00_12:00 ] G0-03", count: 31 },
+                    { code: "COMP3109", name: "Mobile Applications", units: 4, activity: "Lecture", section: 1, time: "SU [ 13:00_14:00 ] B1-14 / MO [ 15:00_16:00 ] F1-03 / MO [ 13:00_14:00 ] B1-14", count: 44 },
+                    { code: "COMP3109", name: "Mobile Applications", units: 0, activity: "Practical", section: 2, time: "WE [ 14:00_16:00 ] G2-14", count: 22 },
+                    { code: "COMP3109", name: "Mobile Applications", units: 4, activity: "Lecture", section: 3, time: "TH [ 17:00_18:00 ] F1-02 / TH [ 16:00_17:00 ] F1-02 / TH [ 09:00_10:00 ] A1-01", count: 55 },
+                    { code: "COMP3109", name: "Mobile Applications", units: 0, activity: "Practical", section: 3, time: "TH [ 10:00_12:00 ] F2-24", count: 46 },
+                    { code: "COMP6105", name: "Big Data Analytics", units: 3, activity: "Lecture", section: 1, time: "SA [ 10:00_12:00 ] F1-13", count: 5 },
+                    { code: "COMP6105", name: "Big Data Analytics", units: 0, activity: "Practical", section: 1, time: "WE [ 16:00_18:00 ] F1-12", count: 5 }
+                ]
+            },
+            {
+                name: "Marwan Al-Shar'e",
+                rank: "Associate Professor",
+                contactHours: 13,
+                courses: [
+                    { code: "COMP1120", name: "Introduction to Cybersecurity", units: 4, activity: "Lecture", section: 1, time: "SU [ 16:00_17:00 ] 10-03 / WE [ 16:00_17:00 ] F0-11 / MO [ 16:00_17:00 ] 10-03", count: 37 },
+                    { code: "COMP1120", name: "Introduction to Cybersecurity", units: 0, activity: "Practical", section: 1, time: "TU [ 14:00_16:00 ] F2-24", count: 20 },
+                    { code: "COMP1120", name: "Introduction to Cybersecurity", units: 0, activity: "Practical", section: 2, time: "WE [ 10:00_12:00 ] F2-21", count: 17 },
+                    { code: "COMP2000", name: "Computer Networks (2)", units: 0, activity: "Practical", section: 4, time: "MO [ 10:00_12:00 ] F2-20", count: 34 },
+                    { code: "COMP2000", name: "Computer Networks (2)", units: 0, activity: "Practical", section: 7, time: "TU [ 10:00_12:00 ] F2-21", count: 30 },
+                    { code: "COMP2000", name: "Computer Networks (2)", units: 0, activity: "Practical", section: 11, time: "WE [ 14:00_16:00 ] F2-21", count: 13 }
+                ]
+            },
+            {
+                name: "Muhammad Zakarya",
+                rank: "Assistant Professor",
+                contactHours: 14,
+                courses: [
+                    { code: "COMP2100", name: "Human Computer Interaction", units: 0, activity: "Practical", section: 1, time: "MO [ 10:00_12:00 ] F2-29", count: 40 },
+                    { code: "COMP2100", name: "Human Computer Interaction", units: 4, activity: "Lecture", section: 2, time: "TU [ 17:00_18:00 ] E1-01 / TU [ 16:00_17:00 ] E1-01 / WE [ 16:00_17:00 ] F0-10", count: 109 },
+                    { code: "COMP2100", name: "Human Computer Interaction", units: 0, activity: "Practical", section: 3, time: "TU [ 12:00_14:00 ] F2-29", count: 40 },
+                    { code: "COMP2100", name: "Human Computer Interaction", units: 4, activity: "Lecture", section: 3, time: "WE [ 12:00_13:00 ] G1-18 / MO [ 12:00_13:00 ] A1-01 / TH [ 12:00_13:00 ] A1-00", count: 23 },
+                    { code: "COMP2100", name: "Human Computer Interaction", units: 0, activity: "Practical", section: 4, time: "TH [ 08:00_10:00 ] F2-24", count: 39 },
+                    { code: "COMP2100", name: "Human Computer Interaction", units: 0, activity: "Practical", section: 5, time: "TH [ 10:00_12:00 ] F2-29", count: 35 }
+                ]
+            },
+            {
+                name: "Amirhossein Mohajerzadeh",
+                rank: "Assistant Professor",
+                contactHours: 16,
+                courses: [
+                    { code: "COMP2000", name: "Computer Networks (2)", units: 0, activity: "Practical", section: 2, time: "SU [ 10:00_12:00 ] F2-21", count: 30 },
+                    { code: "COMP2000", name: "Computer Networks (2)", units: 0, activity: "Practical", section: 5, time: "WE [ 12:00_14:00 ] F2-21", count: 31 },
+                    { code: "COMP2000", name: "Computer Networks (2)", units: 0, activity: "Practical", section: 9, time: "WE [ 08:00_10:00 ] F2-21", count: 30 },
+                    { code: "COMP3111", name: "GIS & Spatial Databases", units: 0, activity: "Practical", section: 1, time: "SU [ 12:00_14:00 ] F2-24", count: 53 },
+                    { code: "COMP3111", name: "GIS & Spatial Databases", units: 4, activity: "Lecture", section: 1, time: "TU [ 15:00_16:00 ] F2-32 / TU [ 08:00_09:00 ] F1-12 / TU [ 10:00_11:00 ] B1-14", count: 58 },
+                    { code: "COMP3111", name: "GIS & Spatial Databases", units: 0, activity: "Practical", section: 2, time: "MO [ 08:00_10:00 ] G2-13", count: 36 },
+                    { code: "COMP3111", name: "GIS & Spatial Databases", units: 4, activity: "Lecture", section: 2, time: "TU [ 14:00_15:00 ] A0-02 / WE [ 14:00_15:00 ] G1-22 / SU [ 14:00_15:00 ] A0-10", count: 31 }
+                ]
+            },
+            {
+                name: "Furqan Alam",
+                rank: "Assistant Professor",
+                contactHours: 15,
+                courses: [
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 3, time: "SU [ 12:00_14:00 ] F2-20", count: 32 },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 7, time: "MO [ 10:00_12:00 ] F2-21", count: 31 },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 13, time: "WE [ 10:00_12:00 ] F2-20", count: 34 },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 15, time: "WE [ 16:00_18:00 ] F2-20", count: 24 },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 20, time: "TH [ 12:00_14:00 ] F3-21", count: 18 },
+                    { code: "COMP1218", name: "Introduction to Web & Multimedia Tec", units: 0, activity: "Practical", section: 1, time: "TH [ 14:00_16:00 ] F2-24", count: 46 },
+                    { code: "COMP1218", name: "Introduction to Web & Multimedia Tec", units: 4, activity: "Lecture", section: 1, time: "MO [ 13:00_14:00 ] A1-01 / SU [ 10:00_11:00 ] A1-05 / SU [ 08:00_09:00 ] F1-02", count: 46 }
+                ]
+            },
+            {
+                name: "Rashid Ahmad",
+                rank: "Assistant Professor",
+                contactHours: 13,
+                courses: [
+                    { code: "ARIN2101", name: "Artificial Intelligence: Knowledge Repi", units: 4, activity: "Lecture", section: 1, time: "TU [ 11:00_12:00 ] M0 [ 10:00_11:00 ] G1-12", count: 6 },
+                    { code: "ARIN2101", name: "Artificial Intelligence: Knowledge Repi", units: 0, activity: "Practical", section: 2, time: "TU [ 08:00_10:00 ] G2-13", count: 6 },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 6, time: "MO [ 08:00_10:00 ] F2-20", count: 32 },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 19, time: "TH [ 14:00_16:00 ] F2-20", count: 30 },
+                    { code: "COMP5104", name: "Advanced Artificial Intelligence", units: 3, activity: "Lecture", section: 1, time: "SA [ 08:00_10:00 ] F2-30", count: 5 },
+                    { code: "COMP5104", name: "Advanced Artificial Intelligence", units: 0, activity: "Practical", section: 1, time: "TH [ 16:00_18:00 ] F2-31", count: 5 }
+                ]
+            },
+            {
+                name: "Nehal Mostafa Hassan",
+                rank: "Assistant Professor",
+                contactHours: 16,
+                courses: [
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 4, activity: "Lecture", section: 1, time: "WE [ 10:00_11:00 ] I0-01 / WE [ 17:00_18:00 ] A1-00 / TH [ 16:00_17:00 ] A1-00", count: 139 },
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 4, activity: "Lecture", section: 4, time: "MO [ 16:00_17:00 ] E1-07 / WE [ 15:00_16:00 ] F1-10 / TU [ 16:00_17:00 ] E1-04", count: 56 },
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 4, activity: "Lecture", section: 5, time: "MO [ 12:00_13:00 ] B1-12 / WE [ 13:00_14:00 ] G1-18 / TH [ 13:00_14:00 ] E1-01", count: 32 },
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 5, time: "MO [ 14:00_16:00 ] F3-21", count: 32 },
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 4, activity: "Lecture", section: 6, time: "SU [ 11:00_12:00 ] F0-02 / TU [ 14:00_15:00 ] A0-14 / TH [ 08:00_09:00 ] F2-30", count: 18 },
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 9, time: "TH [ 14:00_16:00 ] F2-29", count: 35 }
+                ]
+            },
+            {
+                name: "Izaz Ur Rahman",
+                rank: "Assistant Professor",
+                contactHours: 15,
+                courses: [
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 2, time: "SU [ 10:00_12:00 ] F2-20", count: 33 },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 8, time: "MO [ 12:00_14:00 ] F2-21", count: 30 },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 16, time: "TH [ 08:00_10:00 ] F2-21", count: 27 },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 17, time: "TH [ 10:00_12:00 ] F2-20", count: 32 },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 18, time: "TH [ 12:00_14:00 ] F2-21", count: 30 },
+                    { code: "COMP3132", name: "Software Design & Architecture", units: 4, activity: "Lecture", section: 1, time: "MO [ 14:00_15:00 ] B1-14 / SU [ 12:00_13:00 ] F1-13 / SU [ 08:00_09:00 ] F1-12", count: 32 },
+                    { code: "COMP3132", name: "Software Design & Architecture", units: 0, activity: "Practical", section: 1, time: "WE [ 12:00_14:00 ] G0-03", count: 32 }
+                ]
+            },
+            {
+                name: "Mohammed Madi",
+                rank: "Assistant Professor",
+                contactHours: 17,
+                courses: [
+                    { code: "COMP3113", name: "Cloud Computing and Web Services", units: 0, activity: "Practical", section: 1, time: "SU [ 08:00_10:00 ] F2-24", count: 52 },
+                    { code: "COMP3113", name: "Cloud Computing and Web Services", units: 4, activity: "Lecture", section: 1, time: "WE [ 17:00_18:00 ] F0-11 / SU [ 17:00_18:00 ] G2-09 / SU [ 11:00_12:00 ] G2-19", count: 75 },
+                    { code: "COMP3113", name: "Cloud Computing and Web Services", units: 0, activity: "Practical", section: 2, time: "MO [ 10:00_12:00 ] G2-13", count: 41 },
+                    { code: "COMP3113", name: "Cloud Computing and Web Services", units: 4, activity: "Lecture", section: 2, time: "TH [ 17:00_18:00 ] F0-11 / TH [ 15:00_16:00 ] F0-11 / WE [ 15:00_16:00 ] G1-14", count: 40 },
+                    { code: "COMP3113", name: "Cloud Computing and Web Services", units: 4, activity: "Lecture", section: 3, time: "WE [ 10:00_11:00 ] G1-22 / SU [ 14:00_15:00 ] F1-09 / TU [ 14:00_15:00 ] F1-03", count: 48 },
+                    { code: "COMP3113", name: "Cloud Computing and Web Services", units: 0, activity: "Practical", section: 4, time: "TU [ 08:00_10:00 ] F2-24", count: 27 },
+                    { code: "COMP3113", name: "Cloud Computing and Web Services", units: 0, activity: "Practical", section: 6, time: "WE [ 12:00_14:00 ] G2-17", count: 43 }
+                ]
+            },
+            {
+                name: "Saqib Qamar",
+                rank: "Assistant Professor",
+                contactHours: 4,
+                courses: [
+                    { code: "COMP5106", name: "Ethics and Research Methods in Com", units: 3, activity: "Lecture", section: 1, time: "SA [ 14:00_16:00 ] F2-30", count: 5 },
+                    { code: "COMP5106", name: "Ethics and Research Methods in Com", units: 0, activity: "Practical", section: 1, time: "TU [ 16:00_18:00 ] F1-13", count: 5 },
+                    { code: "COMP7001", name: "Research Methodology", units: 0, activity: "Lecture", section: 1, time: "SA [ 14:00_16:00 ] F2-30", count: 2 },
+                    { code: "COMP7001", name: "Research Methodology", units: 0, activity: "Practical", section: 1, time: "TU [ 16:00_18:00 ] F1-13", count: 2 }
+                ]
+            },
+            {
+                name: "Mohammad Bany Baker",
+                rank: "Assistant Professor",
+                contactHours: 15,
+                courses: [
+                    { code: "COMP2111", name: "System Analysis & design", units: 4, activity: "Lecture", section: 1, time: "TH [13:00_14:00] WE [15:00_16:00] | A1-00 / TH [08:00_09:00] A1-00 / E1-01", count: 144 },
+                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 2, time: "SU [12:00_14:00] F3-21", count: 30 },
+                    { code: "COMP2111", name: "System Analysis & design", units: 4, activity: "Lecture", section: 3, time: "TH [15:00_16:00] MO [16:00_17:00] | G2-09 / SU [16:00_17:00] G2-19 / F1-10", count: 77 },
+                    { code: "COMP2111", name: "System Analysis & design", units: 4, activity: "Lecture", section: 5, time: "SU [15:00_16:00] MO [11:00_12:00] | A1-01 / WE [14:00_15:00] G1-13 / G2-14", count: 36 },
+                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 6, time: "TU [10:00_12:00] G2-14", count: 36 },
+                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 14, time: "MO [08:00_10:00] G0-03", count: 30 }
+                ]
+            },
+            {
+                name: "Arshad Ahmad",
+                rank: "Assistant Professor",
+                contactHours: 15,
+                courses: [
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 5, time: "MO [ 10:00_12:00 ] F2-24", count: 54 },
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 7, time: "WE [ 16:00_18:00 ] G2-13", count: 30 },
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 8, time: "MO [ 16:00_18:00 ] F2-29", count: 25 },
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 9, time: "TU [ 08:00_10:00 ] F2-20", count: 30 },
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 12, time: "TH [ 16:00_18:00 ] G2-13", count: 25 },
+                    { code: "COMP3131", name: "Software Construction", units: 0, activity: "Practical", section: 1, time: "TH [ 14:00_16:00 ] G2-13", count: 29 },
+                    { code: "COMP3131", name: "Software Construction", units: 4, activity: "Lecture", section: 1, time: "TH [ 12:00_13:00 ] F1-13 / TH [ 10:00_11:00 ] G1-17 / TH [ 08:00_09:00 ] F1-11", count: 29 }
+                ]
+            },
+            {
+                name: "Muhammad Khan",
+                rank: "Assistant Professor",
+                contactHours: 15,
+                courses: [
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 1, time: "SU [ 08:00_10:00 ] F2-20", count: 32 },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 4, activity: "Lecture", section: 1, time: "TH [ 15:00_16:00 ] B1-00 / TH [ 08:00_09:00 ] F0-11 / WE [ 10:00_11:00 ] B1-00", count: 112 },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 4, activity: "Lecture", section: 2, time: "TH [ 10:00_11:00 ] I0-01 / MO [ 08:00_09:00 ] F0-11 / SU [ 11:00_12:00 ] I0-02", count: 141 },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 4, activity: "Lecture", section: 5, time: "TH [ 14:00_15:00 ] E1-01 / WE [ 14:00_15:00 ] E1-01 / TU [ 10:00_11:00 ] A1-05", count: 42 },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 11, time: "TU [ 12:00_14:00 ] F2-20", count: 34 },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 12, time: "TU [ 16:00_18:00 ] F2-20", count: 32 }
+                ]
+            },
+            {
+                name: "Hussein Al Maqbali",
+                rank: "Assistant Professor",
+                contactHours: 15,
+                courses: [
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 1, time: "SU [ 08:00_10:00 ] F2-29", count: 40 },
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 2, time: "SU [ 10:00_12:00 ] F3-21", count: 30 },
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 4, time: "MO [ 10:00_12:00 ] F3-21", count: 30 },
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 8, time: "WE [ 12:00_14:00 ] F3-21", count: 30 },
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 12, time: "TH [ 12:00_14:00 ] F2-29", count: 13 },
+                    { code: "NEDB3101", name: "Switching & Routing Techniques", units: 0, activity: "Practical", section: 1, time: "WE [ 10:00_12:00 ] F2-24", count: 43 },
+                    { code: "NEDB3101", name: "Switching & Routing Techniques", units: 4, activity: "Lecture", section: 1, time: "TH [ 11:00_12:00 ] F1-13 / TH [ 10:00_11:00 ] F1-02 / MO [ 08:00_09:00 ] F1-12", count: 43 }
+                ]
+            },
+            {
+                name: "Muhammad Zeeshan",
+                rank: "Associate Professor",
+                contactHours: 15,
+                courses: [
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 4, activity: "Lecture", section: 3, time: "TH [12:00_13:00] F0-02 / TH [08:00_09:00] E0-01 / MO [16:00_16:00] F0-10", count: 138 },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 4, activity: "Lecture", section: 4, time: "TH [15:00_16:00] E1-01 / WE [12:00_13:00] B1-00 / IU [08:00_09:00] G0-00", count: 40 },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 4, activity: "Lecture", section: 6, time: "TU [16:00_17:00] G2-11 / MO [16:00_17:00] G2-11 / SU [16:00_17:00] G2-11", count: 101 },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 10, time: "TU [10:00_12:00] F2-20", count: 32 },
+                    { code: "COMP6104", name: "Advanced Database Systems", units: 0, activity: "Practical", section: 1, time: "TH [16:00_18:00] F2-30", count: 5 },
+                    { code: "COMP6104", name: "Advanced Database Systems", units: 3, activity: "Lecture", section: 1, time: "SA [08:00_10:00] F1-13", count: 5 }
+                ]
+            },
+            {
+                name: "Ibrahim Ahmed",
+                rank: "Assistant Professor",
+                contactHours: 16,
+                courses: [
+                    { code: "COMP1217", name: "Fundamentals of Database Systems", units: 4, activity: "Lecture", section: 1, time: "TU [ 08:00_09:00 ] B1-13 / SU [ 08:00_09:00 ] E1-01 / WE [ 08:00_09:00 ] F3-01", count: 61 },
+                    { code: "COMP1217", name: "Fundamentals of Database Systems", units: 0, activity: "Practical", section: 1, time: "MO [ 08:00_10:00 ] F2-29", count: 45 },
+                    { code: "COMP1217", name: "Fundamentals of Database Systems", units: 0, activity: "Practical", section: 2, time: "TH [ 08:00_10:00 ] G0-03", count: 32 },
+                    { code: "COMP1217", name: "Fundamentals of Database Systems", units: 4, activity: "Lecture", section: 2, time: "TU [ 15:00_16:00 ] E1-01 / SU [ 15:00_16:00 ] G1-01 / WE [ 15:00_16:00 ] B1-00", count: 68 },
+                    { code: "COMP1217", name: "Fundamentals of Database Systems", units: 0, activity: "Practical", section: 4, time: "TH [ 14:00_16:00 ] F2-21", count: 27 },
+                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 8, time: "TU [ 16:00_18:00 ] F3-21", count: 29 },
+                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 13, time: "TH [ 12:00_14:00 ] F2-24", count: 46 }
+                ]
+            },
+            {
+                name: "Mohammed Mohammed",
+                rank: "Assistant Professor",
+                contactHours: 15,
+                courses: [
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 13, time: "WE [ 08:00_10:00 ] F2-29", count: 40 },
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 15, time: "SU [ 16:00_18:00 ] G2-14", count: 26 },
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 17, time: "WE [ 16:00_18:00 ] F3-21", count: 18 },
+                    { code: "COMP2000", name: "Computer Networks (2)", units: 0, activity: "Practical", section: 1, time: "SU [ 08:00_10:00 ] F2-21", count: 31 },
+                    { code: "COMP2000", name: "Computer Networks (2)", units: 0, activity: "Practical", section: 6, time: "TU [ 08:00_10:00 ] F2-21", count: 30 },
+                    { code: "COMP4110", name: "Numerical Analysis", units: 4, activity: "Lecture", section: 1, time: "MO [ 11:00_12:00 ] G1-16 / MO [ 08:00_09:00 ] G1-18 / MO [ 09:00_10:00 ] A1-01", count: 3 },
+                    { code: "COMP4110", name: "Numerical Analysis", units: 0, activity: "Practical", section: 1, time: "MO [ 12:00_14:00 ] G0-03", count: 3 }
+                ]
+            },
+            {
+                name: "Taher Ghazal",
+                rank: "Assistant Professor",
+                contactHours: 16,
+                courses: [
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 3, activity: "Lecture", section: 4, time: "MO [ 16:00_17:00 ] E0-04 / SU [ 16:00_17:00 ] E1-10", count: 78 },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 3, activity: "Lecture", section: 5, time: "MO [ 17:00_18:00 ] F1-05 / SU [ 17:00_18:00 ] F1-05", count: 66 },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 8, time: "WE [ 16:00_18:00 ] F1-04", count: 46 },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 9, time: "TH [ 12:00_14:00 ] A0-02", count: 31 },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 10, time: "WE [ 12:00_14:00 ] A0-13", count: 31 },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 13, time: "SU [ 12:00_14:00 ] G0-03", count: 32 },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 14, time: "SU [ 10:00_12:00 ] G0-03", count: 30 },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 15, time: "MO [ 14:00_16:00 ] G0-03", count: 31 }
+                ]
+            },
+            {
+                name: "Abid Ghaffar",
+                rank: "Assistant Professor",
+                contactHours: 16,
+                courses: [
+                    { code: "COMP1217", name: "Fundamentals of Database Systems", units: 0, activity: "Practical", section: 3, time: "WE [ 16:00_18:00 ] F2-29", count: 25 },
+                    { code: "COMP4102", name: "Software Project Management", units: 0, activity: "Practical", section: 1, time: "MO [ 14:00_16:00 ] G2-13", count: 37 },
+                    { code: "COMP4102", name: "Software Project Management", units: 4, activity: "Lecture", section: 1, time: "MO [ 17:00_18:00 ] I0-03 / SU [ 17:00_18:00 ] F1-10 / SU [ 16:00_17:00 ] F1-10", count: 87 },
+                    { code: "COMP4102", name: "Software Project Management", units: 0, activity: "Practical", section: 2, time: "TU [ 14:00_16:00 ] G0-03", count: 32 },
+                    { code: "COMP4102", name: "Software Project Management", units: 4, activity: "Lecture", section: 2, time: "TU [ 16:00_17:00 ] F0-11 / WE [ 13:00_14:00 ] G1-15 / TU [ 13:00_14:00 ] F1-05", count: 60 },
+                    { code: "COMP4102", name: "Software Project Management", units: 0, activity: "Practical", section: 3, time: "TU [ 10:00_12:00 ] F2-24", count: 61 },
+                    { code: "COMP4102", name: "Software Project Management", units: 0, activity: "Practical", section: 4, time: "TU [ 08:00_10:00 ] G0-03", count: 17 }
+                ]
+            },
+            {
+                name: "Belal Al Ifan",
+                rank: "Assistant Professor",
+                contactHours: 15,
+                courses: [
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 2, time: "SU [ 14:00_16:00 ] F2-24", count: 56 },
+                    { code: "COMP1116", name: "Computer Programming", units: 4, activity: "Lecture", section: 3, time: "WE [ 17:00_18:00 ] F0-02 / TU [ 17:00_18:00 ] F0-02 / MO [ 17:00_18:00 ] F0-02", count: 141 },
+                    { code: "COMP1116", name: "Computer Programming", units: 4, activity: "Lecture", section: 4, time: "MO [ 16:00_17:00 ] I0-02 / TH [ 16:00_17:00 ] F0-02 / WE [ 16:00_17:00 ] F0-02", count: 87 },
+                    { code: "COMP1116", name: "Computer Programming", units: 4, activity: "Lecture", section: 5, time: "TH [ 08:00_09:00 ] I0-03 / SU [ 16:00_17:00 ] E1-02 / TU [ 16:00_17:00 ] E1-03", count: 74 },
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 18, time: "TH [ 12:00_14:00 ] F2-20", count: 32 },
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 19, time: "TH [ 14:00_16:00 ] F3-21", count: 30 }
+                ]
+            },
+            {
+                name: "Heba Zedan",
+                rank: "Assistant Professor",
+                contactHours: 16,
+                courses: [
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 2, time: "TH [12:00_14:00 ] A1-01", count: 40 },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 3, activity: "Lecture", section: 3, time: "WE [13:00_14:00 ] B1-14 / WE [15:00_16:00 ] F3-01", count: 55 },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 4, time: "TU [08:00_10:00 ] F2-29", count: 41 },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 3, activity: "Lecture", section: 6, time: "TH [15:00_16:00 ] F0-02 / WE [14:00_15:00 ] F1-11", count: 44 },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 7, time: "MO [10:00_12:00 ] G0-03", count: 32 },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 11, time: "WE [16:00_18:00 ] A1-06", count: 30 },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 16, time: "TU [14:00_16:00 ] A0-10", count: 29 },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 17, time: "MO [12:00_14:00 ] A0-13", count: 30 }
+                ]
+            },
+            {
+                name: "Hesham Sakr",
+                rank: "Assistant Professor",
+                contactHours: 16,
+                courses: [
+                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 1, time: "SU [ 08:00_10:00 ] F3-21", count: 30 },
+                    { code: "COMP2111", name: "System Analysis & design", units: 4, activity: "Lecture", section: 2, time: "WE [ 17:00_18:00 ] E1-01 / TU [ 17:00_18:00 ] E0-01 / SU [ 17:00_18:00 ] F0-11", count: 83 },
+                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 3, time: "MO [ 08:00_10:00 ] F3-21", count: 30 },
+                    { code: "COMP2111", name: "System Analysis & design", units: 4, activity: "Lecture", section: 4, time: "TH [ 09:00_10:00 ] F0-02 / WE [ 12:00_13:00 ] E0-04 / TU [ 10:00_11:00 ] B1-00", count: 75 },
+                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 5, time: "TU [ 08:00_10:00 ] F3-21", count: 30 },
+                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 10, time: "TH [ 16:00_18:00 ] F3-21", count: 13 },
+                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 11, time: "TH [ 10:00_12:00 ] G2-13", count: 30 }
+                ]
+            },
+            {
+                name: "Shumayla Yaqoob",
+                rank: "Assistant Professor",
+                contactHours: 16,
+                courses: [
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 4, time: "MO [ 08:00_10:00 ] F2-21", count: 29 },
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 11, time: "TU [ 14:00_16:00 ] F2-29", count: 40 },
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 16, time: "WE [ 14:00_16:00 ] F2-24", count: 50 },
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 20, time: "MO [ 12:00_14:00 ] F2-20", count: 11 },
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 4, activity: "Lecture", section: 2, time: "WE [ 16:00_17:00 ] G2-11 / SU [ 16:00_17:00 ] A1-00 / MO [ 17:00_18:00 ] F0-10", count: 81 },
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 4, activity: "Lecture", section: 3, time: "TH [ 17:00_18:00 ] E1-01 / SU [ 17:00_18:00 ] F0-02 / TU [ 17:00_18:00 ] B1-00", count: 51 },
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 3, time: "SU [ 14:00_16:00 ] F2-20", count: 32 }
+                ]
+            },
+            {
+                name: "Mohammed Muthanna",
+                rank: "Assistant Professor",
+                contactHours: 11,
+                courses: [
+                    { code: "COMP2100", name: "Human Computer Interaction", units: 4, activity: "Lecture", section: 1, time: "TH [16:00_17:00] E0-01 / WE [17:00_18:00] E0-01 / MO [17:00_18:00] E0-01", count: 60 },
+                    { code: "COMP2100", name: "Human Computer Interaction", units: 0, activity: "Practical", section: 2, time: "TU [10:00_12:00] F2-29", count: 38 },
+                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 7, time: "TU [14:00_16:00] F2-20", count: 32 },
+                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 9, time: "TH [08:00_10:00] F3-21", count: 30 },
+                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 15, time: "WE [14:00_16:00] G0-03", count: 17 }
+                ]
+            },
+            {
+                name: "Aisha Shabbir",
+                rank: "Assistant Professor",
+                contactHours: 16,
+                courses: [
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 3, time: "MO [ 16:00_18:00 ] G2-13", count: 31 },
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 6, time: "TU [ 16:00_18:00 ] G2-13", count: 32 },
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 10, time: "TU [ 12:00_14:00 ] F2-21", count: 30 },
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 14, time: "WE [ 10:00_12:00 ] F2-29", count: 38 },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 4, time: "SU [ 14:00_16:00 ] F2-21", count: 31 },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 5, time: "SU [ 16:00_18:00 ] F2-20", count: 28 },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 14, time: "WE [ 14:00_16:00 ] F2-20", count: 32 },
+                    { code: "COMP4108", name: "Big Data Analytics", units: 0, activity: "Practical", section: 1, time: "TH [ 10:00_12:00 ] G0-03", count: 29 }
+                ]
+            },
+            {
+                name: "Sultan Khan",
+                rank: "Associate Professor",
+                contactHours: 13,
+                courses: [
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 6, time: "TU [ 12:00_14:00 ] F3-21", count: 31 },
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 11, time: "TH [ 10:00_12:00 ] F3-21", count: 30 },
+                    { code: "COMP3110", name: "Pattern Recognition", units: 4, activity: "Lecture", section: 1, time: "MO [ 13:00_14:00 ] E1-07 / TU [ 10:00_11:00 ] A1-00 / MO [ 08:00_09:00 ] G1-15", count: 72 },
+                    { code: "COMP3110", name: "Pattern Recognition", units: 0, activity: "Practical", section: 1, time: "WE [ 14:00_16:00 ] G2-17", count: 33 },
+                    { code: "COMP3110", name: "Pattern Recognition", units: 0, activity: "Practical", section: 2, time: "WE [ 08:00_10:00 ] G2-14", count: 25 },
+                    { code: "COMP3110", name: "Pattern Recognition", units: 0, activity: "Practical", section: 3, time: "TU [ 14:00_16:00 ] G0-03", count: 14 }
+                ]
+            },
+            {
+                name: "Shaukat Hayat",
+                rank: "Assistant Professor",
+                contactHours: 11,
+                courses: [
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 13, time: "TH [ 08:00_10:00 ] F2-29", count: 18 },
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 14, time: "TH [ 10:00_12:00 ] F2-21", count: 30 },
+                    { code: "COMP4000B", name: "Specialization Project (B)", units: 3, activity: "Lecture", section: 1, time: "WE [ 09:00_10:00 ] G1-01", count: 22 },
+                    { code: "COMP4000B", name: "Specialization Project (B)", units: 0, activity: "Practical", section: 1, time: "TU [ 18:00_20:00 ] DL / MO [ 18:00_20:00 ] DL", count: 22 },
+                    { code: "NEDB2101", name: "Database Administration", units: 0, activity: "Practical", section: 3, time: "SU [ 10:00_12:00 ] F2-29", count: 38 }
+                ]
+            }
+        ];
+
+        // Days mapping
+        const daysMap = {
+            'SU': 'Sunday',
+            'MO': 'Monday',
+            'TU': 'Tuesday',
+            'WE': 'Wednesday',
+            'TH': 'Thursday',
+            'SA': 'Saturday'
+        };
+
+        // Time slots from 8:00 to 18:00
+        const timeSlots = [
+            '08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00', 
+            '12:00-13:00', '13:00-14:00', '14:00-15:00', '15:00-16:00', 
+            '16:00-17:00', '17:00-18:00'
+        ];
+
+        // Initialize the timetable
+        function initTimetable() {
+            populateFilters();
+            renderTimetable();
+            setupEventListeners();
+        }
+
+        // Populate filter dropdowns
+        function populateFilters() {
+            const staffFilter = document.getElementById('staffFilter');
+            const courseFilter = document.getElementById('courseFilter');
+            
+            // Add staff options
+            staffData.forEach(staff => {
+                const option = document.createElement('option');
+                option.value = staff.name;
+                option.textContent = staff.name;
+                staffFilter.appendChild(option);
+            });
+            
+            // Add course options
+            const courses = new Set();
+            staffData.forEach(staff => {
+                staff.courses.forEach(course => {
+                    courses.add(course.code);
+                });
+            });
+            
+            courses.forEach(course => {
+                const option = document.createElement('option');
+                option.value = course;
+                option.textContent = course;
+                courseFilter.appendChild(option);
+            });
+        }
+
+        // Get level from course code
+        function getCourseLevel(courseCode) {
+            const levelMatch = courseCode.match(/\d+/);
+            if (levelMatch) {
+                const firstDigit = levelMatch[0].charAt(0);
+                return parseInt(firstDigit);
+            }
+            return 0;
+        }
+
+        // Get all levels a staff teaches
+        function getStaffLevels(staff) {
+            const levels = new Set();
+            staff.courses.forEach(course => {
+                const level = getCourseLevel(course.code);
+                if (level > 0) {
+                    levels.add(level);
+                }
+            });
+            return Array.from(levels).sort();
+        }
+
+        // Render the timetable
+        function renderTimetable() {
+            const timetableBody = document.getElementById('timetableBody');
+            timetableBody.innerHTML = '';
+            
+            const staffFilter = document.getElementById('staffFilter').value;
+            const levelFilter = document.getElementById('levelFilter').value;
+            const courseFilter = document.getElementById('courseFilter').value;
+            const activeTab = document.querySelector('.tab.active');
+            const dayFilter = activeTab ? activeTab.getAttribute('data-day') : 'all';
+            
+            staffData.forEach(staff => {
+                // Apply filters
+                if (staffFilter !== 'all' && staff.name !== staffFilter) return;
+                
+                // Check if staff has courses matching course filter
+                if (courseFilter !== 'all' && !staff.courses.some(course => course.code === courseFilter)) return;
+                
+                // Check if staff teaches at the selected level
+                if (levelFilter !== 'all') {
+                    const staffLevels = getStaffLevels(staff);
+                    if (!staffLevels.includes(parseInt(levelFilter))) return;
+                }
+                
+                const staffRow = document.createElement('div');
+                staffRow.className = 'staff-row';
+                
+                // Staff name cell
+                const staffNameCell = document.createElement('div');
+                staffNameCell.className = 'staff-name';
+                
+                const staffLevels = getStaffLevels(staff);
+                const levelBadges = staffLevels.map(level => 
+                    `<span class="level-badge level-${level}">Level ${level}</span>`
+                ).join('');
+                
+                staffNameCell.innerHTML = `
+                    ${staff.name}
+                    <span class="staff-rank">${staff.rank} (${staff.contactHours} hrs)</span>
+                    <div class="staff-levels">${levelBadges}</div>
+                `;
+                staffRow.appendChild(staffNameCell);
+                
+                // Create time slot cells for each day
+                timeSlots.forEach(timeSlot => {
+                    const timeCell = document.createElement('div');
+                    timeCell.className = 'time-slot';
+                    
+                    // Find courses for this time slot
+                    const coursesInSlot = staff.courses.filter(course => {
+                        const courseTimes = parseCourseTime(course.time);
+                        return courseTimes.some(ct => {
+                            // Check if the course time overlaps with this time slot
+                            const [slotStart, slotEnd] = timeSlot.split('-').map(t => t.replace(':', ''));
+                            const [courseStart, courseEnd] = ct.time.split('_').map(t => t.replace(':', ''));
+                            
+                            // Apply day filter
+                            if (dayFilter !== 'all' && ct.day !== dayFilter) return false;
+                            
+                            // Check if course overlaps with time slot
+                            return parseInt(courseStart) < parseInt(slotEnd) && 
+                                   parseInt(courseEnd) > parseInt(slotStart);
+                        });
+                    });
+                    
+                    if (coursesInSlot.length > 0) {
+                        coursesInSlot.forEach(course => {
+                            const courseTimes = parseCourseTime(course.time);
+                            courseTimes.forEach(ct => {
+                                // Apply day filter again for display
+                                if (dayFilter !== 'all' && ct.day !== dayFilter) return;
+                                
+                                const courseElement = document.createElement('div');
+                                courseElement.className = course.activity === 'Lecture' ? 'lecture' : 'practical';
+                                const courseLevel = getCourseLevel(course.code);
+                                
+                                courseElement.innerHTML = `
+                                    <div class="course-code">${course.code} <span class="level-indicator level-${courseLevel}">${courseLevel}</span></div>
+                                    <div class="course-name">${course.name}</div>
+                                    <div class="location">${ct.location}</div>
+                                `;
+                                courseElement.addEventListener('click', () => showCourseDetails(course, staff));
+                                timeCell.appendChild(courseElement);
+                            });
+                        });
+                    } else {
+                        const emptyElement = document.createElement('div');
+                        emptyElement.className = 'empty-slot';
+                        emptyElement.textContent = '-';
+                        timeCell.appendChild(emptyElement);
+                    }
+                    
+                    staffRow.appendChild(timeCell);
+                });
+                
+                timetableBody.appendChild(staffRow);
+            });
+        }
+
+        // Parse course time string into structured data
+        function parseCourseTime(timeStr) {
+            const parts = timeStr.split(' / ');
+            const result = [];
+            
+            parts.forEach(part => {
+                const match = part.match(/([A-Z]{2}) \[ ([0-9]{2}:[0-9]{2})_([0-9]{2}:[0-9]{2}) \] (.+)/);
+                if (match) {
+                    result.push({
+                        day: match[1],
+                        time: `${match[2]}_${match[3]}`,
+                        location: match[4]
+                    });
+                }
+            });
+            
+            return result;
+        }
+
+        // Show course details in modal
+        function showCourseDetails(course, staff) {
+            const modal = document.getElementById('courseModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            
+            modalTitle.textContent = `${course.code} - ${course.name}`;
+            
+            const courseTimes = parseCourseTime(course.time);
+            let timesHtml = '';
+            
+            courseTimes.forEach(ct => {
+                timesHtml += `
+                    <div class="course-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Day:</span> ${daysMap[ct.day] || ct.day}
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Time:</span> ${ct.time.replace('_', ' - ')}
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Location:</span> ${ct.location}
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Activity:</span> ${course.activity}
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Section:</span> ${course.section}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            const courseLevel = getCourseLevel(course.code);
+            
+            modalBody.innerHTML = `
+                <div class="detail-item">
+                    <span class="detail-label">Instructor:</span> ${staff.name}
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Level:</span> <span class="level-badge level-${courseLevel}">Level ${courseLevel}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Units:</span> ${course.units}
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Student Count:</span> ${course.count}
+                </div>
+                ${timesHtml}
+            `;
+            
+            modal.style.display = 'flex';
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Filter change events
+            document.getElementById('staffFilter').addEventListener('change', renderTimetable);
+            document.getElementById('levelFilter').addEventListener('change', renderTimetable);
+            document.getElementById('courseFilter').addEventListener('change', renderTimetable);
+            
+            // Day tab events
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    renderTimetable();
+                });
+            });
+            
+            // Expand/Collapse buttons
+            document.getElementById('expandAll').addEventListener('click', () => {
+                document.querySelectorAll('.staff-row').forEach(row => {
+                    row.style.display = 'grid';
+                });
+            });
+            
+            document.getElementById('collapseAll').addEventListener('click', () => {
+                // In a real implementation, this would collapse rows to show only staff names
+                // For now, we'll just refresh the view
+                renderTimetable();
+            });
+            
+            // Modal close button
+            document.getElementById('closeModal').addEventListener('click', () => {
+                document.getElementById('courseModal').style.display = 'none';
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', (e) => {
+                const modal = document.getElementById('courseModal');
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
+        // Initialize the timetable when the page loads
+        document.addEventListener('DOMContentLoaded', initTimetable);
+    </script>
 </body>
 </html>
