@@ -1,95 +1,340 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Midterm Organiser | منظم الاختبارات النصفية</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Small extra styles specific to this page */
+    .form-area { background:#fff; padding:14px; border-radius:12px; box-shadow:0 8px 20px rgba(12,15,30,0.04); margin:18px 0; display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+    .form-area select, .form-area input { padding:8px 10px; border-radius:8px; border:1px solid rgba(15,23,60,0.08); min-width:170px; }
+    .form-area input[type="date"]{ min-width:150px; }
+    .form-area input[type="time"]{ min-width:120px; }
+    .form-area .small { font-size:.88rem; color:var(--muted); width:100%; margin-top:6px; }
+    #controlRow { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+    .inline-btn { padding:8px 12px; border-radius:10px; border:none; cursor:pointer; background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; font-weight:600; }
+    .secondary { background:transparent; border:1px solid rgba(15,23,60,0.06); color:var(--muted); }
+    .action-btn { padding:6px 8px; border-radius:8px; cursor:pointer; border:1px solid rgba(15,23,60,0.06); background:#fff; }
+    .small-muted { color:var(--muted); font-size:.92rem; margin-top:8px; display:block; }
+    .flex-between { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
+    #importFile { display:none; }
+  </style>
 </head>
 <body>
   <div class="container">
     <h1 class="title">🧮 Midterm Organiser<br><span>منظم الاختبارات النصفية</span></h1>
-    <a href="index.html" class="back-btn">⬅️ Back | رجوع</a>
+    <div class="flex-between" style="margin-bottom:12px;">
+      <a href="index.html" class="back-btn">⬅️ Back | رجوع</a>
+      <div style="text-align:right;">
+        <button id="exportBtn" class="action-btn">📤 Export JSON</button>
+        <label for="importFile" class="action-btn secondary" style="cursor:pointer;">📥 Import JSON</label>
+        <input type="file" id="importFile" accept="application/json">
+      </div>
+    </div>
 
-    <p>Select your subjects below to build your midterm schedule.<br><span>اختر مقرراتك أدناه لإنشاء جدول اختباراتك.</span></p>
+    <p>Select a subject (or choose Custom), fill section/date/time then click <b>Add</b>.<br>
+      اختر مقرر أو اختر "مخصص"، ثم أضف الشعبة/التاريخ/الوقت واضغط "إضافة".
+    </p>
 
-    <div class="form-area">
-      <label for="subjectSelect"><b>Subjects | المقررات:</b></label><br>
-      <select id="subjectSelect">
-        <option value="">-- Select a Subject --</option>
-        <option value="COMP1116">COMP1116 - Computer Programming</option>
-        <option value="COMP2100">COMP2100 - Human Computer Interaction</option>
-        <option value="COMP2108">COMP2108 - System Analysis and Design</option>
-        <option value="COMP2205">COMP2205 - Object-Oriented Programming</option>
-        <option value="COMP2220">COMP2220 - Computer Networks II</option>
-      </select>
-      <button id="addBtn">Add Subject</button>
+    <div class="form-area" role="form" aria-labelledby="subjectSelectLabel">
+      <div style="min-width:220px;">
+        <label id="subjectSelectLabel"><b>Subjects | المقررات</b></label><br>
+        <select id="subjectSelect" aria-label="Subject">
+          <option value="">-- Select subject --</option>
+
+          <!-- All subjects from your staff list (unique, normalized) -->
+          <option>Software Requirement Engineering</option>
+          <option>Master Dissertation</option>
+          <option>Specialization Project (A)</option>
+          <option>Industrial Project I</option>
+          <option>Database Administration</option>
+          <option>Computer Programming</option>
+          <option>Computer Networks (2)</option>
+          <option>Object-Oriented Programming</option>
+          <option>System Analysis & Design</option>
+          <option>Advanced Algorithms</option>
+          <option>Big Data Analytics</option>
+          <option>Special Topics</option>
+          <option>Internet of Things</option>
+          <option>Discrete Mathematics</option>
+          <option>Distributed Database Design</option>
+          <option>Mobile Applications</option>
+          <option>Introduction to Cybersecurity</option>
+          <option>Human Computer Interaction</option>
+          <option>GIS & Spatial Databases</option>
+          <option>Computer Architecture & Organization</option>
+          <option>Introduction to Web & Multimedia Technology</option>
+          <option>AI: Knowledge Representation</option>
+          <option>Advanced Artificial Intelligence</option>
+          <option>Cloud Computing and Web Services</option>
+          <option>Ethics and Research Methods in Computing</option>
+          <option>Research Methodology</option>
+          <option>Software Construction</option>
+          <option>Fundamentals of Database Systems</option>
+          <option>Numerical Analysis</option>
+          <option>Software Project Management</option>
+          <option>Pattern Recognition</option>
+          <option>Switching & Routing Techniques</option>
+          <option>Advanced Database Systems</option>
+          <option>Software Design & Architecture</option>
+          <option>Specialization (B)</option>
+
+          <option value="__custom">➕ Custom subject (type name below)</option>
+        </select>
+      </div>
+
+      <div id="customWrap" style="display:none; min-width:240px;">
+        <label><b>Custom subject name</b><br>
+          <input id="customName" type="text" placeholder="Type subject name...">
+        </label>
+      </div>
+
+      <div>
+        <label><b>Section / شعبة</b><br>
+          <input id="sectionInput" type="text" placeholder="e.g. 1 / A">
+        </label>
+      </div>
+
+      <div>
+        <label><b>Date / التاريخ</b><br>
+          <input id="dateInput" type="date" >
+        </label>
+      </div>
+
+      <div>
+        <label><b>Time / الوقت</b><br>
+          <input id="timeInput" type="time">
+        </label>
+      </div>
+
+      <div id="controlRow">
+        <button id="addBtn" class="inline-btn">Add ➕</button>
+        <button id="clearBtn" class="inline-btn secondary">Clear</button>
+        <div class="small" style="min-width:220px;">
+          <span class="small-muted">Tip: Add multiple subjects. Use Export to save schedule as a JSON file.</span>
+        </div>
+      </div>
     </div>
 
     <div class="schedule-area">
       <h2>Your Midterm Schedule | جدول الاختبارات</h2>
-      <table id="scheduleTable">
+      <table id="scheduleTable" style="width:100%; border-collapse:collapse;">
         <thead>
           <tr>
-            <th>Subject</th>
-            <th>Section</th>
-            <th>Date</th>
-            <th>Time</th>
+            <th style="padding:8px; background:#eef2ff;">Subject</th>
+            <th style="padding:8px; background:#eef2ff;">Section</th>
+            <th style="padding:8px; background:#eef2ff;">Date</th>
+            <th style="padding:8px; background:#eef2ff;">Time</th>
+            <th style="padding:8px; background:#eef2ff;">Actions</th>
           </tr>
         </thead>
-        <tbody>
-          <!-- Filled dynamically -->
-        </tbody>
+        <tbody></tbody>
       </table>
+
+      <p id="emptyHint" class="small-muted" style="margin-top:12px;">No items yet — add subjects to build the schedule.</p>
     </div>
   </div>
 
   <script>
-    const subjects = {
-      "COMP1116": [
-        { section: "1", date: "10/11", time: "10:00 - 11:00" },
-        { section: "2", date: "11/11", time: "12:00 - 1:00" }
-      ],
-      "COMP2100": [
-        { section: "1", date: "12/11", time: "10:00 - 11:00" },
-        { section: "2", date: "13/11", time: "1:00 - 2:00" }
-      ],
-      "COMP2108": [
-        { section: "1", date: "14/11", time: "9:00 - 10:00" },
-        { section: "2", date: "15/11", time: "11:00 - 12:00" }
-      ],
-      "COMP2205": [
-        { section: "1", date: "12/11", time: "10:00 - 11:00" },
-        { section: "2", date: "13/11", time: "12:00 - 1:00" }
-      ],
-      "COMP2220": [
-        { section: "1", date: "11/11", time: "2:00 - 3:00" },
-        { section: "2", date: "14/11", time: "9:00 - 10:00" }
-      ]
-    };
-
-    const scheduleTable = document.getElementById('scheduleTable').querySelector('tbody');
+    // --- Helper / state ---
     const subjectSelect = document.getElementById('subjectSelect');
+    const customWrap = document.getElementById('customWrap');
+    const customName = document.getElementById('customName');
+    const sectionInput = document.getElementById('sectionInput');
+    const dateInput = document.getElementById('dateInput');
+    const timeInput = document.getElementById('timeInput');
     const addBtn = document.getElementById('addBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const scheduleBody = document.querySelector('#scheduleTable tbody');
+    const emptyHint = document.getElementById('emptyHint');
+    const exportBtn = document.getElementById('exportBtn');
+    const importFile = document.getElementById('importFile');
 
+    // Track entries to prevent exact duplicates (subject + section)
+    const entries = new Map(); // key -> {subject, section, date, time}
+
+    function getSelectedSubject() {
+      const val = subjectSelect.value;
+      if (val === '__custom') {
+        const txt = (customName.value || '').trim();
+        return txt ? txt : null;
+      }
+      return val ? val.trim() : null;
+    }
+
+    // show/hide custom input when user chooses Custom
+    subjectSelect.addEventListener('change', () => {
+      if (subjectSelect.value === '__custom') {
+        customWrap.style.display = 'block';
+        customName.focus();
+      } else {
+        customWrap.style.display = 'none';
+        customName.value = '';
+      }
+    });
+
+    function formatDateForDisplay(isoDate) {
+      if (!isoDate) return '—';
+      // simple local formatting YYYY-MM-DD -> DD/MM/YYYY
+      const d = new Date(isoDate + 'T00:00:00');
+      if (isNaN(d)) return isoDate;
+      const dd = String(d.getDate()).padStart(2, '0');
+      const mm = String(d.getMonth()+1).padStart(2, '0');
+      const yyyy = d.getFullYear();
+      return dd + '/' + mm + '/' + yyyy;
+    }
+
+    function updateEmptyHint() {
+      emptyHint.style.display = scheduleBody.children.length ? 'none' : 'block';
+    }
+
+    function addRowToTable(key, item) {
+      const tr = document.createElement('tr');
+      tr.dataset.key = key;
+      tr.innerHTML = `
+        <td style="padding:8px;">${escapeHtml(item.subject)}</td>
+        <td style="padding:8px; text-align:center;">${escapeHtml(item.section || '—')}</td>
+        <td style="padding:8px; text-align:center;">${escapeHtml(formatDateForDisplay(item.date))}</td>
+        <td style="padding:8px; text-align:center;">${escapeHtml(item.time || '—')}</td>
+        <td style="padding:8px; text-align:center;">
+          <button class="action-btn editBtn" data-key="${key}">✏️ Edit</button>
+          <button class="action-btn removeBtn" data-key="${key}">🗑️ Remove</button>
+        </td>
+      `;
+      scheduleBody.appendChild(tr);
+      updateEmptyHint();
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+    }
+
+    // Add action
     addBtn.addEventListener('click', () => {
-      const selected = subjectSelect.value;
-      if (!selected) return alert("Please select a subject first.");
+      const subject = getSelectedSubject();
+      if (!subject) return alert('Please select a subject or type a custom subject name.\nالرجاء اختيار مقرر أو كتابة اسم مقرر مخصص.');
+      const section = sectionInput.value.trim() || '1';
+      const date = dateInput.value || '';
+      const time = timeInput.value || '';
 
-      const chosen = subjects[selected];
-      if (!chosen) return alert("No schedule data found for this subject.");
+      // create key: subject|section to prevent duplicates of same section
+      const key = subject.toLowerCase() + '||' + section.toLowerCase();
+      if (entries.has(key)) {
+        return alert('This subject + section is already added. Remove it first if you want to add again.\nهذا المقرر + الشعبة مضافة بالفعل.');
+      }
 
-      chosen.forEach(item => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${selected}</td>
-          <td>${item.section}</td>
-          <td>${item.date}</td>
-          <td>${item.time}</td>
-        `;
-        scheduleTable.appendChild(row);
+      const item = { subject, section, date, time };
+      entries.set(key, item);
+      addRowToTable(key, item);
+
+      // clear small fields but keep subject selected for convenience
+      sectionInput.value = '';
+      dateInput.value = '';
+      timeInput.value = '';
+    });
+
+    // Clear form
+    clearBtn.addEventListener('click', () => {
+      subjectSelect.value = '';
+      customWrap.style.display = 'none';
+      customName.value = '';
+      sectionInput.value = '';
+      dateInput.value = '';
+      timeInput.value = '';
+    });
+
+    // Table actions (edit/remove)
+    scheduleBody.addEventListener('click', (e) => {
+      if (e.target.classList.contains('removeBtn')) {
+        const key = e.target.dataset.key;
+        if (!key) return;
+        if (!confirm('Remove this entry?')) return;
+        entries.delete(key);
+        const tr = scheduleBody.querySelector(`tr[data-key="${CSS.escape(key)}"]`);
+        if (tr) tr.remove();
+        updateEmptyHint();
+      }
+
+      if (e.target.classList.contains('editBtn')) {
+        const key = e.target.dataset.key;
+        const item = entries.get(key);
+        if (!item) return alert('Entry not found.');
+        // populate form with this record for editing — and remove old entry
+        subjectSelect.value = '__custom';
+        customWrap.style.display = 'block';
+        customName.value = item.subject;
+        sectionInput.value = item.section;
+        dateInput.value = item.date;
+        timeInput.value = item.time;
+        // remove old
+        entries.delete(key);
+        const tr = scheduleBody.querySelector(`tr[data-key="${CSS.escape(key)}"]`);
+        if (tr) tr.remove();
+        updateEmptyHint();
+      }
+    });
+
+    // Export JSON
+    exportBtn.addEventListener('click', () => {
+      if (!entries.size) return alert('No schedule items to export.');
+      const arr = Array.from(entries.values());
+      const json = JSON.stringify(arr, null, 2);
+      const blob = new Blob([json], {type: 'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'midterm-schedule.json';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    // Import JSON
+    importFile.addEventListener('change', (evt) => {
+      const file = evt.target.files && evt.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const arr = JSON.parse(e.target.result);
+          if (!Array.isArray(arr)) throw new Error('JSON must be an array of objects.');
+          // Clear current
+          entries.clear();
+          scheduleBody.innerHTML = '';
+          // insert
+          for (const it of arr) {
+            if (!it.subject) continue;
+            const section = it.section || '1';
+            const key = it.subject.toLowerCase() + '||' + section.toLowerCase();
+            entries.set(key, { subject: it.subject, section, date: it.date || '', time: it.time || '' });
+            addRowToTable(key, { subject: it.subject, section, date: it.date || '', time: it.time || ''});
+          }
+          updateEmptyHint();
+          alert('Imported schedule successfully.');
+        } catch (err) {
+          alert('Failed to import JSON: ' + err.message);
+        } finally {
+          importFile.value = '';
+        }
+      };
+      reader.readAsText(file);
+    });
+
+    // small accessibility: allow Enter in time/date/section to add quickly
+    [sectionInput, dateInput, timeInput, customName].forEach(el => {
+      el.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Enter') {
+          ev.preventDefault();
+          addBtn.click();
+        }
       });
     });
+
+    // Initialize
+    updateEmptyHint();
   </script>
 </body>
 </html>
