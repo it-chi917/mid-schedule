@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Midterm Organiser | منظم الاختبارات النصفية</title>
   <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     /* Small extra styles specific to this page */
     .form-area { background:#fff; padding:14px; border-radius:12px; box-shadow:0 8px 20px rgba(12,15,30,0.04); margin:18px 0; display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
     .form-area select, .form-area input { padding:8px 10px; border-radius:8px; border:1px solid rgba(15,23,60,0.08); min-width:170px; }
-    .form-area input[type="date"]{ min-width:150px; }
-    .form-area input[type="time"]{ min-width:120px; }
     .form-area .small { font-size:.88rem; color:var(--muted); width:100%; margin-top:6px; }
     #controlRow { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
     .inline-btn { padding:8px 12px; border-radius:10px; border:none; cursor:pointer; background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; font-weight:600; }
@@ -19,22 +19,33 @@
     .small-muted { color:var(--muted); font-size:.92rem; margin-top:8px; display:block; }
     .flex-between { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
     #importFile { display:none; }
+
+    /* Calendar Styles */
+    .calendar-section { margin-top: 30px; }
+    .calendar-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
+    .calendar-container { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 8px 20px rgba(12,15,30,0.04); }
+    .landscape-calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: #e0e0e0; border: 1px solid #e0e0e0; }
+    .calendar-header { background: #4f46e5; color: white; padding: 12px; text-align: center; font-weight: bold; }
+    .calendar-day { background: white; min-height: 120px; padding: 8px; position: relative; }
+    .calendar-date { font-weight: bold; margin-bottom: 5px; color: #333; }
+    .calendar-event { background: #e0e7ff; border-left: 3px solid #4f46e5; padding: 4px 6px; margin: 2px 0; font-size: 0.8rem; border-radius: 3px; }
+    .calendar-event-time { font-weight: bold; color: #4f46e5; font-size: 0.75rem; }
+    .calendar-empty { background: #f8fafc; color: #94a3b8; display: flex; align-items: center; justify-content: center; min-height: 120px; }
+    .today { background: #f0f9ff !important; border: 2px solid #0ea5e9 !important; }
   </style>
 </head>
 <body>
   <div class="container">
     <h1 class="title">🧮 Midterm Organiser<br><span>منظم الاختبارات النصفية</span></h1>
     <div class="flex-between" style="margin-bottom:12px;">
-      <a href="index.html" class="back-btn">⬅️ Back | رجوع</a>
+      <a href="home.html" class="back-btn">⬅️ Back | رجوع</a>
       <div style="text-align:right;">
-        <button id="exportBtn" class="action-btn">📤 Export JSON</button>
-        <label for="importFile" class="action-btn secondary" style="cursor:pointer;">📥 Import JSON</label>
-        <input type="file" id="importFile" accept="application/json">
+        <button id="exportPdfBtn" class="action-btn">📄 Export PDF</button>
       </div>
     </div>
 
-    <p>Select a subject (or choose Custom), fill section/date/time then click <b>Add</b>.<br>
-      اختر مقرر أو اختر "مخصص"، ثم أضف الشعبة/التاريخ/الوقت واضغط "إضافة".
+    <p>Select a subject (or choose Custom), select section then click <b>Add</b>.<br>
+      اختر مقرر أو اختر "مخصص"، ثم اختر الشعبة واضغط "إضافة".
     </p>
 
     <div class="form-area" role="form" aria-labelledby="subjectSelectLabel">
@@ -42,42 +53,7 @@
         <label id="subjectSelectLabel"><b>Subjects | المقررات</b></label><br>
         <select id="subjectSelect" aria-label="Subject">
           <option value="">-- Select subject --</option>
-          <option>Software Requirement Engineering</option>
-          <option>Master Dissertation</option>
-          <option>Specialization Project (A)</option>
-          <option>Industrial Project I</option>
-          <option>Database Administration</option>
-          <option>Computer Programming</option>
-          <option>Computer Networks (2)</option>
-          <option>Object-Oriented Programming</option>
-          <option>System Analysis & Design</option>
-          <option>Advanced Algorithms</option>
-          <option>Big Data Analytics</option>
-          <option>Special Topics</option>
-          <option>Internet of Things</option>
-          <option>Discrete Mathematics</option>
-          <option>Distributed Database Design</option>
-          <option>Mobile Applications</option>
-          <option>Introduction to Cybersecurity</option>
-          <option>Human Computer Interaction</option>
-          <option>GIS & Spatial Databases</option>
-          <option>Computer Architecture & Organization</option>
-          <option>Introduction to Web & Multimedia Technology</option>
-          <option>AI: Knowledge Representation</option>
-          <option>Advanced Artificial Intelligence</option>
-          <option>Cloud Computing and Web Services</option>
-          <option>Ethics and Research Methods in Computing</option>
-          <option>Research Methodology</option>
-          <option>Software Construction</option>
-          <option>Fundamentals of Database Systems</option>
-          <option>Numerical Analysis</option>
-          <option>Software Project Management</option>
-          <option>Pattern Recognition</option>
-          <option>Switching & Routing Techniques</option>
-          <option>Advanced Database Systems</option>
-          <option>Software Design & Architecture</option>
-          <option>Specialization (B)</option>
-          <option value="__custom">➕ Custom subject (type name below)</option>
+          <!-- Subjects will be populated from examData -->
         </select>
       </div>
 
@@ -87,21 +63,12 @@
         </label>
       </div>
 
-      <div>
+      <div style="min-width:150px;">
         <label><b>Section / شعبة</b><br>
-          <input id="sectionInput" type="text" placeholder="e.g. 1 / A">
-        </label>
-      </div>
-
-      <div>
-        <label><b>Date / التاريخ</b><br>
-          <input id="dateInput" type="date">
-        </label>
-      </div>
-
-      <div>
-        <label><b>Time / الوقت</b><br>
-          <input id="timeInput" type="time">
+          <select id="sectionSelect" aria-label="Section">
+            <option value="">-- Select section --</option>
+            <!-- Sections will be populated dynamically -->
+          </select>
         </label>
       </div>
 
@@ -109,7 +76,7 @@
         <button id="addBtn" class="inline-btn">Add ➕</button>
         <button id="clearBtn" class="inline-btn secondary">Clear</button>
         <div class="small" style="min-width:220px;">
-          <span class="small-muted">Tip: Add multiple subjects. Use Export to save schedule as a JSON file.</span>
+          <span class="small-muted">Tip: Add multiple subjects. Use Export to save schedule as a PDF file.</span>
         </div>
       </div>
     </div>
@@ -121,6 +88,7 @@
           <tr>
             <th style="padding:8px; background:#eef2ff;">Subject</th>
             <th style="padding:8px; background:#eef2ff;">Section</th>
+            <th style="padding:8px; background:#eef2ff;">Teacher</th>
             <th style="padding:8px; background:#eef2ff;">Date</th>
             <th style="padding:8px; background:#eef2ff;">Time</th>
             <th style="padding:8px; background:#eef2ff;">Actions</th>
@@ -131,25 +99,256 @@
 
       <p id="emptyHint" class="small-muted" style="margin-top:12px;">No items yet — add subjects to build the schedule.</p>
     </div>
+
+    <!-- Calendar Section -->
+    <div class="calendar-section">
+      <div class="calendar-controls">
+        <h2>Exam Calendar | تقويم الاختبارات</h2>
+        <div>
+          <button id="prevWeek" class="action-btn">⬅️ Previous Week</button>
+          <button id="nextWeek" class="action-btn">Next Week ➡️</button>
+        </div>
+      </div>
+      <div class="calendar-container">
+        <div id="calendarView" class="landscape-calendar">
+          <!-- Calendar will be populated by JavaScript -->
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>
+    // Exam data
+    const examData = {
+      "ARIN2101": {
+        "subject": "Artificial Intelligence: Knowledge",
+        "Section 1": { "teacher": "Dr. Rashid", "date": "2025-11-11", "time": "10:00 - 11:00" }
+      },
+      "COMP1116": {
+        "subject": "Computer Programming",
+        "Section 1": { "teacher": "Dr. Eimad", "date": "2025-11-06", "time": "14:00 - 15:00" },
+        "Section 2": { "teacher": "Dr. Eimad", "date": "2025-11-05", "time": "11:00 - 12:00" },
+        "Section 3": { "teacher": "Dr. Belal", "date": "2025-11-05", "time": "11:00 - 12:00" },
+        "Section 4": { "teacher": "Dr. Belal", "date": "2025-11-05", "time": "12:00 - 13:00" },
+        "Section 5": { "teacher": "Dr. Belal", "date": "2025-11-05", "time": "13:00 - 14:00" },
+        "Section 6": { "teacher": "Dr. Eimad", "date": "2025-11-05", "time": "12:00 - 13:00" },
+        "Section 7": { "teacher": "Dr. Eimad", "date": "2025-11-03", "time": "13:00 - 14:00" }
+      },
+      "COMP1117": {
+        "subject": "Computer Architecture & Organization",
+        "Section 1": { "teacher": "Dr. Mohammed Khan", "date": "2025-11-06", "time": "15:00 - 16:00" },
+        "Section 2": { "teacher": "Dr. Mohammed Khan", "date": "2025-11-06", "time": "10:00 - 11:00" },
+        "Section 3": { "teacher": "Dr. Mohammed Zeeshan", "date": "2025-11-06", "time": "12:00 - 13:00" },
+        "Section 4": { "teacher": "Dr. Mohammed Zeeshan", "date": "2025-11-06", "time": "15:00 - 16:00" },
+        "Section 5": { "teacher": "Dr. Mohammed Khan", "date": "2025-11-06", "time": "14:00 - 15:00" },
+        "Section 6": { "teacher": "Dr. Mohammed Zeeshan", "date": "2025-11-04", "time": "16:00 - 17:00" }
+      },
+      "COMP1118": {
+        "subject": "Discrete Mathematics",
+        "Section 1": { "teacher": "Dr. Khaled", "date": "2025-11-12", "time": "14:00 - 15:00" },
+        "Section 2": { "teacher": "Dr. Khaled", "date": "2025-11-12", "time": "12:00 - 13:00" },
+        "Section 3": { "teacher": "Dr. Heba", "date": "2025-11-12", "time": "15:00 - 16:00" },
+        "Section 4": { "teacher": "Dr. Taher", "date": "2025-11-10", "time": "16:00 - 17:00" },
+        "Section 5": { "teacher": "Dr. Taher", "date": "2025-11-10", "time": "16:00 - 18:00" },
+        "Section 6": { "teacher": "Dr. Heba", "date": "2025-11-13", "time": "15:00 - 16:00" }
+      },
+      "COMP1120": {
+        "subject": "Introduction to CyberSecurity",
+        "Section 1": { "teacher": "Dr. Marwan", "date": "2025-11-10", "time": "16:00 - 17:00" }
+      },
+      "COMP1217": {
+        "subject": "Fundamentals of Database Systems",
+        "Section 1": { "teacher": "Dr. Ibrahim Ahmed", "date": "2025-11-05", "time": "08:00 - 09:00" },
+        "Section 2": { "teacher": "Dr. Ibrahim Ahmed", "date": "2025-11-05", "time": "15:00 - 16:00" }
+      },
+      "COMP1218": {
+        "subject": "Introduction to Web & Multimedia",
+        "Section 1": { "teacher": "Dr. Furqan", "date": "2025-11-02", "time": "08:00 - 09:00" }
+      },
+      "COMP2000": {
+        "subject": "Computer Networks II",
+        "Section 1": { "teacher": "Dr. Abdallah", "date": "2025-11-13", "time": "09:00 - 10:00" },
+        "Section 2": { "teacher": "Dr. Abdallah", "date": "2025-11-13", "time": "12:00 - 13:00" },
+        "Section 3": { "teacher": "Dr. Abdallah", "date": "2025-11-13", "time": "10:00 - 11:00" }
+      },
+      "COMP2100": {
+        "subject": "Human Computer Interaction",
+        "Section 1": { "teacher": "Dr. Zakarya", "date": "2025-11-04", "time": "15:00 - 16:00" },
+        "Section 2": { "teacher": "Dr. Zakarya", "date": "2025-11-06", "time": "12:00 - 13:00" }
+      },
+      "COMP2108": {
+        "subject": "Object-Oriented Programming",
+        "Section 1": { "teacher": "Dr. Nehal", "date": "2025-11-12", "time": "10:00 - 11:00" },
+        "Section 2": { "teacher": "Dr. Shumayla", "date": "2025-11-10", "time": "17:00 - 18:00" },
+        "Section 3": { "teacher": "Dr. Shumayla", "date": "2025-11-11", "time": "17:00 - 18:00" },
+        "Section 4": { "teacher": "Dr. Nehal", "date": "2025-11-10", "time": "16:00 - 17:00" },
+        "Section 5": { "teacher": "Dr. Nehal", "date": "2025-11-10", "time": "12:00 - 13:00" },
+        "Section 6": { "teacher": "Dr. Nehal", "date": "2025-11-09", "time": "11:00 - 12:00" }
+      },
+      "COMP2111": {
+        "subject": "System Analysis & Design",
+        "Section 1": { "teacher": "Dr. Mohammed", "date": "2025-11-06", "time": "13:00 - 14:00" },
+        "Section 2": { "teacher": "Dr. Hesham", "date": "2025-11-05", "time": "17:00 - 18:00" },
+        "Section 3": { "teacher": "Dr. Mohammed", "date": "2025-11-06", "time": "15:00 - 16:00" },
+        "Section 4": { "teacher": "Dr. Hesham", "date": "2025-11-05", "time": "12:00 - 13:00" },
+        "Section 5": { "teacher": "Dr. Mohammed", "date": "2025-11-05", "time": "14:00 - 15:00" }
+      },
+      "COMP2132": {
+        "subject": "Software Requirement Engineering",
+        "Section 1": { "teacher": "Dr. Jabar", "date": "2025-11-19", "time": "TBD" }
+      },
+      "NEDB2101": {
+        "subject": "Database Administration",
+        "Section 1": { "teacher": "Ms. Maryam", "date": "2025-11-12", "time": "09:00 - 10:00" },
+        "Section 2": { "teacher": "Ms. Maryam", "date": "2025-11-12", "time": "11:00 - 12:00" }
+      },
+      "COMP3107": {
+        "subject": "Distributed Database Design",
+        "Section 1": { "teacher": "Dr. Falah", "date": "2025-11-05", "time": "TBD" },
+        "Section 2": { "teacher": "Dr. Falah", "date": "2025-11-09", "time": "TBD" }
+      },
+      "COMP3109": {
+        "subject": "Mobile Application",
+        "Section 1": { "teacher": "Dr. Syed", "date": "2025-11-02", "time": "TBD" },
+        "Section 3": { "teacher": "Dr. Syed", "date": "2025-11-05", "time": "TBD" }
+      },
+      "COMP3110": {
+        "subject": "Pattern Recognition",
+        "Section 1": { "teacher": "Dr. Sanad", "date": "2025-10-29", "time": "TBD" }
+      },
+      "COMP3111": {
+        "subject": "GIS & Spatial Databases",
+        "Section 1": { "teacher": "Dr. Amir", "date": "2025-11-04", "time": "10:00 - 11:00" }
+      },
+      "COMP3113": {
+        "subject": "Cloud Computing and Web Services",
+        "Section 1": { "teacher": "Dr. Madi", "date": "2025-11-23", "time": "TBD" }
+      },
+      "COMP3131": {
+        "subject": "Software Constructions",
+        "Section 1": { "teacher": "Dr. Arshad", "date": "2025-11-13", "time": "TBD" }
+      },
+      "COMP3132": {
+        "subject": "Software Design & Architecture",
+        "Section 1": { "teacher": "Dr. Izaz", "date": "2025-11-05", "time": "13:00 - 14:00" }
+      },
+      "NEDB3101": {
+        "subject": "Switching & Routing Technique",
+        "Section 1": { "teacher": "Dr. Hussein", "date": "2025-11-10", "time": "TBD" }
+      },
+      "COMP4102": {
+        "subject": "Software Project Management",
+        "Section 1": { "teacher": "Dr. Abid", "date": "2025-11-09", "time": "17:00 - 18:00" },
+        "Section 2": { "teacher": "Dr. Abid", "date": "2025-11-11", "time": "16:00 - 17:00" }
+      },
+      "COMP4107": {
+        "subject": "Special Topics",
+        "Section 1": { "teacher": "Dr. Mahmood", "date": "2025-11-11", "time": "17:00 - 18:00" }
+      },
+      "COMP4108": {
+        "subject": "Big Data Analytics",
+        "Section 1": { "teacher": "Dr. Saeid", "date": "2025-11-13", "time": "12:00 - 13:00" }
+      },
+      "COMP4109": {
+        "subject": "Internet Of Things",
+        "Section 1": { "teacher": "Dr. Mahmood", "date": "2025-11-11", "time": "17:00 - 18:00" }
+      }
+    };
+
     // --- Helper / state ---
     const subjectSelect = document.getElementById('subjectSelect');
     const customWrap = document.getElementById('customWrap');
     const customName = document.getElementById('customName');
-    const sectionInput = document.getElementById('sectionInput');
-    const dateInput = document.getElementById('dateInput');
-    const timeInput = document.getElementById('timeInput');
+    const sectionSelect = document.getElementById('sectionSelect');
     const addBtn = document.getElementById('addBtn');
     const clearBtn = document.getElementById('clearBtn');
     const scheduleBody = document.querySelector('#scheduleTable tbody');
     const emptyHint = document.getElementById('emptyHint');
-    const exportBtn = document.getElementById('exportBtn');
-    const importFile = document.getElementById('importFile');
+    const exportPdfBtn = document.getElementById('exportPdfBtn');
+    const calendarView = document.getElementById('calendarView');
+    const prevWeekBtn = document.getElementById('prevWeek');
+    const nextWeekBtn = document.getElementById('nextWeek');
 
     // Track entries to prevent exact duplicates (subject + section)
-    const entries = new Map(); // key -> {subject, section, date, time}
+    const entries = new Map(); // key -> {subject, section, teacher, date, time}
+
+    // Calendar state
+    let currentWeekStart = new Date();
+
+    // Populate subjects dropdown
+    function populateSubjects() {
+      // Clear existing options except the first one
+      while (subjectSelect.children.length > 1) {
+        subjectSelect.removeChild(subjectSelect.lastChild);
+      }
+
+      // Add subjects from examData
+      Object.values(examData).forEach(course => {
+        const option = document.createElement('option');
+        option.value = course.subject;
+        option.textContent = course.subject;
+        subjectSelect.appendChild(option);
+      });
+
+      // Add custom option
+      const customOption = document.createElement('option');
+      customOption.value = '__custom';
+      customOption.textContent = '➕ Custom subject (type name below)';
+      subjectSelect.appendChild(customOption);
+    }
+
+    // Populate sections based on selected subject
+    function populateSections(selectedSubject) {
+      // Clear existing options except the first one
+      while (sectionSelect.children.length > 1) {
+        sectionSelect.removeChild(sectionSelect.lastChild);
+      }
+
+      // Find the course code for the selected subject
+      let courseCode = null;
+      for (const [code, course] of Object.entries(examData)) {
+        if (course.subject === selectedSubject) {
+          courseCode = code;
+          break;
+        }
+      }
+
+      if (courseCode && examData[courseCode]) {
+        // Add available sections
+        Object.keys(examData[courseCode]).forEach(key => {
+          if (key.startsWith('Section ')) {
+            const option = document.createElement('option');
+            option.value = key.replace('Section ', '');
+            option.textContent = key.replace('Section ', 'Section ');
+            sectionSelect.appendChild(option);
+          }
+        });
+      }
+    }
+
+    // Update sections when subject changes
+    subjectSelect.addEventListener('change', () => {
+      if (subjectSelect.value === '__custom') {
+        customWrap.style.display = 'block';
+        customName.focus();
+        // Clear sections dropdown for custom subjects
+        while (sectionSelect.children.length > 1) {
+          sectionSelect.removeChild(sectionSelect.lastChild);
+        }
+        // Add default sections for custom subjects
+        const defaultSections = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'A', 'B', 'C', 'D', 'E', 'F'];
+        defaultSections.forEach(section => {
+          const option = document.createElement('option');
+          option.value = section;
+          option.textContent = 'Section ' + section;
+          sectionSelect.appendChild(option);
+        });
+      } else {
+        customWrap.style.display = 'none';
+        customName.value = '';
+        populateSections(subjectSelect.value);
+      }
+    });
 
     function getSelectedSubject() {
       const val = subjectSelect.value;
@@ -160,19 +359,184 @@
       return val ? val.trim() : null;
     }
 
-    // show/hide custom input when user chooses Custom
-    subjectSelect.addEventListener('change', () => {
-      if (subjectSelect.value === '__custom') {
-        customWrap.style.display = 'block';
-        customName.focus();
-      } else {
-        customWrap.style.display = 'none';
-        customName.value = '';
+    function getExamDetails(subjectName, section) {
+      // Find the course in examData
+      for (const [code, course] of Object.entries(examData)) {
+        if (course.subject === subjectName) {
+          const sectionKey = `Section ${section}`;
+          if (course[sectionKey]) {
+            return {
+              teacher: course[sectionKey].teacher,
+              date: course[sectionKey].date,
+              time: course[sectionKey].time
+            };
+          }
+        }
       }
-    });
+      return { teacher: 'N/A', date: 'N/A', time: 'N/A' };
+    }
+
+    // Calendar functions
+    function getWeekDates(startDate) {
+      const dates = [];
+      const current = new Date(startDate);
+      // Start from Sunday
+      current.setDate(current.getDate() - current.getDay());
+      
+      for (let i = 0; i < 7; i++) {
+        const date = new Date(current);
+        dates.push(date);
+        current.setDate(current.getDate() + 1);
+      }
+      return dates;
+    }
+
+    function formatCalendarDate(date) {
+      return date.toISOString().split('T')[0];
+    }
+
+    function formatDisplayDate(date) {
+      const options = { day: 'numeric', month: 'short' };
+      return date.toLocaleDateString('en-US', options);
+    }
+
+    function isToday(date) {
+      const today = new Date();
+      return date.toDateString() === today.toDateString();
+    }
+
+    function renderCalendar() {
+      const weekDates = getWeekDates(currentWeekStart);
+      const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      
+      calendarView.innerHTML = '';
+
+      // Create headers
+      weekDays.forEach(day => {
+        const header = document.createElement('div');
+        header.className = 'calendar-header';
+        header.textContent = day;
+        calendarView.appendChild(header);
+      });
+
+      // Create days with events
+      weekDates.forEach(date => {
+        const dayDiv = document.createElement('div');
+        dayDiv.className = `calendar-day ${isToday(date) ? 'today' : ''}`;
+        
+        const dateDiv = document.createElement('div');
+        dateDiv.className = 'calendar-date';
+        dateDiv.textContent = formatDisplayDate(date);
+        dayDiv.appendChild(dateDiv);
+
+        const dateStr = formatCalendarDate(date);
+        const dayEvents = Array.from(entries.values()).filter(event => 
+          event.date === dateStr && event.date !== 'N/A' && event.date !== 'TBD'
+        );
+
+        if (dayEvents.length > 0) {
+          dayEvents.forEach(event => {
+            const eventDiv = document.createElement('div');
+            eventDiv.className = 'calendar-event';
+            
+            const timeDiv = document.createElement('div');
+            timeDiv.className = 'calendar-event-time';
+            timeDiv.textContent = event.time;
+            
+            const subjectDiv = document.createElement('div');
+            subjectDiv.textContent = `${event.subject} (Sec ${event.section})`;
+            
+            eventDiv.appendChild(timeDiv);
+            eventDiv.appendChild(subjectDiv);
+            dayDiv.appendChild(eventDiv);
+          });
+        } else {
+          const emptyDiv = document.createElement('div');
+          emptyDiv.className = 'calendar-empty';
+          emptyDiv.textContent = 'No exams';
+          dayDiv.appendChild(emptyDiv);
+        }
+
+        calendarView.appendChild(dayDiv);
+      });
+    }
+
+    // PDF Export function
+    async function exportToPDF() {
+      if (!entries.size) return alert('No schedule items to export.');
+      
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF('landscape');
+      
+      // Title
+      doc.setFontSize(20);
+      doc.text('Midterm Exam Schedule', 20, 20);
+      doc.setFontSize(12);
+      doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 20, 30);
+
+      // Table headers
+      const headers = ['Subject', 'Section', 'Teacher', 'Date', 'Time'];
+      let yPosition = 50;
+      
+      doc.setFontSize(10);
+      doc.setFillColor(238, 242, 255);
+      doc.rect(20, 40, 250, 10, 'F');
+      doc.setTextColor(0, 0, 0);
+      
+      headers.forEach((header, index) => {
+        doc.text(header, 25 + (index * 50), 47);
+      });
+
+      // Table content
+      yPosition = 60;
+      Array.from(entries.values()).forEach((item, index) => {
+        if (yPosition > 270) {
+          doc.addPage();
+          yPosition = 20;
+        }
+        
+        const row = [
+          item.subject,
+          item.section,
+          item.teacher,
+          formatDateForDisplay(item.date),
+          item.time
+        ];
+        
+        row.forEach((cell, cellIndex) => {
+          doc.text(cell, 25 + (cellIndex * 50), yPosition);
+        });
+        
+        yPosition += 10;
+      });
+
+      // Add calendar view
+      doc.addPage();
+      doc.setFontSize(16);
+      doc.text('Exam Calendar View', 20, 20);
+      
+      try {
+        // Capture calendar as image
+        const calendarElement = document.querySelector('.calendar-container');
+        const canvas = await html2canvas(calendarElement);
+        const imgData = canvas.toDataURL('image/png');
+        
+        // Add calendar image to PDF
+        const imgProps = doc.getImageProperties(imgData);
+        const pdfWidth = doc.internal.pageSize.getWidth() - 40;
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        
+        doc.addImage(imgData, 'PNG', 20, 30, pdfWidth, pdfHeight);
+      } catch (error) {
+        console.error('Error capturing calendar:', error);
+        doc.text('Calendar view could not be generated', 20, 40);
+      }
+
+      doc.save('midterm-schedule.pdf');
+    }
 
     function formatDateForDisplay(isoDate) {
-      if (!isoDate) return '—';
+      if (!isoDate || isoDate === 'N/A' || isoDate === 'TBD') return isoDate;
       // simple local formatting YYYY-MM-DD -> DD/MM/YYYY
       const d = new Date(isoDate + 'T00:00:00');
       if (isNaN(d)) return isoDate;
@@ -192,6 +556,7 @@
       tr.innerHTML = `
         <td style="padding:8px;">${escapeHtml(item.subject)}</td>
         <td style="padding:8px; text-align:center;">${escapeHtml(item.section || '—')}</td>
+        <td style="padding:8px; text-align:center;">${escapeHtml(item.teacher || '—')}</td>
         <td style="padding:8px; text-align:center;">${escapeHtml(formatDateForDisplay(item.date))}</td>
         <td style="padding:8px; text-align:center;">${escapeHtml(item.time || '—')}</td>
         <td style="padding:8px; text-align:center;">
@@ -201,6 +566,7 @@
       `;
       scheduleBody.appendChild(tr);
       updateEmptyHint();
+      renderCalendar(); // Update calendar when schedule changes
     }
 
     function escapeHtml(str) {
@@ -212,9 +578,9 @@
     addBtn.addEventListener('click', () => {
       const subject = getSelectedSubject();
       if (!subject) return alert('Please select a subject or type a custom subject name.\nالرجاء اختيار مقرر أو كتابة اسم مقرر مخصص.');
-      const section = sectionInput.value.trim() || '1';
-      const date = dateInput.value || '';
-      const time = timeInput.value || '';
+      
+      const section = sectionSelect.value;
+      if (!section) return alert('Please select a section.\nالرجاء اختيار الشعبة.');
 
       // create key: subject|section to prevent duplicates of same section
       const key = subject.toLowerCase() + '||' + section.toLowerCase();
@@ -222,14 +588,24 @@
         return alert('This subject + section is already added. Remove it first if you want to add again.\nهذا المقرر + الشعبة مضافة بالفعل.');
       }
 
-      const item = { subject, section, date, time };
+      // Get exam details from examData
+      const examDetails = getExamDetails(subject, section);
+      
+      const item = { 
+        subject, 
+        section, 
+        teacher: examDetails.teacher,
+        date: examDetails.date,
+        time: examDetails.time
+      };
+      
       entries.set(key, item);
       addRowToTable(key, item);
 
-      // clear small fields but keep subject selected for convenience
-      sectionInput.value = '';
-      dateInput.value = '';
-      timeInput.value = '';
+      // clear custom name if used
+      if (subjectSelect.value === '__custom') {
+        customName.value = '';
+      }
     });
 
     // Clear form
@@ -237,9 +613,8 @@
       subjectSelect.value = '';
       customWrap.style.display = 'none';
       customName.value = '';
-      sectionInput.value = '';
-      dateInput.value = '';
-      timeInput.value = '';
+      sectionSelect.value = '';
+      populateSections('');
     });
 
     // Table actions (edit/remove)
@@ -252,6 +627,7 @@
         const tr = scheduleBody.querySelector(`tr[data-key="${CSS.escape(key)}"]`);
         if (tr) tr.remove();
         updateEmptyHint();
+        renderCalendar();
       }
 
       if (e.target.classList.contains('editBtn')) {
@@ -262,76 +638,42 @@
         subjectSelect.value = '__custom';
         customWrap.style.display = 'block';
         customName.value = item.subject;
-        sectionInput.value = item.section;
-        dateInput.value = item.date;
-        timeInput.value = item.time;
+        sectionSelect.value = item.section;
         // remove old
         entries.delete(key);
         const tr = scheduleBody.querySelector(`tr[data-key="${CSS.escape(key)}"]`);
         if (tr) tr.remove();
         updateEmptyHint();
+        renderCalendar();
       }
     });
 
-    // Export JSON
-    exportBtn.addEventListener('click', () => {
-      if (!entries.size) return alert('No schedule items to export.');
-      const arr = Array.from(entries.values());
-      const json = JSON.stringify(arr, null, 2);
-      const blob = new Blob([json], {type: 'application/json'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'midterm-schedule.json';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
+    // Export PDF
+    exportPdfBtn.addEventListener('click', exportToPDF);
+
+    // Calendar navigation
+    prevWeekBtn.addEventListener('click', () => {
+      currentWeekStart.setDate(currentWeekStart.getDate() - 7);
+      renderCalendar();
     });
 
-    // Import JSON
-    importFile.addEventListener('change', (evt) => {
-      const file = evt.target.files && evt.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        try {
-          const arr = JSON.parse(e.target.result);
-          if (!Array.isArray(arr)) throw new Error('JSON must be an array of objects.');
-          // Clear current
-          entries.clear();
-          scheduleBody.innerHTML = '';
-          // insert
-          for (const it of arr) {
-            if (!it.subject) continue;
-            const section = it.section || '1';
-            const key = it.subject.toLowerCase() + '||' + section.toLowerCase();
-            entries.set(key, { subject: it.subject, section, date: it.date || '', time: it.time || '' });
-            addRowToTable(key, { subject: it.subject, section, date: it.date || '', time: it.time || ''});
-          }
-          updateEmptyHint();
-          alert('Imported schedule successfully.');
-        } catch (err) {
-          alert('Failed to import JSON: ' + err.message);
-        } finally {
-          importFile.value = '';
-        }
-      };
-      reader.readAsText(file);
+    nextWeekBtn.addEventListener('click', () => {
+      currentWeekStart.setDate(currentWeekStart.getDate() + 7);
+      renderCalendar();
     });
 
-    // small accessibility: allow Enter in time/date/section to add quickly
-    [sectionInput, dateInput, timeInput, customName].forEach(el => {
-      el.addEventListener('keydown', (ev) => {
-        if (ev.key === 'Enter') {
-          ev.preventDefault();
-          addBtn.click();
-        }
-      });
+    // small accessibility: allow Enter in custom name to add quickly
+    customName.addEventListener('keydown', (ev) => {
+      if (ev.key === 'Enter') {
+        ev.preventDefault();
+        addBtn.click();
+      }
     });
 
     // Initialize
+    populateSubjects();
     updateEmptyHint();
+    renderCalendar();
   </script>
 </body>
 </html>
