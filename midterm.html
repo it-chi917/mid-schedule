@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Midterm Organiser | منظم الاختبارات النصفية</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">🧮 Midterm Organiser<br><span>منظم الاختبارات النصفية</span></h1>
+    <a href="index.html" class="back-btn">⬅️ Back | رجوع</a>
+
+    <p>Select your subjects below to build your midterm schedule.<br><span>اختر مقرراتك أدناه لإنشاء جدول اختباراتك.</span></p>
+
+    <div class="form-area">
+      <label for="subjectSelect"><b>Subjects | المقررات:</b></label><br>
+      <select id="subjectSelect">
+        <option value="">-- Select a Subject --</option>
+        <option value="COMP1116">COMP1116 - Computer Programming</option>
+        <option value="COMP2100">COMP2100 - Human Computer Interaction</option>
+        <option value="COMP2108">COMP2108 - System Analysis and Design</option>
+        <option value="COMP2205">COMP2205 - Object-Oriented Programming</option>
+        <option value="COMP2220">COMP2220 - Computer Networks II</option>
+      </select>
+      <button id="addBtn">Add Subject</button>
+    </div>
+
+    <div class="schedule-area">
+      <h2>Your Midterm Schedule | جدول الاختبارات</h2>
+      <table id="scheduleTable">
+        <thead>
+          <tr>
+            <th>Subject</th>
+            <th>Section</th>
+            <th>Date</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Filled dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const subjects = {
+      "COMP1116": [
+        { section: "1", date: "10/11", time: "10:00 - 11:00" },
+        { section: "2", date: "11/11", time: "12:00 - 1:00" }
+      ],
+      "COMP2100": [
+        { section: "1", date: "12/11", time: "10:00 - 11:00" },
+        { section: "2", date: "13/11", time: "1:00 - 2:00" }
+      ],
+      "COMP2108": [
+        { section: "1", date: "14/11", time: "9:00 - 10:00" },
+        { section: "2", date: "15/11", time: "11:00 - 12:00" }
+      ],
+      "COMP2205": [
+        { section: "1", date: "12/11", time: "10:00 - 11:00" },
+        { section: "2", date: "13/11", time: "12:00 - 1:00" }
+      ],
+      "COMP2220": [
+        { section: "1", date: "11/11", time: "2:00 - 3:00" },
+        { section: "2", date: "14/11", time: "9:00 - 10:00" }
+      ]
+    };
+
+    const scheduleTable = document.getElementById('scheduleTable').querySelector('tbody');
+    const subjectSelect = document.getElementById('subjectSelect');
+    const addBtn = document.getElementById('addBtn');
+
+    addBtn.addEventListener('click', () => {
+      const selected = subjectSelect.value;
+      if (!selected) return alert("Please select a subject first.");
+
+      const chosen = subjects[selected];
+      if (!chosen) return alert("No schedule data found for this subject.");
+
+      chosen.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${selected}</td>
+          <td>${item.section}</td>
+          <td>${item.date}</td>
+          <td>${item.time}</td>
+        `;
+        scheduleTable.appendChild(row);
+      });
+    });
+  </script>
+</body>
+</html>
