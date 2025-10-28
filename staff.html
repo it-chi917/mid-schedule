@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Staff Info — معلومات الطاقم</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="site-title">Staff Info <span class="arabic">معلومات الطاقم</span></h1>
+      <p class="subtitle">Click a staff member to open details. Enter email, office and timetable manually below (one line per entry).</p>
+      <p class="subtitle arabic">اضغط على اسم عضو هيئة التدريس لفتح التفاصيل. اكتب البريد الإلكتروني والمكتب والجدول يدوياً (سطر لكل إدخال).</p>
+      <p class="muted">Tip: you can paste this file into any editor and update fields quickly.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="staff-list">
+
+      <!-- Template for each staff: details>summary + fields -->
+      <!-- 1 -->
+      <details class="staff-card">
+        <summary>1. Jabar Al Matwari — <span class="arabic">جابر المطواري</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Software Requirement Engineering (Lecture & Practical), Master Dissertation</p>
+          <label>Email: <input type="email" placeholder="example@university.edu"></label>
+          <label>Office: <input type="text" placeholder="Building / Room"></label>
+          <label>Lecture / Free Time (one line per entry):<textarea placeholder="e.g. Sun 10:00-11:00 — Lecture"></textarea></label>
+        </div>
+      </details>
+
+      <!-- 2 -->
+      <details class="staff-card">
+        <summary>2. Maryam Al jabri — <span class="arabic">مريم الجابري</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Specialization Project (A) (Practical & Lecture), Industrial Project I (Practical & Lecture), Database Administration (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder="e.g. Tue 14:00-16:00 — Practical"></textarea></label>
+        </div>
+      </details>
+
+      <!-- 3 -->
+      <details class="staff-card">
+        <summary>3. Eimad Eldin Abusham — <span class="arabic">عماد الدين أبو شام</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Computer Programming (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 4 -->
+      <details class="staff-card">
+        <summary>4. Abdullah Abukishik — <span class="arabic">عبدالله أبو كيشك</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Computer Networks (2) (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 5 -->
+      <details class="staff-card">
+        <summary>5. Ahmed Kayed — <span class="arabic">أحمد قايد</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Object-Oriented Programming (Practical), System Analysis & Design (Practical), Advanced Algorithms (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 6 -->
+      <details class="staff-card">
+        <summary>6. Saeid Hosseini — <span class="arabic">سعيد حسيني</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Big Data Analytics (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 7 -->
+      <details class="staff-card">
+        <summary>7. Mahmood Al Bahri — <span class="arabic">محمود البحري</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Special Topics (Practical & Lecture), Internet of Things (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 8 -->
+      <details class="staff-card">
+        <summary>8. Khaled Abu-Hmaidan — <span class="arabic">خالد أبو حميدان</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Discrete Mathematics (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 9 -->
+      <details class="staff-card">
+        <summary>9. Falah Hamode — <span class="arabic">فه‎ل‎ه حمودة</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Distributed Database Design (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 10 -->
+      <details class="staff-card">
+        <summary>10. Syed Gillani — <span class="arabic">سيد جيلاني</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Mobile Applications (Practical & Lecture), Big Data Analytics (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 11 -->
+      <details class="staff-card">
+        <summary>11. Marwan Al-Shar'e — <span class="arabic">مروان الشارع</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Introduction to Cybersecurity (Practical & Lecture), Computer Networks (2) (Practical)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 12 -->
+      <details class="staff-card">
+        <summary>12. Mohammed Zakarya — <span class="arabic">محمد زكريا</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Human Computer Interaction (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 13 -->
+      <details class="staff-card">
+        <summary>13. Amirhossein Mohajerzadah — <span class="arabic">أميرحسين محجرداه</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Computer Networks (2) (Practical), GIS & Spatial Databases (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 14 -->
+      <details class="staff-card">
+        <summary>14. Furqan Alam — <span class="arabic">فرقان عالم</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Computer Architecture & Organization (Practical), Introduction to Web & Multimedia Technology (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 15 -->
+      <details class="staff-card">
+        <summary>15. Rashid Ahmad — <span class="arabic">رشيد أحمد</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> AI: Knowledge Representation (Practical & Lecture), Computer Architecture & Organization (Practical), Advanced AI (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 16 -->
+      <details class="staff-card">
+        <summary>16. Nehal Mostafa Hassan — <span class="arabic">نهال مصطفى حسن</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Object-Oriented Programming (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 17 -->
+      <details class="staff-card">
+        <summary>17. Izaz Ur Rahman — <span class="arabic">عزاز الرحمن</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Computer Architecture & Organization (Practical), Software Design & Architecture (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 18 -->
+      <details class="staff-card">
+        <summary>18. Mohammed Madi — <span class="arabic">محمد ماضي</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Cloud Computing and Web Services (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 19 -->
+      <details class="staff-card">
+        <summary>19. Saqib Qamar — <span class="arabic">سقيب قمر</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Ethics and Research Methods in Computing (Practical & Lecture), Research Methodology (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 20 -->
+      <details class="staff-card">
+        <summary>20. Mohammed Bany Baker — <span class="arabic">محمد بني بكير</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> System Analysis & Design (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 21 -->
+      <details class="staff-card">
+        <summary>21. Arshad Ahmad — <span class="arabic">أرشاد أحمد</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Computer Programming (Practical), Software Construction (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 22 -->
+      <details class="staff-card">
+        <summary>22. Muhammad Khan — <span class="arabic">محمد خان</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Computer Architecture & Organization (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 23 -->
+      <details class="staff-card">
+        <summary>23. Hossein Al Maqbali — <span class="arabic">حسين المقابلي</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Object-Oriented Programming (Practical), Switching & Routing Techniques (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 24 -->
+      <details class="staff-card">
+        <summary>24. Muhammed Zeeshan — <span class="arabic">محمد زيشان</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Computer Architecture & Organization (Lecture & Practical), Advanced Database Systems (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 25 -->
+      <details class="staff-card">
+        <summary>25. Ibrahim Ahmed — <span class="arabic">إبراهيم أحمد</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Fundamentals of Database Systems (Practical & Lecture), System Analysis & Design (Practical)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 26 -->
+      <details class="staff-card">
+        <summary>26. Mohammed Mohammed — <span class="arabic">محمد محمد</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Computer Programming (Practical), Computer Networks (2) (Practical), Numerical Analysis (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 27 -->
+      <details class="staff-card">
+        <summary>27. Taher Ghazal — <span class="arabic">طاهر غزال</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Discrete Mathematics (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 28 -->
+      <details class="staff-card">
+        <summary>28. Abid Ghaffar — <span class="arabic">عبيد غفار</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Fundamentals of Database Systems (Practical), Software Project Management (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 29 -->
+      <details class="staff-card">
+        <summary>29. Belal Al Ifan — <span class="arabic">بلال الإيفان</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Computer Programming (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 30 -->
+      <details class="staff-card">
+        <summary>30. Heba Zedan — <span class="arabic">هيبا زيدان</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Discrete Mathematics (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 31 -->
+      <details class="staff-card">
+        <summary>31. Hesham Sakr — <span class="arabic">هشام صقر</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> System Analysis & Design (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 32 -->
+      <details class="staff-card">
+        <summary>32. Shumayla Yaqoob — <span class="arabic">شميلا يعقوب</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Computer Programming (Practical), Object-Oriented Programming (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 33 -->
+      <details class="staff-card">
+        <summary>33. Mohammed Muthanna — <span class="arabic">محمد مثنى</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Human Computer Interaction (Practical & Lecture), System Analysis & Design (Practical)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 34 -->
+      <details class="staff-card">
+        <summary>34. Aisha Shabbir — <span class="arabic">عائشة شبر</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Computer Programming (Practical), Computer Architecture & Organization (Practical), Big Data Analytics (Practical)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 35 -->
+      <details class="staff-card">
+        <summary>35. Sultan Khan — <span class="arabic">سلطان خان</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Object-Oriented Programming (Practical), Pattern Recognition (Practical & Lecture)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+      <!-- 36 -->
+      <details class="staff-card">
+        <summary>36. Shaukat Hayat — <span class="arabic">شوكات حيات</span></summary>
+        <div class="staff-body">
+          <p><strong>Subjects:</strong> Object-Oriented Programming (Practical), Specialization (B) (Practical & Lecture), Database Administration (Practical)</p>
+          <label>Email: <input type="email" placeholder=""></label>
+          <label>Office: <input type="text" placeholder=""></label>
+          <label>Lecture / Free Time:<textarea placeholder=""></textarea></label>
+        </div>
+      </details>
+
+    </div> <!-- /.staff-list -->
+
+    <p class="muted">Hint: To save edits permanently, copy the modified file to your computer and re-upload to your hosting (GitHub Pages, etc.).</p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <a class="back" href="index.html">← Back to Home</a>
+    </div>
+  </footer>
+</body>
+</html>
