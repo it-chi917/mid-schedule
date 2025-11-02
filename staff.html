@@ -715,19 +715,19 @@
     </div>
 
     <script>
-        // Complete staff data with all 36 lecturers
+        // Complete staff data with all 36 lecturers - Fixed to prevent duplicate lecture times
         const staffData = [
             {
                 name: "Jabar Al Matwari",
                 rank: "Professor",
                 contactHours: 14,
                 courses: [
-                    { code: "COMP2131", name: "Software Requirement Engineering", units: 0, activity: "Practical", section: 1, time: "MO [ 08:00_10:00 ] F2-24", count: 35 },
-                    { code: "COMP2131", name: "Software Requirement Engineering", units: 4, activity: "Lecture", section: 1, time: "WE [ 14:00_15:00 ] F3-01 / MO [ 11:00_12:00 ] G1-25 / TU [ 12:00_13:00 ] G0-03", count: 17 },
-                    { code: "COMP2131", name: "Software Requirement Engineering", units: 0, activity: "Practical", section: 2, time: "MO [ 12:00_14:00 ] F2-24", count: 36 },
-                    { code: "COMP2131", name: "Software Requirement Engineering", units: 4, activity: "Lecture", section: 2, time: "WE [ 15:00_16:00 ] F2-30 / WE [ 09:00_10:00 ] G1-16 / WE [ 10:00_11:00 ] B1-14", count: 78 },
-                    { code: "COMP2131", name: "Software Requirement Engineering", units: 0, activity: "Practical", section: 3, time: "TU [ 10:00_12:00 ] F3-21", count: 24 },
-                    { code: "COMP6220A", name: "Master Dissertation A", units: 3, activity: "Lecture", section: 1, time: "SA [ 12:00_14:00 ] F2-29", count: 5 }
+                    { code: "COMP2131", name: "Software Requirement Engineering", units: 0, activity: "Practical", section: 1, time: "MO [ 08:00_10:00 ] F2-24" },
+                    { code: "COMP2131", name: "Software Requirement Engineering", units: 4, activity: "Lecture", section: 1, time: "WE [ 14:00_15:00 ] F3-01 / MO [ 11:00_12:00 ] G1-25 / TU [ 12:00_13:00 ] G0-03" },
+                    { code: "COMP2131", name: "Software Requirement Engineering", units: 0, activity: "Practical", section: 2, time: "MO [ 12:00_14:00 ] F2-24" },
+                    { code: "COMP2131", name: "Software Requirement Engineering", units: 4, activity: "Lecture", section: 2, time: "WE [ 15:00_16:00 ] F2-30 / WE [ 09:00_10:00 ] G1-16 / WE [ 10:00_11:00 ] B1-14" },
+                    { code: "COMP2131", name: "Software Requirement Engineering", units: 0, activity: "Practical", section: 3, time: "TU [ 10:00_12:00 ] F3-21" },
+                    { code: "COMP6220A", name: "Master Dissertation A", units: 3, activity: "Lecture", section: 1, time: "SA [ 12:00_14:00 ] F2-29" }
                 ]
             },
             {
@@ -735,16 +735,16 @@
                 rank: "Assistant Professor",
                 contactHours: 18,
                 courses: [
-                    { code: "COMP4000A", name: "Specialization Project (A)", units: 0, activity: "Practical", section: 1, time: "SU [ 18:00_20:00 ] DL", count: 118 },
-                    { code: "COMP4000A", name: "Specialization Project (A)", units: 3, activity: "Lecture", section: 1, time: "WE [ 15:00_16:00 ] F0-10 / MO [ 18:00_19:00 ] DL", count: 82 },
-                    { code: "COMP4000A", name: "Specialization Project (A)", units: 3, activity: "Lecture", section: 2, time: "WE [ 09:00_10:00 ] DL / TH [ 09:00_10:00 ] F2-32", count: 36 },
-                    { code: "COMP4001A", name: "Industrial Project I", units: 0, activity: "Practical", section: 1, time: "SU [ 18:00_20:00 ] DL", count: 4 },
-                    { code: "COMP4001A", name: "Industrial Project I", units: 3, activity: "Lecture", section: 1, time: "WE [ 15:00_16:00 ] E1-06 / MO [ 18:00_19:00 ] DL", count: 4 },
-                    { code: "NEDB2101", name: "Database Administration", units: 0, activity: "Practical", section: 1, time: "MO [ 12:00_14:00 ] F2-29", count: 40 },
-                    { code: "NEDB2101", name: "Database Administration", units: 4, activity: "Lecture", section: 1, time: "TH [ 08:00_09:00 ] F1-09 / WE [ 08:00_09:00 ] F0-11 / TU [ 09:00_10:00 ] G2-07", count: 65 },
-                    { code: "NEDB2101", name: "Database Administration", units: 0, activity: "Practical", section: 2, time: "MO [ 14:00_16:00 ] F2-29", count: 40 },
-                    { code: "NEDB2101", name: "Database Administration", units: 4, activity: "Lecture", section: 2, time: "TH [ 12:00_13:00 ] 10-03 / WE [ 11:00_12:00 ] B1-00 / TU [ 11:00_12:00 ] G2-08", count: 70 },
-                    { code: "NEDB2101", name: "Database Administration", units: 0, activity: "Practical", section: 4, time: "SU [ 16:00_18:00 ] F2-29", count: 17 }
+                    { code: "COMP4000A", name: "Specialization Project (A)", units: 0, activity: "Practical", section: 1, time: "SU [ 18:00_20:00 ] DL" },
+                    { code: "COMP4000A", name: "Specialization Project (A)", units: 3, activity: "Lecture", section: 1, time: "WE [ 15:00_16:00 ] F0-10 / MO [ 18:00_19:00 ] DL" },
+                    { code: "COMP4000A", name: "Specialization Project (A)", units: 3, activity: "Lecture", section: 2, time: "WE [ 09:00_10:00 ] DL / TH [ 09:00_10:00 ] F2-32" },
+                    { code: "COMP4001A", name: "Industrial Project I", units: 0, activity: "Practical", section: 1, time: "SU [ 18:00_20:00 ] DL" },
+                    { code: "COMP4001A", name: "Industrial Project I", units: 3, activity: "Lecture", section: 1, time: "WE [ 15:00_16:00 ] E1-06 / MO [ 18:00_19:00 ] DL" },
+                    { code: "NEDB2101", name: "Database Administration", units: 0, activity: "Practical", section: 1, time: "MO [ 12:00_14:00 ] F2-29" },
+                    { code: "NEDB2101", name: "Database Administration", units: 4, activity: "Lecture", section: 1, time: "TH [ 08:00_09:00 ] F1-09 / WE [ 08:00_09:00 ] F0-11 / TU [ 09:00_10:00 ] G2-07" },
+                    { code: "NEDB2101", name: "Database Administration", units: 0, activity: "Practical", section: 2, time: "MO [ 14:00_16:00 ] F2-29" },
+                    { code: "NEDB2101", name: "Database Administration", units: 4, activity: "Lecture", section: 2, time: "TH [ 12:00_13:00 ] 10-03 / WE [ 11:00_12:00 ] B1-00 / TU [ 11:00_12:00 ] G2-08" },
+                    { code: "NEDB2101", name: "Database Administration", units: 0, activity: "Practical", section: 4, time: "SU [ 16:00_18:00 ] F2-29" }
                 ]
             },
             {
@@ -752,11 +752,11 @@
                 rank: "Assistant Professor",
                 contactHours: 14,
                 courses: [
-                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 1, time: "SU [ 12:00_14:00 ] F2-29", count: 40 },
-                    { code: "COMP1116", name: "Computer Programming", units: 4, activity: "Lecture", section: 1, time: "TH [ 15:00_16:00 ] 10-02 / TH [ 14:00_15:00 ] G0-00 / SU [ 11:00_12:00 ] B1-00", count: 140 },
-                    { code: "COMP1116", name: "Computer Programming", units: 4, activity: "Lecture", section: 2, time: "TH [ 17:00_18:00 ] F0-02 / WE [ 14:00_15:00 ] B1-00 / SU [ 17:00_18:00 ] F0-10", count: 128 },
-                    { code: "COMP1116", name: "Computer Programming", units: 4, activity: "Lecture", section: 6, time: "TH [ 09:00_10:00 ] F1-09 / MO [ 09:00_10:00 ] G2-19 / WE [ 11:00_12:00 ] F1-05", count: 60 },
-                    { code: "COMP1116", name: "Computer Programming", units: 4, activity: "Lecture", section: 7, time: "MO [ 15:00_16:00 ] E1-06 / MO [ 13:00_14:00 ] G1-22 / MO [ 08:00_09:00 ] A1-01", count: 37 }
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 1, time: "SU [ 12:00_14:00 ] F2-29" },
+                    { code: "COMP1116", name: "Computer Programming", units: 4, activity: "Lecture", section: 1, time: "TH [ 15:00_16:00 ] 10-02 / TH [ 14:00_15:00 ] G0-00 / SU [ 11:00_12:00 ] B1-00" },
+                    { code: "COMP1116", name: "Computer Programming", units: 4, activity: "Lecture", section: 2, time: "TH [ 17:00_18:00 ] F0-02 / WE [ 14:00_15:00 ] B1-00 / SU [ 17:00_18:00 ] F0-10" },
+                    { code: "COMP1116", name: "Computer Programming", units: 4, activity: "Lecture", section: 6, time: "TH [ 09:00_10:00 ] F1-09 / MO [ 09:00_10:00 ] G2-19 / WE [ 11:00_12:00 ] F1-05" },
+                    { code: "COMP1116", name: "Computer Programming", units: 4, activity: "Lecture", section: 7, time: "MO [ 15:00_16:00 ] E1-06 / MO [ 13:00_14:00 ] G1-22 / MO [ 08:00_09:00 ] A1-01" }
                 ]
             },
             {
@@ -764,10 +764,10 @@
                 rank: "Associate Professor",
                 contactHours: 11,
                 courses: [
-                    { code: "COMP2000", name: "Computer Networks (2)", units: 4, activity: "Lecture", section: 1, time: "TH [ 09:00_10:00 ] 10-01 / MO [ 09:00_10:00 ] A1-00 / TH [ 15:00_16:00 ] G0-00", count: 119 },
-                    { code: "COMP2000", name: "Computer Networks (2)", units: 4, activity: "Lecture", section: 2, time: "WE [ 15:00_16:00 ] G2-06 / SU [ 12:00_13:00 ] G1-01 / TH [ 12:00_13:00 ] I0-02", count: 59 },
-                    { code: "COMP2000", name: "Computer Networks (2)", units: 4, activity: "Lecture", section: 3, time: "SU [ 14:00_15:00 ] I0-03 / TH [ 10:00_11:00 ] E1-06 / WE [ 14:00_15:00 ] E1-08", count: 83 },
-                    { code: "COMP2000", name: "Computer Networks (2)", units: 0, activity: "Practical", section: 10, time: "WE [ 12:00_14:00 ] F2-20", count: 32 }
+                    { code: "COMP2000", name: "Computer Networks (2)", units: 4, activity: "Lecture", section: 1, time: "TH [ 09:00_10:00 ] 10-01 / MO [ 09:00_10:00 ] A1-00 / TH [ 15:00_16:00 ] G0-00" },
+                    { code: "COMP2000", name: "Computer Networks (2)", units: 4, activity: "Lecture", section: 2, time: "WE [ 15:00_16:00 ] G2-06 / SU [ 12:00_13:00 ] G1-01 / TH [ 12:00_13:00 ] I0-02" },
+                    { code: "COMP2000", name: "Computer Networks (2)", units: 4, activity: "Lecture", section: 3, time: "SU [ 14:00_15:00 ] I0-03 / TH [ 10:00_11:00 ] E1-06 / WE [ 14:00_15:00 ] E1-08" },
+                    { code: "COMP2000", name: "Computer Networks (2)", units: 0, activity: "Practical", section: 10, time: "WE [ 12:00_14:00 ] F2-20" }
                 ]
             },
             {
@@ -775,10 +775,10 @@
                 rank: "Professor",
                 contactHours: 8,
                 courses: [
-                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 7, time: "WE [ 10:00_12:00 ] F3-21", count: 26 },
-                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 4, time: "MO [ 14:00_16:00 ] F2-20", count: 32 },
-                    { code: "COMP5105", name: "Advanced Algorithms", units: 0, activity: "Practical", section: 1, time: "WE [ 16:00_18:00 ] G1-12", count: 5 },
-                    { code: "COMP5105", name: "Advanced Algorithms", units: 3, activity: "Lecture", section: 1, time: "SA [ 10:00_12:00 ] F2-30", count: 5 }
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 7, time: "WE [ 10:00_12:00 ] F3-21" },
+                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 4, time: "MO [ 14:00_16:00 ] F2-20" },
+                    { code: "COMP5105", name: "Advanced Algorithms", units: 0, activity: "Practical", section: 1, time: "WE [ 16:00_18:00 ] G1-12" },
+                    { code: "COMP5105", name: "Advanced Algorithms", units: 3, activity: "Lecture", section: 1, time: "SA [ 10:00_12:00 ] F2-30" }
                 ]
             },
             {
@@ -786,12 +786,12 @@
                 rank: "Associate Professor",
                 contactHours: 15,
                 courses: [
-                    { code: "COMP4108", name: "Big Data Analytics", units: 4, activity: "Lecture", section: 1, time: "WE [ 12:00_13:00 ] F1-11 / MO [ 12:00_13:00 ] A0-02 / MO [ 09:00_10:00 ] A1-05", count: 53 },
-                    { code: "COMP4108", name: "Big Data Analytics", units: 0, activity: "Practical", section: 2, time: "WE [ 08:00_10:00 ] G2-13", count: 31 },
-                    { code: "COMP4108", name: "Big Data Analytics", units: 4, activity: "Lecture", section: 2, time: "TH [ 14:00_15:00 ] F0-11 / MO [ 16:00_17:00 ] F2-30 / TH [ 13:00_14:00 ] E0-04", count: 47 },
-                    { code: "COMP4108", name: "Big Data Analytics", units: 0, activity: "Practical", section: 3, time: "TU [ 14:00_16:00 ] G2-14", count: 49 },
-                    { code: "COMP4108", name: "Big Data Analytics", units: 4, activity: "Lecture", section: 3, time: "MO [ 13:00_14:00 ] F1-11 / WE [ 13:00_14:00 ] F1-11 / TU [ 13:00_14:00 ] A1-01", count: 40 },
-                    { code: "COMP4108", name: "Big Data Analytics", units: 0, activity: "Practical", section: 4, time: "TU [ 08:00_10:00 ] G0-03", count: 31 }
+                    { code: "COMP4108", name: "Big Data Analytics", units: 4, activity: "Lecture", section: 1, time: "WE [ 12:00_13:00 ] F1-11 / MO [ 12:00_13:00 ] A0-02 / MO [ 09:00_10:00 ] A1-05" },
+                    { code: "COMP4108", name: "Big Data Analytics", units: 0, activity: "Practical", section: 2, time: "WE [ 08:00_10:00 ] G2-13" },
+                    { code: "COMP4108", name: "Big Data Analytics", units: 4, activity: "Lecture", section: 2, time: "TH [ 14:00_15:00 ] F0-11 / MO [ 16:00_17:00 ] F2-30 / TH [ 13:00_14:00 ] E0-04" },
+                    { code: "COMP4108", name: "Big Data Analytics", units: 0, activity: "Practical", section: 3, time: "TU [ 14:00_16:00 ] G2-14" },
+                    { code: "COMP4108", name: "Big Data Analytics", units: 4, activity: "Lecture", section: 3, time: "MO [ 13:00_14:00 ] F1-11 / WE [ 13:00_14:00 ] F1-11 / TU [ 13:00_14:00 ] A1-01" },
+                    { code: "COMP4108", name: "Big Data Analytics", units: 0, activity: "Practical", section: 4, time: "TU [ 08:00_10:00 ] G0-03" }
                 ]
             },
             {
@@ -799,16 +799,16 @@
                 rank: "Assistant Professor",
                 contactHours: 11,
                 courses: [
-                    { code: "COMP4107", name: "Special Topics", units: 4, activity: "Lecture", section: 1, time: "WE [ 17:00_18:00 ] F0-10 / TU [ 17:00_18:00 ] F0-11 / WE [ 16:00_17:00 ] 10-02", count: 73 },
-                    { code: "COMP4107", name: "Special Topics", units: 0, activity: "Practical", section: 1, time: "TU [ 14:00_16:00 ] G2-13", count: 19 },
-                    { code: "COMP4107", name: "Special Topics", units: 0, activity: "Practical", section: 2, time: "TU [ 12:00_14:00 ] F2-24", count: 19 },
-                    { code: "COMP4107", name: "Special Topics", units: 0, activity: "Practical", section: 3, time: "WE [ 14:00_16:00 ] G2-13", count: 17 },
-                    { code: "COMP4107", name: "Special Topics", units: 0, activity: "Practical", section: 4, time: "WE [ 08:00_10:00 ] G0-03", count: 18 },
-                    { code: "COMP4109", name: "Internet of Things", units: 4, activity: "Lecture", section: 1, time: "WE [ 17:00_18:00 ] F0-10 / TU [ 17:00_18:00 ] F0-11 / WE [ 16:00_17:00 ] 10-02", count: 69 },
-                    { code: "COMP4109", name: "Internet of Things", units: 0, activity: "Practical", section: 1, time: "TU [ 12:00_14:00 ] F2-24", count: 21 },
-                    { code: "COMP4109", name: "Internet of Things", units: 0, activity: "Practical", section: 2, time: "TU [ 14:00_16:00 ] G2-13", count: 27 },
-                    { code: "COMP4109", name: "Internet of Things", units: 0, activity: "Practical", section: 3, time: "WE [ 14:00_16:00 ] G2-13", count: 19 },
-                    { code: "COMP4109", name: "Internet of Things", units: 0, activity: "Practical", section: 4, time: "WE [ 08:00_10:00 ] G0-03", count: 2 }
+                    { code: "COMP4107", name: "Special Topics", units: 4, activity: "Lecture", section: 1, time: "WE [ 17:00_18:00 ] F0-10 / TU [ 17:00_18:00 ] F0-11 / WE [ 16:00_17:00 ] 10-02" },
+                    { code: "COMP4107", name: "Special Topics", units: 0, activity: "Practical", section: 1, time: "TU [ 14:00_16:00 ] G2-13" },
+                    { code: "COMP4107", name: "Special Topics", units: 0, activity: "Practical", section: 2, time: "TU [ 12:00_14:00 ] F2-24" },
+                    { code: "COMP4107", name: "Special Topics", units: 0, activity: "Practical", section: 3, time: "WE [ 14:00_16:00 ] G2-13" },
+                    { code: "COMP4107", name: "Special Topics", units: 0, activity: "Practical", section: 4, time: "WE [ 08:00_10:00 ] G0-03" },
+                    { code: "COMP4109", name: "Internet of Things", units: 4, activity: "Lecture", section: 1, time: "WE [ 17:00_18:00 ] F0-10 / TU [ 17:00_18:00 ] F0-11 / WE [ 16:00_17:00 ] 10-02" },
+                    { code: "COMP4109", name: "Internet of Things", units: 0, activity: "Practical", section: 1, time: "TU [ 12:00_14:00 ] F2-24" },
+                    { code: "COMP4109", name: "Internet of Things", units: 0, activity: "Practical", section: 2, time: "TU [ 14:00_16:00 ] G2-13" },
+                    { code: "COMP4109", name: "Internet of Things", units: 0, activity: "Practical", section: 3, time: "WE [ 14:00_16:00 ] G2-13" },
+                    { code: "COMP4109", name: "Internet of Things", units: 0, activity: "Practical", section: 4, time: "WE [ 08:00_10:00 ] G0-03" }
                 ]
             },
             {
@@ -816,13 +816,13 @@
                 rank: "Associate Professor",
                 contactHours: 14,
                 courses: [
-                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 1, time: "MO [ 14:00_16:00 ] B1-13", count: 30 },
-                    { code: "COMP1118", name: "Discrete Mathematics", units: 3, activity: "Lecture", section: 1, time: "SU [ 14:00_15:00 ] G2-11 / WE [ 14:00_15:00 ] A1-00", count: 103 },
-                    { code: "COMP1118", name: "Discrete Mathematics", units: 3, activity: "Lecture", section: 2, time: "WE [ 12:00_13:00 ] G0-00 / TU [ 10:00_11:00 ] E1-01", count: 214 },
-                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 3, time: "SU [ 12:00_14:00 ] F2-21", count: 37 },
-                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 5, time: "WE [ 08:00_10:00 ] F2-20", count: 30 },
-                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 6, time: "TU [ 12:00_14:00 ] B1-13", count: 31 },
-                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 12, time: "MO [ 16:00_18:00 ] G1-16", count: 29 }
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 1, time: "MO [ 14:00_16:00 ] B1-13" },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 3, activity: "Lecture", section: 1, time: "SU [ 14:00_15:00 ] G2-11 / WE [ 14:00_15:00 ] A1-00" },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 3, activity: "Lecture", section: 2, time: "WE [ 12:00_13:00 ] G0-00 / TU [ 10:00_11:00 ] E1-01" },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 3, time: "SU [ 12:00_14:00 ] F2-21" },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 5, time: "WE [ 08:00_10:00 ] F2-20" },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 6, time: "TU [ 12:00_14:00 ] B1-13" },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 12, time: "MO [ 16:00_18:00 ] G1-16" }
                 ]
             },
             {
@@ -830,13 +830,13 @@
                 rank: "Associate Professor",
                 contactHours: 16,
                 courses: [
-                    { code: "COMP3107", name: "Distributed Database Design", units: 4, activity: "Lecture", section: 1, time: "TH [ 08:00_09:00 ] F1-10 / WE [ 08:00_09:00 ] F0-10 / TH [ 14:00_15:00 ] A1-00", count: 126 },
-                    { code: "COMP3107", name: "Distributed Database Design", units: 0, activity: "Practical", section: 2, time: "MO [ 14:00_16:00 ] F2-21", count: 30 },
-                    { code: "COMP3107", name: "Distributed Database Design", units: 0, activity: "Practical", section: 3, time: "MO [ 16:00_18:00 ] F3-21", count: 27 },
-                    { code: "COMP3107", name: "Distributed Database Design", units: 4, activity: "Lecture", section: 3, time: "SU [ 09:00_10:00 ] G1-21 / TU [ 09:00_10:00 ] A0-13 / SU [ 13:00_14:00 ] A1-01", count: 28 },
-                    { code: "COMP3107", name: "Distributed Database Design", units: 0, activity: "Practical", section: 4, time: "TU [ 14:00_16:00 ] F2-21", count: 26 },
-                    { code: "COMP3107", name: "Distributed Database Design", units: 0, activity: "Practical", section: 5, time: "WE [ 12:00_14:00 ] F2-24", count: 50 },
-                    { code: "COMP3107", name: "Distributed Database Design", units: 0, activity: "Practical", section: 6, time: "WE [ 14:00_16:00 ] F3-21", count: 21 }
+                    { code: "COMP3107", name: "Distributed Database Design", units: 4, activity: "Lecture", section: 1, time: "TH [ 08:00_09:00 ] F1-10 / WE [ 08:00_09:00 ] F0-10 / TH [ 14:00_15:00 ] A1-00" },
+                    { code: "COMP3107", name: "Distributed Database Design", units: 0, activity: "Practical", section: 2, time: "MO [ 14:00_16:00 ] F2-21" },
+                    { code: "COMP3107", name: "Distributed Database Design", units: 0, activity: "Practical", section: 3, time: "MO [ 16:00_18:00 ] F3-21" },
+                    { code: "COMP3107", name: "Distributed Database Design", units: 4, activity: "Lecture", section: 3, time: "SU [ 09:00_10:00 ] G1-21 / TU [ 09:00_10:00 ] A0-13 / SU [ 13:00_14:00 ] A1-01" },
+                    { code: "COMP3107", name: "Distributed Database Design", units: 0, activity: "Practical", section: 4, time: "TU [ 14:00_16:00 ] F2-21" },
+                    { code: "COMP3107", name: "Distributed Database Design", units: 0, activity: "Practical", section: 5, time: "WE [ 12:00_14:00 ] F2-24" },
+                    { code: "COMP3107", name: "Distributed Database Design", units: 0, activity: "Practical", section: 6, time: "WE [ 14:00_16:00 ] F3-21" }
                 ]
             },
             {
@@ -844,13 +844,13 @@
                 rank: "Assistant Professor",
                 contactHours: 16,
                 courses: [
-                    { code: "COMP3109", name: "Mobile Applications", units: 0, activity: "Practical", section: 1, time: "WE [ 10:00_12:00 ] G0-03", count: 31 },
-                    { code: "COMP3109", name: "Mobile Applications", units: 4, activity: "Lecture", section: 1, time: "SU [ 13:00_14:00 ] B1-14 / MO [ 15:00_16:00 ] F1-03 / MO [ 13:00_14:00 ] B1-14", count: 44 },
-                    { code: "COMP3109", name: "Mobile Applications", units: 0, activity: "Practical", section: 2, time: "WE [ 14:00_16:00 ] G2-14", count: 22 },
-                    { code: "COMP3109", name: "Mobile Applications", units: 4, activity: "Lecture", section: 3, time: "TH [ 17:00_18:00 ] F1-02 / TH [ 16:00_17:00 ] F1-02 / TH [ 09:00_10:00 ] A1-01", count: 55 },
-                    { code: "COMP3109", name: "Mobile Applications", units: 0, activity: "Practical", section: 3, time: "TH [ 10:00_12:00 ] F2-24", count: 46 },
-                    { code: "COMP6105", name: "Big Data Analytics", units: 3, activity: "Lecture", section: 1, time: "SA [ 10:00_12:00 ] F1-13", count: 5 },
-                    { code: "COMP6105", name: "Big Data Analytics", units: 0, activity: "Practical", section: 1, time: "WE [ 16:00_18:00 ] F1-12", count: 5 }
+                    { code: "COMP3109", name: "Mobile Applications", units: 0, activity: "Practical", section: 1, time: "WE [ 10:00_12:00 ] G0-03" },
+                    { code: "COMP3109", name: "Mobile Applications", units: 4, activity: "Lecture", section: 1, time: "SU [ 13:00_14:00 ] B1-14 / MO [ 15:00_16:00 ] F1-03 / MO [ 13:00_14:00 ] B1-14" },
+                    { code: "COMP3109", name: "Mobile Applications", units: 0, activity: "Practical", section: 2, time: "WE [ 14:00_16:00 ] G2-14" },
+                    { code: "COMP3109", name: "Mobile Applications", units: 4, activity: "Lecture", section: 3, time: "TH [ 17:00_18:00 ] F1-02 / TH [ 16:00_17:00 ] F1-02 / TH [ 09:00_10:00 ] A1-01" },
+                    { code: "COMP3109", name: "Mobile Applications", units: 0, activity: "Practical", section: 3, time: "TH [ 10:00_12:00 ] F2-24" },
+                    { code: "COMP6105", name: "Big Data Analytics", units: 3, activity: "Lecture", section: 1, time: "SA [ 10:00_12:00 ] F1-13" },
+                    { code: "COMP6105", name: "Big Data Analytics", units: 0, activity: "Practical", section: 1, time: "WE [ 16:00_18:00 ] F1-12" }
                 ]
             },
             {
@@ -858,12 +858,12 @@
                 rank: "Associate Professor",
                 contactHours: 13,
                 courses: [
-                    { code: "COMP1120", name: "Introduction to Cybersecurity", units: 4, activity: "Lecture", section: 1, time: "SU [ 16:00_17:00 ] 10-03 / WE [ 16:00_17:00 ] F0-11 / MO [ 16:00_17:00 ] 10-03", count: 37 },
-                    { code: "COMP1120", name: "Introduction to Cybersecurity", units: 0, activity: "Practical", section: 1, time: "TU [ 14:00_16:00 ] F2-24", count: 20 },
-                    { code: "COMP1120", name: "Introduction to Cybersecurity", units: 0, activity: "Practical", section: 2, time: "WE [ 10:00_12:00 ] F2-21", count: 17 },
-                    { code: "COMP2000", name: "Computer Networks (2)", units: 0, activity: "Practical", section: 4, time: "MO [ 10:00_12:00 ] F2-20", count: 34 },
-                    { code: "COMP2000", name: "Computer Networks (2)", units: 0, activity: "Practical", section: 7, time: "TU [ 10:00_12:00 ] F2-21", count: 30 },
-                    { code: "COMP2000", name: "Computer Networks (2)", units: 0, activity: "Practical", section: 11, time: "WE [ 14:00_16:00 ] F2-21", count: 13 }
+                    { code: "COMP1120", name: "Introduction to Cybersecurity", units: 4, activity: "Lecture", section: 1, time: "SU [ 16:00_17:00 ] 10-03 / WE [ 16:00_17:00 ] F0-11 / MO [ 16:00_17:00 ] 10-03" },
+                    { code: "COMP1120", name: "Introduction to Cybersecurity", units: 0, activity: "Practical", section: 1, time: "TU [ 14:00_16:00 ] F2-24" },
+                    { code: "COMP1120", name: "Introduction to Cybersecurity", units: 0, activity: "Practical", section: 2, time: "WE [ 10:00_12:00 ] F2-21" },
+                    { code: "COMP2000", name: "Computer Networks (2)", units: 0, activity: "Practical", section: 4, time: "MO [ 10:00_12:00 ] F2-20" },
+                    { code: "COMP2000", name: "Computer Networks (2)", units: 0, activity: "Practical", section: 7, time: "TU [ 10:00_12:00 ] F2-21" },
+                    { code: "COMP2000", name: "Computer Networks (2)", units: 0, activity: "Practical", section: 11, time: "WE [ 14:00_16:00 ] F2-21" }
                 ]
             },
             {
@@ -871,12 +871,12 @@
                 rank: "Assistant Professor",
                 contactHours: 14,
                 courses: [
-                    { code: "COMP2100", name: "Human Computer Interaction", units: 0, activity: "Practical", section: 1, time: "MO [ 10:00_12:00 ] F2-29", count: 40 },
-                    { code: "COMP2100", name: "Human Computer Interaction", units: 4, activity: "Lecture", section: 2, time: "TU [ 17:00_18:00 ] E1-01 / TU [ 16:00_17:00 ] E1-01 / WE [ 16:00_17:00 ] F0-10", count: 109 },
-                    { code: "COMP2100", name: "Human Computer Interaction", units: 0, activity: "Practical", section: 3, time: "TU [ 12:00_14:00 ] F2-29", count: 40 },
-                    { code: "COMP2100", name: "Human Computer Interaction", units: 4, activity: "Lecture", section: 3, time: "WE [ 12:00_13:00 ] G1-18 / MO [ 12:00_13:00 ] A1-01 / TH [ 12:00_13:00 ] A1-00", count: 23 },
-                    { code: "COMP2100", name: "Human Computer Interaction", units: 0, activity: "Practical", section: 4, time: "TH [ 08:00_10:00 ] F2-24", count: 39 },
-                    { code: "COMP2100", name: "Human Computer Interaction", units: 0, activity: "Practical", section: 5, time: "TH [ 10:00_12:00 ] F2-29", count: 35 }
+                    { code: "COMP2100", name: "Human Computer Interaction", units: 0, activity: "Practical", section: 1, time: "MO [ 10:00_12:00 ] F2-29" },
+                    { code: "COMP2100", name: "Human Computer Interaction", units: 4, activity: "Lecture", section: 2, time: "TU [ 17:00_18:00 ] E1-01 / TU [ 16:00_17:00 ] E1-01 / WE [ 16:00_17:00 ] F0-10" },
+                    { code: "COMP2100", name: "Human Computer Interaction", units: 0, activity: "Practical", section: 3, time: "TU [ 12:00_14:00 ] F2-29" },
+                    { code: "COMP2100", name: "Human Computer Interaction", units: 4, activity: "Lecture", section: 3, time: "WE [ 12:00_13:00 ] G1-18 / MO [ 12:00_13:00 ] A1-01 / TH [ 12:00_13:00 ] A1-00" },
+                    { code: "COMP2100", name: "Human Computer Interaction", units: 0, activity: "Practical", section: 4, time: "TH [ 08:00_10:00 ] F2-24" },
+                    { code: "COMP2100", name: "Human Computer Interaction", units: 0, activity: "Practical", section: 5, time: "TH [ 10:00_12:00 ] F2-29" }
                 ]
             },
             {
@@ -884,13 +884,13 @@
                 rank: "Assistant Professor",
                 contactHours: 16,
                 courses: [
-                    { code: "COMP2000", name: "Computer Networks (2)", units: 0, activity: "Practical", section: 2, time: "SU [ 10:00_12:00 ] F2-21", count: 30 },
-                    { code: "COMP2000", name: "Computer Networks (2)", units: 0, activity: "Practical", section: 5, time: "WE [ 12:00_14:00 ] F2-21", count: 31 },
-                    { code: "COMP2000", name: "Computer Networks (2)", units: 0, activity: "Practical", section: 9, time: "WE [ 08:00_10:00 ] F2-21", count: 30 },
-                    { code: "COMP3111", name: "GIS & Spatial Databases", units: 0, activity: "Practical", section: 1, time: "SU [ 12:00_14:00 ] F2-24", count: 53 },
-                    { code: "COMP3111", name: "GIS & Spatial Databases", units: 4, activity: "Lecture", section: 1, time: "TU [ 15:00_16:00 ] F2-32 / TU [ 08:00_09:00 ] F1-12 / TU [ 10:00_11:00 ] B1-14", count: 58 },
-                    { code: "COMP3111", name: "GIS & Spatial Databases", units: 0, activity: "Practical", section: 2, time: "MO [ 08:00_10:00 ] G2-13", count: 36 },
-                    { code: "COMP3111", name: "GIS & Spatial Databases", units: 4, activity: "Lecture", section: 2, time: "TU [ 14:00_15:00 ] A0-02 / WE [ 14:00_15:00 ] G1-22 / SU [ 14:00_15:00 ] A0-10", count: 31 }
+                    { code: "COMP2000", name: "Computer Networks (2)", units: 0, activity: "Practical", section: 2, time: "SU [ 10:00_12:00 ] F2-21" },
+                    { code: "COMP2000", name: "Computer Networks (2)", units: 0, activity: "Practical", section: 5, time: "WE [ 12:00_14:00 ] F2-21" },
+                    { code: "COMP2000", name: "Computer Networks (2)", units: 0, activity: "Practical", section: 9, time: "WE [ 08:00_10:00 ] F2-21" },
+                    { code: "COMP3111", name: "GIS & Spatial Databases", units: 0, activity: "Practical", section: 1, time: "SU [ 12:00_14:00 ] F2-24" },
+                    { code: "COMP3111", name: "GIS & Spatial Databases", units: 4, activity: "Lecture", section: 1, time: "TU [ 15:00_16:00 ] F2-32 / TU [ 08:00_09:00 ] F1-12 / TU [ 10:00_11:00 ] B1-14" },
+                    { code: "COMP3111", name: "GIS & Spatial Databases", units: 0, activity: "Practical", section: 2, time: "MO [ 08:00_10:00 ] G2-13" },
+                    { code: "COMP3111", name: "GIS & Spatial Databases", units: 4, activity: "Lecture", section: 2, time: "TU [ 14:00_15:00 ] A0-02 / WE [ 14:00_15:00 ] G1-22 / SU [ 14:00_15:00 ] A0-10" }
                 ]
             },
             {
@@ -898,13 +898,13 @@
                 rank: "Assistant Professor",
                 contactHours: 15,
                 courses: [
-                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 3, time: "SU [ 12:00_14:00 ] F2-20", count: 32 },
-                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 7, time: "MO [ 10:00_12:00 ] F2-21", count: 31 },
-                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 13, time: "WE [ 10:00_12:00 ] F2-20", count: 34 },
-                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 15, time: "WE [ 16:00_18:00 ] F2-20", count: 24 },
-                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 20, time: "TH [ 12:00_14:00 ] F3-21", count: 18 },
-                    { code: "COMP1218", name: "Introduction to Web & Multimedia Tec", units: 0, activity: "Practical", section: 1, time: "TH [ 14:00_16:00 ] F2-24", count: 46 },
-                    { code: "COMP1218", name: "Introduction to Web & Multimedia Tec", units: 4, activity: "Lecture", section: 1, time: "MO [ 13:00_14:00 ] A1-01 / SU [ 10:00_11:00 ] A1-05 / SU [ 08:00_09:00 ] F1-02", count: 46 }
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 3, time: "SU [ 12:00_14:00 ] F2-20" },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 7, time: "MO [ 10:00_12:00 ] F2-21" },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 13, time: "WE [ 10:00_12:00 ] F2-20" },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 15, time: "WE [ 16:00_18:00 ] F2-20" },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 20, time: "TH [ 12:00_14:00 ] F3-21" },
+                    { code: "COMP1218", name: "Introduction to Web & Multimedia Tec", units: 0, activity: "Practical", section: 1, time: "TH [ 14:00_16:00 ] F2-24" },
+                    { code: "COMP1218", name: "Introduction to Web & Multimedia Tec", units: 4, activity: "Lecture", section: 1, time: "MO [ 13:00_14:00 ] A1-01 / SU [ 10:00_11:00 ] A1-05 / SU [ 08:00_09:00 ] F1-02" }
                 ]
             },
             {
@@ -912,12 +912,12 @@
                 rank: "Assistant Professor",
                 contactHours: 13,
                 courses: [
-                    { code: "ARIN2101", name: "Artificial Intelligence: Knowledge Repi", units: 4, activity: "Lecture", section: 1, time: "TU [ 11:00_12:00 ] M0 [ 10:00_11:00 ] G1-12", count: 6 },
-                    { code: "ARIN2101", name: "Artificial Intelligence: Knowledge Repi", units: 0, activity: "Practical", section: 2, time: "TU [ 08:00_10:00 ] G2-13", count: 6 },
-                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 6, time: "MO [ 08:00_10:00 ] F2-20", count: 32 },
-                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 19, time: "TH [ 14:00_16:00 ] F2-20", count: 30 },
-                    { code: "COMP5104", name: "Advanced Artificial Intelligence", units: 3, activity: "Lecture", section: 1, time: "SA [ 08:00_10:00 ] F2-30", count: 5 },
-                    { code: "COMP5104", name: "Advanced Artificial Intelligence", units: 0, activity: "Practical", section: 1, time: "TH [ 16:00_18:00 ] F2-31", count: 5 }
+                    { code: "ARIN2101", name: "Artificial Intelligence: Knowledge Repi", units: 4, activity: "Lecture", section: 1, time: "TU [ 11:00_12:00 ] M0 [ 10:00_11:00 ] G1-12" },
+                    { code: "ARIN2101", name: "Artificial Intelligence: Knowledge Repi", units: 0, activity: "Practical", section: 2, time: "TU [ 08:00_10:00 ] G2-13" },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 6, time: "MO [ 08:00_10:00 ] F2-20" },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 19, time: "TH [ 14:00_16:00 ] F2-20" },
+                    { code: "COMP5104", name: "Advanced Artificial Intelligence", units: 3, activity: "Lecture", section: 1, time: "SA [ 08:00_10:00 ] F2-30" },
+                    { code: "COMP5104", name: "Advanced Artificial Intelligence", units: 0, activity: "Practical", section: 1, time: "TH [ 16:00_18:00 ] F2-31" }
                 ]
             },
             {
@@ -925,12 +925,12 @@
                 rank: "Assistant Professor",
                 contactHours: 16,
                 courses: [
-                    { code: "COMP2108", name: "Object-Oriented Programming", units: 4, activity: "Lecture", section: 1, time: "WE [ 10:00_11:00 ] I0-01 / WE [ 17:00_18:00 ] A1-00 / TH [ 16:00_17:00 ] A1-00", count: 139 },
-                    { code: "COMP2108", name: "Object-Oriented Programming", units: 4, activity: "Lecture", section: 4, time: "MO [ 16:00_17:00 ] E1-07 / WE [ 15:00_16:00 ] F1-10 / TU [ 16:00_17:00 ] E1-04", count: 56 },
-                    { code: "COMP2108", name: "Object-Oriented Programming", units: 4, activity: "Lecture", section: 5, time: "MO [ 12:00_13:00 ] B1-12 / WE [ 13:00_14:00 ] G1-18 / TH [ 13:00_14:00 ] E1-01", count: 32 },
-                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 5, time: "MO [ 14:00_16:00 ] F3-21", count: 32 },
-                    { code: "COMP2108", name: "Object-Oriented Programming", units: 4, activity: "Lecture", section: 6, time: "SU [ 11:00_12:00 ] F0-02 / TU [ 14:00_15:00 ] A0-14 / TH [ 08:00_09:00 ] F2-30", count: 18 },
-                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 9, time: "TH [ 14:00_16:00 ] F2-29", count: 35 }
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 4, activity: "Lecture", section: 1, time: "WE [ 10:00_11:00 ] I0-01 / WE [ 17:00_18:00 ] A1-00 / TH [ 16:00_17:00 ] A1-00" },
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 4, activity: "Lecture", section: 4, time: "MO [ 16:00_17:00 ] E1-07 / WE [ 15:00_16:00 ] F1-10 / TU [ 16:00_17:00 ] E1-04" },
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 4, activity: "Lecture", section: 5, time: "MO [ 12:00_13:00 ] B1-12 / WE [ 13:00_14:00 ] G1-18 / TH [ 13:00_14:00 ] E1-01" },
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 5, time: "MO [ 14:00_16:00 ] F3-21" },
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 4, activity: "Lecture", section: 6, time: "SU [ 11:00_12:00 ] F0-02 / TU [ 14:00_15:00 ] A0-14 / TH [ 08:00_09:00 ] F2-30" },
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 9, time: "TH [ 14:00_16:00 ] F2-29" }
                 ]
             },
             {
@@ -938,13 +938,13 @@
                 rank: "Assistant Professor",
                 contactHours: 15,
                 courses: [
-                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 2, time: "SU [ 10:00_12:00 ] F2-20", count: 33 },
-                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 8, time: "MO [ 12:00_14:00 ] F2-21", count: 30 },
-                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 16, time: "TH [ 08:00_10:00 ] F2-21", count: 27 },
-                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 17, time: "TH [ 10:00_12:00 ] F2-20", count: 32 },
-                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 18, time: "TH [ 12:00_14:00 ] F2-21", count: 30 },
-                    { code: "COMP3132", name: "Software Design & Architecture", units: 4, activity: "Lecture", section: 1, time: "MO [ 14:00_15:00 ] B1-14 / SU [ 12:00_13:00 ] F1-13 / SU [ 08:00_09:00 ] F1-12", count: 32 },
-                    { code: "COMP3132", name: "Software Design & Architecture", units: 0, activity: "Practical", section: 1, time: "WE [ 12:00_14:00 ] G0-03", count: 32 }
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 2, time: "SU [ 10:00_12:00 ] F2-20" },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 8, time: "MO [ 12:00_14:00 ] F2-21" },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 16, time: "TH [ 08:00_10:00 ] F2-21" },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 17, time: "TH [ 10:00_12:00 ] F2-20" },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 18, time: "TH [ 12:00_14:00 ] F2-21" },
+                    { code: "COMP3132", name: "Software Design & Architecture", units: 4, activity: "Lecture", section: 1, time: "MO [ 14:00_15:00 ] B1-14 / SU [ 12:00_13:00 ] F1-13 / SU [ 08:00_09:00 ] F1-12" },
+                    { code: "COMP3132", name: "Software Design & Architecture", units: 0, activity: "Practical", section: 1, time: "WE [ 12:00_14:00 ] G0-03" }
                 ]
             },
             {
@@ -952,13 +952,13 @@
                 rank: "Assistant Professor",
                 contactHours: 17,
                 courses: [
-                    { code: "COMP3113", name: "Cloud Computing and Web Services", units: 0, activity: "Practical", section: 1, time: "SU [ 08:00_10:00 ] F2-24", count: 52 },
-                    { code: "COMP3113", name: "Cloud Computing and Web Services", units: 4, activity: "Lecture", section: 1, time: "WE [ 17:00_18:00 ] F0-11 / SU [ 17:00_18:00 ] G2-09 / SU [ 11:00_12:00 ] G2-19", count: 75 },
-                    { code: "COMP3113", name: "Cloud Computing and Web Services", units: 0, activity: "Practical", section: 2, time: "MO [ 10:00_12:00 ] G2-13", count: 41 },
-                    { code: "COMP3113", name: "Cloud Computing and Web Services", units: 4, activity: "Lecture", section: 2, time: "TH [ 17:00_18:00 ] F0-11 / TH [ 15:00_16:00 ] F0-11 / WE [ 15:00_16:00 ] G1-14", count: 40 },
-                    { code: "COMP3113", name: "Cloud Computing and Web Services", units: 4, activity: "Lecture", section: 3, time: "WE [ 10:00_11:00 ] G1-22 / SU [ 14:00_15:00 ] F1-09 / TU [ 14:00_15:00 ] F1-03", count: 48 },
-                    { code: "COMP3113", name: "Cloud Computing and Web Services", units: 0, activity: "Practical", section: 4, time: "TU [ 08:00_10:00 ] F2-24", count: 27 },
-                    { code: "COMP3113", name: "Cloud Computing and Web Services", units: 0, activity: "Practical", section: 6, time: "WE [ 12:00_14:00 ] G2-17", count: 43 }
+                    { code: "COMP3113", name: "Cloud Computing and Web Services", units: 0, activity: "Practical", section: 1, time: "SU [ 08:00_10:00 ] F2-24" },
+                    { code: "COMP3113", name: "Cloud Computing and Web Services", units: 4, activity: "Lecture", section: 1, time: "WE [ 17:00_18:00 ] F0-11 / SU [ 17:00_18:00 ] G2-09 / SU [ 11:00_12:00 ] G2-19" },
+                    { code: "COMP3113", name: "Cloud Computing and Web Services", units: 0, activity: "Practical", section: 2, time: "MO [ 10:00_12:00 ] G2-13" },
+                    { code: "COMP3113", name: "Cloud Computing and Web Services", units: 4, activity: "Lecture", section: 2, time: "TH [ 17:00_18:00 ] F0-11 / TH [ 15:00_16:00 ] F0-11 / WE [ 15:00_16:00 ] G1-14" },
+                    { code: "COMP3113", name: "Cloud Computing and Web Services", units: 4, activity: "Lecture", section: 3, time: "WE [ 10:00_11:00 ] G1-22 / SU [ 14:00_15:00 ] F1-09 / TU [ 14:00_15:00 ] F1-03" },
+                    { code: "COMP3113", name: "Cloud Computing and Web Services", units: 0, activity: "Practical", section: 4, time: "TU [ 08:00_10:00 ] F2-24" },
+                    { code: "COMP3113", name: "Cloud Computing and Web Services", units: 0, activity: "Practical", section: 6, time: "WE [ 12:00_14:00 ] G2-17" }
                 ]
             },
             {
@@ -966,10 +966,10 @@
                 rank: "Assistant Professor",
                 contactHours: 4,
                 courses: [
-                    { code: "COMP5106", name: "Ethics and Research Methods in Com", units: 3, activity: "Lecture", section: 1, time: "SA [ 14:00_16:00 ] F2-30", count: 5 },
-                    { code: "COMP5106", name: "Ethics and Research Methods in Com", units: 0, activity: "Practical", section: 1, time: "TU [ 16:00_18:00 ] F1-13", count: 5 },
-                    { code: "COMP7001", name: "Research Methodology", units: 0, activity: "Lecture", section: 1, time: "SA [ 14:00_16:00 ] F2-30", count: 2 },
-                    { code: "COMP7001", name: "Research Methodology", units: 0, activity: "Practical", section: 1, time: "TU [ 16:00_18:00 ] F1-13", count: 2 }
+                    { code: "COMP5106", name: "Ethics and Research Methods in Com", units: 3, activity: "Lecture", section: 1, time: "SA [ 14:00_16:00 ] F2-30" },
+                    { code: "COMP5106", name: "Ethics and Research Methods in Com", units: 0, activity: "Practical", section: 1, time: "TU [ 16:00_18:00 ] F1-13" },
+                    { code: "COMP7001", name: "Research Methodology", units: 0, activity: "Lecture", section: 1, time: "SA [ 14:00_16:00 ] F2-30" },
+                    { code: "COMP7001", name: "Research Methodology", units: 0, activity: "Practical", section: 1, time: "TU [ 16:00_18:00 ] F1-13" }
                 ]
             },
             {
@@ -977,12 +977,12 @@
                 rank: "Assistant Professor",
                 contactHours: 15,
                 courses: [
-                    { code: "COMP2111", name: "System Analysis & design", units: 4, activity: "Lecture", section: 1, time: "TH [13:00_14:00] WE [15:00_16:00] | A1-00 / TH [08:00_09:00] A1-00 / E1-01", count: 144 },
-                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 2, time: "SU [12:00_14:00] F3-21", count: 30 },
-                    { code: "COMP2111", name: "System Analysis & design", units: 4, activity: "Lecture", section: 3, time: "TH [15:00_16:00] MO [16:00_17:00] | G2-09 / SU [16:00_17:00] G2-19 / F1-10", count: 77 },
-                    { code: "COMP2111", name: "System Analysis & design", units: 4, activity: "Lecture", section: 5, time: "SU [15:00_16:00] MO [11:00_12:00] | A1-01 / WE [14:00_15:00] G1-13 / G2-14", count: 36 },
-                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 6, time: "TU [10:00_12:00] G2-14", count: 36 },
-                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 14, time: "MO [08:00_10:00] G0-03", count: 30 }
+                    { code: "COMP2111", name: "System Analysis & design", units: 4, activity: "Lecture", section: 1, time: "TH [13:00_14:00] WE [15:00_16:00] | A1-00 / TH [08:00_09:00] A1-00 / E1-01" },
+                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 2, time: "SU [12:00_14:00] F3-21" },
+                    { code: "COMP2111", name: "System Analysis & design", units: 4, activity: "Lecture", section: 3, time: "TH [15:00_16:00] MO [16:00_17:00] | G2-09 / SU [16:00_17:00] G2-19 / F1-10" },
+                    { code: "COMP2111", name: "System Analysis & design", units: 4, activity: "Lecture", section: 5, time: "SU [15:00_16:00] MO [11:00_12:00] | A1-01 / WE [14:00_15:00] G1-13 / G2-14" },
+                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 6, time: "TU [10:00_12:00] G2-14" },
+                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 14, time: "MO [08:00_10:00] G0-03" }
                 ]
             },
             {
@@ -990,13 +990,13 @@
                 rank: "Assistant Professor",
                 contactHours: 15,
                 courses: [
-                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 5, time: "MO [ 10:00_12:00 ] F2-24", count: 54 },
-                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 7, time: "WE [ 16:00_18:00 ] G2-13", count: 30 },
-                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 8, time: "MO [ 16:00_18:00 ] F2-29", count: 25 },
-                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 9, time: "TU [ 08:00_10:00 ] F2-20", count: 30 },
-                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 12, time: "TH [ 16:00_18:00 ] G2-13", count: 25 },
-                    { code: "COMP3131", name: "Software Construction", units: 0, activity: "Practical", section: 1, time: "TH [ 14:00_16:00 ] G2-13", count: 29 },
-                    { code: "COMP3131", name: "Software Construction", units: 4, activity: "Lecture", section: 1, time: "TH [ 12:00_13:00 ] F1-13 / TH [ 10:00_11:00 ] G1-17 / TH [ 08:00_09:00 ] F1-11", count: 29 }
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 5, time: "MO [ 10:00_12:00 ] F2-24" },
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 7, time: "WE [ 16:00_18:00 ] G2-13" },
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 8, time: "MO [ 16:00_18:00 ] F2-29" },
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 9, time: "TU [ 08:00_10:00 ] F2-20" },
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 12, time: "TH [ 16:00_18:00 ] G2-13" },
+                    { code: "COMP3131", name: "Software Construction", units: 0, activity: "Practical", section: 1, time: "TH [ 14:00_16:00 ] G2-13" },
+                    { code: "COMP3131", name: "Software Construction", units: 4, activity: "Lecture", section: 1, time: "TH [ 12:00_13:00 ] F1-13 / TH [ 10:00_11:00 ] G1-17 / TH [ 08:00_09:00 ] F1-11" }
                 ]
             },
             {
@@ -1004,12 +1004,12 @@
                 rank: "Assistant Professor",
                 contactHours: 15,
                 courses: [
-                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 1, time: "SU [ 08:00_10:00 ] F2-20", count: 32 },
-                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 4, activity: "Lecture", section: 1, time: "TH [ 15:00_16:00 ] B1-00 / TH [ 08:00_09:00 ] F0-11 / WE [ 10:00_11:00 ] B1-00", count: 112 },
-                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 4, activity: "Lecture", section: 2, time: "TH [ 10:00_11:00 ] I0-01 / MO [ 08:00_09:00 ] F0-11 / SU [ 11:00_12:00 ] I0-02", count: 141 },
-                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 4, activity: "Lecture", section: 5, time: "TH [ 14:00_15:00 ] E1-01 / WE [ 14:00_15:00 ] E1-01 / TU [ 10:00_11:00 ] A1-05", count: 42 },
-                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 11, time: "TU [ 12:00_14:00 ] F2-20", count: 34 },
-                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 12, time: "TU [ 16:00_18:00 ] F2-20", count: 32 }
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 1, time: "SU [ 08:00_10:00 ] F2-20" },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 4, activity: "Lecture", section: 1, time: "TH [ 15:00_16:00 ] B1-00 / TH [ 08:00_09:00 ] F0-11 / WE [ 10:00_11:00 ] B1-00" },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 4, activity: "Lecture", section: 2, time: "TH [ 10:00_11:00 ] I0-01 / MO [ 08:00_09:00 ] F0-11 / SU [ 11:00_12:00 ] I0-02" },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 4, activity: "Lecture", section: 5, time: "TH [ 14:00_15:00 ] E1-01 / WE [ 14:00_15:00 ] E1-01 / TU [ 10:00_11:00 ] A1-05" },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 11, time: "TU [ 12:00_14:00 ] F2-20" },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 12, time: "TU [ 16:00_18:00 ] F2-20" }
                 ]
             },
             {
@@ -1017,13 +1017,13 @@
                 rank: "Assistant Professor",
                 contactHours: 15,
                 courses: [
-                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 1, time: "SU [ 08:00_10:00 ] F2-29", count: 40 },
-                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 2, time: "SU [ 10:00_12:00 ] F3-21", count: 30 },
-                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 4, time: "MO [ 10:00_12:00 ] F3-21", count: 30 },
-                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 8, time: "WE [ 12:00_14:00 ] F3-21", count: 30 },
-                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 12, time: "TH [ 12:00_14:00 ] F2-29", count: 13 },
-                    { code: "NEDB3101", name: "Switching & Routing Techniques", units: 0, activity: "Practical", section: 1, time: "WE [ 10:00_12:00 ] F2-24", count: 43 },
-                    { code: "NEDB3101", name: "Switching & Routing Techniques", units: 4, activity: "Lecture", section: 1, time: "TH [ 11:00_12:00 ] F1-13 / TH [ 10:00_11:00 ] F1-02 / MO [ 08:00_09:00 ] F1-12", count: 43 }
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 1, time: "SU [ 08:00_10:00 ] F2-29" },
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 2, time: "SU [ 10:00_12:00 ] F3-21" },
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 4, time: "MO [ 10:00_12:00 ] F3-21" },
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 8, time: "WE [ 12:00_14:00 ] F3-21" },
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 12, time: "TH [ 12:00_14:00 ] F2-29" },
+                    { code: "NEDB3101", name: "Switching & Routing Techniques", units: 0, activity: "Practical", section: 1, time: "WE [ 10:00_12:00 ] F2-24" },
+                    { code: "NEDB3101", name: "Switching & Routing Techniques", units: 4, activity: "Lecture", section: 1, time: "TH [ 11:00_12:00 ] F1-13 / TH [ 10:00_11:00 ] F1-02 / MO [ 08:00_09:00 ] F1-12" }
                 ]
             },
             {
@@ -1031,12 +1031,12 @@
                 rank: "Associate Professor",
                 contactHours: 15,
                 courses: [
-                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 4, activity: "Lecture", section: 3, time: "TH [12:00_13:00] F0-02 / TH [08:00_09:00] E0-01 / MO [16:00_16:00] F0-10", count: 138 },
-                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 4, activity: "Lecture", section: 4, time: "TH [15:00_16:00] E1-01 / WE [12:00_13:00] B1-00 / IU [08:00_09:00] G0-00", count: 40 },
-                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 4, activity: "Lecture", section: 6, time: "TU [16:00_17:00] G2-11 / MO [16:00_17:00] G2-11 / SU [16:00_17:00] G2-11", count: 101 },
-                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 10, time: "TU [10:00_12:00] F2-20", count: 32 },
-                    { code: "COMP6104", name: "Advanced Database Systems", units: 0, activity: "Practical", section: 1, time: "TH [16:00_18:00] F2-30", count: 5 },
-                    { code: "COMP6104", name: "Advanced Database Systems", units: 3, activity: "Lecture", section: 1, time: "SA [08:00_10:00] F1-13", count: 5 }
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 4, activity: "Lecture", section: 3, time: "TH [12:00_13:00] F0-02 / TH [08:00_09:00] E0-01 / MO [16:00_17:00] F0-10" },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 4, activity: "Lecture", section: 4, time: "TH [15:00_16:00] E1-01 / WE [12:00_13:00] B1-00 / TU [08:00_09:00] G0-00" },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 4, activity: "Lecture", section: 6, time: "TU [16:00_17:00] G2-11 / MO [16:00_17:00] G2-11 / SU [16:00_17:00] G2-11" },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 10, time: "TU [10:00_12:00] F2-20" },
+                    { code: "COMP6104", name: "Advanced Database Systems", units: 0, activity: "Practical", section: 1, time: "TH [16:00_18:00] F2-30" },
+                    { code: "COMP6104", name: "Advanced Database Systems", units: 3, activity: "Lecture", section: 1, time: "SA [08:00_10:00] F1-13" }
                 ]
             },
             {
@@ -1044,13 +1044,13 @@
                 rank: "Assistant Professor",
                 contactHours: 16,
                 courses: [
-                    { code: "COMP1217", name: "Fundamentals of Database Systems", units: 4, activity: "Lecture", section: 1, time: "TU [ 08:00_09:00 ] B1-13 / SU [ 08:00_09:00 ] E1-01 / WE [ 08:00_09:00 ] F3-01", count: 61 },
-                    { code: "COMP1217", name: "Fundamentals of Database Systems", units: 0, activity: "Practical", section: 1, time: "MO [ 08:00_10:00 ] F2-29", count: 45 },
-                    { code: "COMP1217", name: "Fundamentals of Database Systems", units: 0, activity: "Practical", section: 2, time: "TH [ 08:00_10:00 ] G0-03", count: 32 },
-                    { code: "COMP1217", name: "Fundamentals of Database Systems", units: 4, activity: "Lecture", section: 2, time: "TU [ 15:00_16:00 ] E1-01 / SU [ 15:00_16:00 ] G1-01 / WE [ 15:00_16:00 ] B1-00", count: 68 },
-                    { code: "COMP1217", name: "Fundamentals of Database Systems", units: 0, activity: "Practical", section: 4, time: "TH [ 14:00_16:00 ] F2-21", count: 27 },
-                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 8, time: "TU [ 16:00_18:00 ] F3-21", count: 29 },
-                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 13, time: "TH [ 12:00_14:00 ] F2-24", count: 46 }
+                    { code: "COMP1217", name: "Fundamentals of Database Systems", units: 4, activity: "Lecture", section: 1, time: "TU [ 08:00_09:00 ] B1-13 / SU [ 08:00_09:00 ] E1-01 / WE [ 08:00_09:00 ] F3-01" },
+                    { code: "COMP1217", name: "Fundamentals of Database Systems", units: 0, activity: "Practical", section: 1, time: "MO [ 08:00_10:00 ] F2-29" },
+                    { code: "COMP1217", name: "Fundamentals of Database Systems", units: 0, activity: "Practical", section: 2, time: "TH [ 08:00_10:00 ] G0-03" },
+                    { code: "COMP1217", name: "Fundamentals of Database Systems", units: 4, activity: "Lecture", section: 2, time: "TU [ 15:00_16:00 ] E1-01 / SU [ 15:00_16:00 ] G1-01 / WE [ 15:00_16:00 ] B1-00" },
+                    { code: "COMP1217", name: "Fundamentals of Database Systems", units: 0, activity: "Practical", section: 4, time: "TH [ 14:00_16:00 ] F2-21" },
+                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 8, time: "TU [ 16:00_18:00 ] F3-21" },
+                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 13, time: "TH [ 12:00_14:00 ] F2-24" }
                 ]
             },
             {
@@ -1058,13 +1058,13 @@
                 rank: "Assistant Professor",
                 contactHours: 15,
                 courses: [
-                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 13, time: "WE [ 08:00_10:00 ] F2-29", count: 40 },
-                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 15, time: "SU [ 16:00_18:00 ] G2-14", count: 26 },
-                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 17, time: "WE [ 16:00_18:00 ] F3-21", count: 18 },
-                    { code: "COMP2000", name: "Computer Networks (2)", units: 0, activity: "Practical", section: 1, time: "SU [ 08:00_10:00 ] F2-21", count: 31 },
-                    { code: "COMP2000", name: "Computer Networks (2)", units: 0, activity: "Practical", section: 6, time: "TU [ 08:00_10:00 ] F2-21", count: 30 },
-                    { code: "COMP4110", name: "Numerical Analysis", units: 4, activity: "Lecture", section: 1, time: "MO [ 11:00_12:00 ] G1-16 / MO [ 08:00_09:00 ] G1-18 / MO [ 09:00_10:00 ] A1-01", count: 3 },
-                    { code: "COMP4110", name: "Numerical Analysis", units: 0, activity: "Practical", section: 1, time: "MO [ 12:00_14:00 ] G0-03", count: 3 }
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 13, time: "WE [ 08:00_10:00 ] F2-29" },
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 15, time: "SU [ 16:00_18:00 ] G2-14" },
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 17, time: "WE [ 16:00_18:00 ] F3-21" },
+                    { code: "COMP2000", name: "Computer Networks (2)", units: 0, activity: "Practical", section: 1, time: "SU [ 08:00_10:00 ] F2-21" },
+                    { code: "COMP2000", name: "Computer Networks (2)", units: 0, activity: "Practical", section: 6, time: "TU [ 08:00_10:00 ] F2-21" },
+                    { code: "COMP4110", name: "Numerical Analysis", units: 4, activity: "Lecture", section: 1, time: "MO [ 11:00_12:00 ] G1-16 / MO [ 08:00_09:00 ] G1-18 / MO [ 09:00_10:00 ] A1-01" },
+                    { code: "COMP4110", name: "Numerical Analysis", units: 0, activity: "Practical", section: 1, time: "MO [ 12:00_14:00 ] G0-03" }
                 ]
             },
             {
@@ -1072,14 +1072,14 @@
                 rank: "Assistant Professor",
                 contactHours: 16,
                 courses: [
-                    { code: "COMP1118", name: "Discrete Mathematics", units: 3, activity: "Lecture", section: 4, time: "MO [ 16:00_17:00 ] E0-04 / SU [ 16:00_17:00 ] E1-10", count: 78 },
-                    { code: "COMP1118", name: "Discrete Mathematics", units: 3, activity: "Lecture", section: 5, time: "MO [ 17:00_18:00 ] F1-05 / SU [ 17:00_18:00 ] F1-05", count: 66 },
-                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 8, time: "WE [ 16:00_18:00 ] F1-04", count: 46 },
-                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 9, time: "TH [ 12:00_14:00 ] A0-02", count: 31 },
-                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 10, time: "WE [ 12:00_14:00 ] A0-13", count: 31 },
-                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 13, time: "SU [ 12:00_14:00 ] G0-03", count: 32 },
-                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 14, time: "SU [ 10:00_12:00 ] G0-03", count: 30 },
-                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 15, time: "MO [ 14:00_16:00 ] G0-03", count: 31 }
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 3, activity: "Lecture", section: 4, time: "MO [ 16:00_17:00 ] E0-04 / SU [ 16:00_17:00 ] E1-10" },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 3, activity: "Lecture", section: 5, time: "MO [ 17:00_18:00 ] F1-05 / SU [ 17:00_18:00 ] F1-05" },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 8, time: "WE [ 16:00_18:00 ] F1-04" },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 9, time: "TH [ 12:00_14:00 ] A0-02" },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 10, time: "WE [ 12:00_14:00 ] A0-13" },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 13, time: "SU [ 12:00_14:00 ] G0-03" },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 14, time: "SU [ 10:00_12:00 ] G0-03" },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 15, time: "MO [ 14:00_16:00 ] G0-03" }
                 ]
             },
             {
@@ -1087,13 +1087,13 @@
                 rank: "Assistant Professor",
                 contactHours: 16,
                 courses: [
-                    { code: "COMP1217", name: "Fundamentals of Database Systems", units: 0, activity: "Practical", section: 3, time: "WE [ 16:00_18:00 ] F2-29", count: 25 },
-                    { code: "COMP4102", name: "Software Project Management", units: 0, activity: "Practical", section: 1, time: "MO [ 14:00_16:00 ] G2-13", count: 37 },
-                    { code: "COMP4102", name: "Software Project Management", units: 4, activity: "Lecture", section: 1, time: "MO [ 17:00_18:00 ] I0-03 / SU [ 17:00_18:00 ] F1-10 / SU [ 16:00_17:00 ] F1-10", count: 87 },
-                    { code: "COMP4102", name: "Software Project Management", units: 0, activity: "Practical", section: 2, time: "TU [ 14:00_16:00 ] G0-03", count: 32 },
-                    { code: "COMP4102", name: "Software Project Management", units: 4, activity: "Lecture", section: 2, time: "TU [ 16:00_17:00 ] F0-11 / WE [ 13:00_14:00 ] G1-15 / TU [ 13:00_14:00 ] F1-05", count: 60 },
-                    { code: "COMP4102", name: "Software Project Management", units: 0, activity: "Practical", section: 3, time: "TU [ 10:00_12:00 ] F2-24", count: 61 },
-                    { code: "COMP4102", name: "Software Project Management", units: 0, activity: "Practical", section: 4, time: "TU [ 08:00_10:00 ] G0-03", count: 17 }
+                    { code: "COMP1217", name: "Fundamentals of Database Systems", units: 0, activity: "Practical", section: 3, time: "WE [ 16:00_18:00 ] F2-29" },
+                    { code: "COMP4102", name: "Software Project Management", units: 0, activity: "Practical", section: 1, time: "MO [ 14:00_16:00 ] G2-13" },
+                    { code: "COMP4102", name: "Software Project Management", units: 4, activity: "Lecture", section: 1, time: "MO [ 17:00_18:00 ] I0-03 / SU [ 17:00_18:00 ] F1-10 / SU [ 16:00_17:00 ] F1-10" },
+                    { code: "COMP4102", name: "Software Project Management", units: 0, activity: "Practical", section: 2, time: "TU [ 14:00_16:00 ] G0-03" },
+                    { code: "COMP4102", name: "Software Project Management", units: 4, activity: "Lecture", section: 2, time: "TU [ 16:00_17:00 ] F0-11 / WE [ 13:00_14:00 ] G1-15 / TU [ 13:00_14:00 ] F1-05" },
+                    { code: "COMP4102", name: "Software Project Management", units: 0, activity: "Practical", section: 3, time: "TU [ 10:00_12:00 ] F2-24" },
+                    { code: "COMP4102", name: "Software Project Management", units: 0, activity: "Practical", section: 4, time: "TU [ 08:00_10:00 ] G0-03" }
                 ]
             },
             {
@@ -1101,12 +1101,12 @@
                 rank: "Assistant Professor",
                 contactHours: 15,
                 courses: [
-                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 2, time: "SU [ 14:00_16:00 ] F2-24", count: 56 },
-                    { code: "COMP1116", name: "Computer Programming", units: 4, activity: "Lecture", section: 3, time: "WE [ 17:00_18:00 ] F0-02 / TU [ 17:00_18:00 ] F0-02 / MO [ 17:00_18:00 ] F0-02", count: 141 },
-                    { code: "COMP1116", name: "Computer Programming", units: 4, activity: "Lecture", section: 4, time: "MO [ 16:00_17:00 ] I0-02 / TH [ 16:00_17:00 ] F0-02 / WE [ 16:00_17:00 ] F0-02", count: 87 },
-                    { code: "COMP1116", name: "Computer Programming", units: 4, activity: "Lecture", section: 5, time: "TH [ 08:00_09:00 ] I0-03 / SU [ 16:00_17:00 ] E1-02 / TU [ 16:00_17:00 ] E1-03", count: 74 },
-                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 18, time: "TH [ 12:00_14:00 ] F2-20", count: 32 },
-                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 19, time: "TH [ 14:00_16:00 ] F3-21", count: 30 }
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 2, time: "SU [ 14:00_16:00 ] F2-24" },
+                    { code: "COMP1116", name: "Computer Programming", units: 4, activity: "Lecture", section: 3, time: "WE [ 17:00_18:00 ] F0-02 / TU [ 17:00_18:00 ] F0-02 / MO [ 17:00_18:00 ] F0-02" },
+                    { code: "COMP1116", name: "Computer Programming", units: 4, activity: "Lecture", section: 4, time: "MO [ 16:00_17:00 ] I0-02 / TH [ 16:00_17:00 ] F0-02 / WE [ 16:00_17:00 ] F0-02" },
+                    { code: "COMP1116", name: "Computer Programming", units: 4, activity: "Lecture", section: 5, time: "TH [ 08:00_09:00 ] I0-03 / SU [ 16:00_17:00 ] E1-02 / TU [ 16:00_17:00 ] E1-03" },
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 18, time: "TH [ 12:00_14:00 ] F2-20" },
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 19, time: "TH [ 14:00_16:00 ] F3-21" }
                 ]
             },
             {
@@ -1114,14 +1114,14 @@
                 rank: "Assistant Professor",
                 contactHours: 16,
                 courses: [
-                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 2, time: "TH [12:00_14:00 ] A1-01", count: 40 },
-                    { code: "COMP1118", name: "Discrete Mathematics", units: 3, activity: "Lecture", section: 3, time: "WE [13:00_14:00 ] B1-14 / WE [15:00_16:00 ] F3-01", count: 55 },
-                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 4, time: "TU [08:00_10:00 ] F2-29", count: 41 },
-                    { code: "COMP1118", name: "Discrete Mathematics", units: 3, activity: "Lecture", section: 6, time: "TH [15:00_16:00 ] F0-02 / WE [14:00_15:00 ] F1-11", count: 44 },
-                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 7, time: "MO [10:00_12:00 ] G0-03", count: 32 },
-                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 11, time: "WE [16:00_18:00 ] A1-06", count: 30 },
-                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 16, time: "TU [14:00_16:00 ] A0-10", count: 29 },
-                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 17, time: "MO [12:00_14:00 ] A0-13", count: 30 }
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 2, time: "TH [12:00_14:00 ] A1-01" },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 3, activity: "Lecture", section: 3, time: "WE [13:00_14:00 ] B1-14 / WE [15:00_16:00 ] F3-01" },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 4, time: "TU [08:00_10:00 ] F2-29" },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 3, activity: "Lecture", section: 6, time: "TH [15:00_16:00 ] F0-02 / WE [14:00_15:00 ] F1-11" },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 7, time: "MO [10:00_12:00 ] G0-03" },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 11, time: "WE [16:00_18:00 ] A1-06" },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 16, time: "TU [14:00_16:00 ] A0-10" },
+                    { code: "COMP1118", name: "Discrete Mathematics", units: 0, activity: "Practical", section: 17, time: "MO [12:00_14:00 ] A0-13" }
                 ]
             },
             {
@@ -1129,13 +1129,13 @@
                 rank: "Assistant Professor",
                 contactHours: 16,
                 courses: [
-                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 1, time: "SU [ 08:00_10:00 ] F3-21", count: 30 },
-                    { code: "COMP2111", name: "System Analysis & design", units: 4, activity: "Lecture", section: 2, time: "WE [ 17:00_18:00 ] E1-01 / TU [ 17:00_18:00 ] E0-01 / SU [ 17:00_18:00 ] F0-11", count: 83 },
-                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 3, time: "MO [ 08:00_10:00 ] F3-21", count: 30 },
-                    { code: "COMP2111", name: "System Analysis & design", units: 4, activity: "Lecture", section: 4, time: "TH [ 09:00_10:00 ] F0-02 / WE [ 12:00_13:00 ] E0-04 / TU [ 10:00_11:00 ] B1-00", count: 75 },
-                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 5, time: "TU [ 08:00_10:00 ] F3-21", count: 30 },
-                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 10, time: "TH [ 16:00_18:00 ] F3-21", count: 13 },
-                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 11, time: "TH [ 10:00_12:00 ] G2-13", count: 30 }
+                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 1, time: "SU [ 08:00_10:00 ] F3-21" },
+                    { code: "COMP2111", name: "System Analysis & design", units: 4, activity: "Lecture", section: 2, time: "WE [ 17:00_18:00 ] E1-01 / TU [ 17:00_18:00 ] E0-01 / SU [ 17:00_18:00 ] F0-11" },
+                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 3, time: "MO [ 08:00_10:00 ] F3-21" },
+                    { code: "COMP2111", name: "System Analysis & design", units: 4, activity: "Lecture", section: 4, time: "TH [ 09:00_10:00 ] F0-02 / WE [ 12:00_13:00 ] E0-04 / TU [ 10:00_11:00 ] B1-00" },
+                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 5, time: "TU [ 08:00_10:00 ] F3-21" },
+                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 10, time: "TH [ 16:00_18:00 ] F3-21" },
+                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 11, time: "TH [ 10:00_12:00 ] G2-13" }
                 ]
             },
             {
@@ -1143,13 +1143,13 @@
                 rank: "Assistant Professor",
                 contactHours: 16,
                 courses: [
-                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 4, time: "MO [ 08:00_10:00 ] F2-21", count: 29 },
-                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 11, time: "TU [ 14:00_16:00 ] F2-29", count: 40 },
-                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 16, time: "WE [ 14:00_16:00 ] F2-24", count: 50 },
-                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 20, time: "MO [ 12:00_14:00 ] F2-20", count: 11 },
-                    { code: "COMP2108", name: "Object-Oriented Programming", units: 4, activity: "Lecture", section: 2, time: "WE [ 16:00_17:00 ] G2-11 / SU [ 16:00_17:00 ] A1-00 / MO [ 17:00_18:00 ] F0-10", count: 81 },
-                    { code: "COMP2108", name: "Object-Oriented Programming", units: 4, activity: "Lecture", section: 3, time: "TH [ 17:00_18:00 ] E1-01 / SU [ 17:00_18:00 ] F0-02 / TU [ 17:00_18:00 ] B1-00", count: 51 },
-                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 3, time: "SU [ 14:00_16:00 ] F2-20", count: 32 }
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 4, time: "MO [ 08:00_10:00 ] F2-21" },
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 11, time: "TU [ 14:00_16:00 ] F2-29" },
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 16, time: "WE [ 14:00_16:00 ] F2-24" },
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 20, time: "MO [ 12:00_14:00 ] F2-20" },
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 4, activity: "Lecture", section: 2, time: "WE [ 16:00_17:00 ] G2-11 / SU [ 16:00_17:00 ] A1-00 / MO [ 17:00_18:00 ] F0-10" },
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 4, activity: "Lecture", section: 3, time: "TH [ 17:00_18:00 ] E1-01 / SU [ 17:00_18:00 ] F0-02 / TU [ 17:00_18:00 ] B1-00" },
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 3, time: "SU [ 14:00_16:00 ] F2-20" }
                 ]
             },
             {
@@ -1157,11 +1157,11 @@
                 rank: "Assistant Professor",
                 contactHours: 11,
                 courses: [
-                    { code: "COMP2100", name: "Human Computer Interaction", units: 4, activity: "Lecture", section: 1, time: "TH [16:00_17:00] E0-01 / WE [17:00_18:00] E0-01 / MO [17:00_18:00] E0-01", count: 60 },
-                    { code: "COMP2100", name: "Human Computer Interaction", units: 0, activity: "Practical", section: 2, time: "TU [10:00_12:00] F2-29", count: 38 },
-                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 7, time: "TU [14:00_16:00] F2-20", count: 32 },
-                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 9, time: "TH [08:00_10:00] F3-21", count: 30 },
-                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 15, time: "WE [14:00_16:00] G0-03", count: 17 }
+                    { code: "COMP2100", name: "Human Computer Interaction", units: 4, activity: "Lecture", section: 1, time: "TH [16:00_17:00] E0-01 / WE [17:00_18:00] E0-01 / MO [17:00_18:00] E0-01" },
+                    { code: "COMP2100", name: "Human Computer Interaction", units: 0, activity: "Practical", section: 2, time: "TU [10:00_12:00] F2-29" },
+                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 7, time: "TU [14:00_16:00] F2-20" },
+                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 9, time: "TH [08:00_10:00] F3-21" },
+                    { code: "COMP2111", name: "System Analysis & design", units: 0, activity: "Practical", section: 15, time: "WE [14:00_16:00] G0-03" }
                 ]
             },
             {
@@ -1169,14 +1169,14 @@
                 rank: "Assistant Professor",
                 contactHours: 16,
                 courses: [
-                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 3, time: "MO [ 16:00_18:00 ] G2-13", count: 31 },
-                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 6, time: "TU [ 16:00_18:00 ] G2-13", count: 32 },
-                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 10, time: "TU [ 12:00_14:00 ] F2-21", count: 30 },
-                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 14, time: "WE [ 10:00_12:00 ] F2-29", count: 38 },
-                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 4, time: "SU [ 14:00_16:00 ] F2-21", count: 31 },
-                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 5, time: "SU [ 16:00_18:00 ] F2-20", count: 28 },
-                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 14, time: "WE [ 14:00_16:00 ] F2-20", count: 32 },
-                    { code: "COMP4108", name: "Big Data Analytics", units: 0, activity: "Practical", section: 1, time: "TH [ 10:00_12:00 ] G0-03", count: 29 }
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 3, time: "MO [ 16:00_18:00 ] G2-13" },
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 6, time: "TU [ 16:00_18:00 ] G2-13" },
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 10, time: "TU [ 12:00_14:00 ] F2-21" },
+                    { code: "COMP1116", name: "Computer Programming", units: 0, activity: "Practical", section: 14, time: "WE [ 10:00_12:00 ] F2-29" },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 4, time: "SU [ 14:00_16:00 ] F2-21" },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 5, time: "SU [ 16:00_18:00 ] F2-20" },
+                    { code: "COMP1117", name: "Computer Architecture & Organization", units: 0, activity: "Practical", section: 14, time: "WE [ 14:00_16:00 ] F2-20" },
+                    { code: "COMP4108", name: "Big Data Analytics", units: 0, activity: "Practical", section: 1, time: "TH [ 10:00_12:00 ] G0-03" }
                 ]
             },
             {
@@ -1184,12 +1184,12 @@
                 rank: "Associate Professor",
                 contactHours: 13,
                 courses: [
-                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 6, time: "TU [ 12:00_14:00 ] F3-21", count: 31 },
-                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 11, time: "TH [ 10:00_12:00 ] F3-21", count: 30 },
-                    { code: "COMP3110", name: "Pattern Recognition", units: 4, activity: "Lecture", section: 1, time: "MO [ 13:00_14:00 ] E1-07 / TU [ 10:00_11:00 ] A1-00 / MO [ 08:00_09:00 ] G1-15", count: 72 },
-                    { code: "COMP3110", name: "Pattern Recognition", units: 0, activity: "Practical", section: 1, time: "WE [ 14:00_16:00 ] G2-17", count: 33 },
-                    { code: "COMP3110", name: "Pattern Recognition", units: 0, activity: "Practical", section: 2, time: "WE [ 08:00_10:00 ] G2-14", count: 25 },
-                    { code: "COMP3110", name: "Pattern Recognition", units: 0, activity: "Practical", section: 3, time: "TU [ 14:00_16:00 ] G0-03", count: 14 }
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 6, time: "TU [ 12:00_14:00 ] F3-21" },
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 11, time: "TH [ 10:00_12:00 ] F3-21" },
+                    { code: "COMP3110", name: "Pattern Recognition", units: 4, activity: "Lecture", section: 1, time: "MO [ 13:00_14:00 ] E1-07 / TU [ 10:00_11:00 ] A1-00 / MO [ 08:00_09:00 ] G1-15" },
+                    { code: "COMP3110", name: "Pattern Recognition", units: 0, activity: "Practical", section: 1, time: "WE [ 14:00_16:00 ] G2-17" },
+                    { code: "COMP3110", name: "Pattern Recognition", units: 0, activity: "Practical", section: 2, time: "WE [ 08:00_10:00 ] G2-14" },
+                    { code: "COMP3110", name: "Pattern Recognition", units: 0, activity: "Practical", section: 3, time: "TU [ 14:00_16:00 ] G0-03" }
                 ]
             },
             {
@@ -1197,11 +1197,11 @@
                 rank: "Assistant Professor",
                 contactHours: 11,
                 courses: [
-                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 13, time: "TH [ 08:00_10:00 ] F2-29", count: 18 },
-                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 14, time: "TH [ 10:00_12:00 ] F2-21", count: 30 },
-                    { code: "COMP4000B", name: "Specialization Project (B)", units: 3, activity: "Lecture", section: 1, time: "WE [ 09:00_10:00 ] G1-01", count: 22 },
-                    { code: "COMP4000B", name: "Specialization Project (B)", units: 0, activity: "Practical", section: 1, time: "TU [ 18:00_20:00 ] DL / MO [ 18:00_20:00 ] DL", count: 22 },
-                    { code: "NEDB2101", name: "Database Administration", units: 0, activity: "Practical", section: 3, time: "SU [ 10:00_12:00 ] F2-29", count: 38 }
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 13, time: "TH [ 08:00_10:00 ] F2-29" },
+                    { code: "COMP2108", name: "Object-Oriented Programming", units: 0, activity: "Practical", section: 14, time: "TH [ 10:00_12:00 ] F2-21" },
+                    { code: "COMP4000B", name: "Specialization Project (B)", units: 3, activity: "Lecture", section: 1, time: "WE [ 09:00_10:00 ] G1-01" },
+                    { code: "COMP4000B", name: "Specialization Project (B)", units: 0, activity: "Practical", section: 1, time: "TU [ 18:00_20:00 ] DL / MO [ 18:00_20:00 ] DL" },
+                    { code: "NEDB2101", name: "Database Administration", units: 0, activity: "Practical", section: 3, time: "SU [ 10:00_12:00 ] F2-29" }
                 ]
             }
         ];
@@ -1261,10 +1261,13 @@
 
         // Get level from course code
         function getCourseLevel(courseCode) {
+            if (!courseCode) return 0;
+            
             const levelMatch = courseCode.match(/\d+/);
             if (levelMatch) {
                 const firstDigit = levelMatch[0].charAt(0);
-                return parseInt(firstDigit);
+                const level = parseInt(firstDigit);
+                return (level >= 1 && level <= 7) ? level : 0;
             }
             return 0;
         }
@@ -1281,7 +1284,37 @@
             return Array.from(levels).sort();
         }
 
-        // Render the timetable
+        // Enhanced time parsing function to handle edge cases
+        function parseCourseTime(timeStr) {
+            if (!timeStr) return [];
+            
+            const parts = timeStr.split(' / ');
+            const result = [];
+            
+            parts.forEach(part => {
+                // More robust regex to handle various spacing and formatting issues
+                const match = part.match(/([A-Z]{2})\s*\[\s*([0-9]{2}:[0-9]{2})_([0-9]{2}:[0-9]{2})\s*\]\s*(.+)/);
+                if (match) {
+                    result.push({
+                        day: match[1],
+                        time: `${match[2]}_${match[3]}`,
+                        location: match[4].trim()
+                    });
+                } else {
+                    console.warn('Could not parse time string:', part);
+                }
+            });
+            
+            return result;
+        }
+
+        // Helper function to get primary location from time string
+        function getPrimaryLocation(timeStr) {
+            const times = parseCourseTime(timeStr);
+            return times.length > 0 ? times[0].location : 'TBA';
+        }
+
+        // Render the timetable with duplicate prevention
         function renderTimetable() {
             const timetableBody = document.getElementById('timetableBody');
             timetableBody.innerHTML = '';
@@ -1329,10 +1362,13 @@
                     const timeCell = document.createElement('div');
                     timeCell.className = 'time-slot';
                     
-                    // Find courses for this time slot
-                    const coursesInSlot = staff.courses.filter(course => {
+                    // Use Set to track unique courses in this time slot
+                    const uniqueCourses = new Set();
+                    const coursesInSlot = [];
+                    
+                    staff.courses.forEach(course => {
                         const courseTimes = parseCourseTime(course.time);
-                        return courseTimes.some(ct => {
+                        const isInSlot = courseTimes.some(ct => {
                             // Check if the course time overlaps with this time slot
                             const [slotStart, slotEnd] = timeSlot.split('-').map(t => t.replace(':', ''));
                             const [courseStart, courseEnd] = ct.time.split('_').map(t => t.replace(':', ''));
@@ -1344,27 +1380,29 @@
                             return parseInt(courseStart) < parseInt(slotEnd) && 
                                    parseInt(courseEnd) > parseInt(slotStart);
                         });
+                        
+                        if (isInSlot) {
+                            const courseKey = `${course.code}-${course.section}-${course.activity}`;
+                            if (!uniqueCourses.has(courseKey)) {
+                                uniqueCourses.add(courseKey);
+                                coursesInSlot.push(course);
+                            }
+                        }
                     });
                     
                     if (coursesInSlot.length > 0) {
                         coursesInSlot.forEach(course => {
-                            const courseTimes = parseCourseTime(course.time);
-                            courseTimes.forEach(ct => {
-                                // Apply day filter again for display
-                                if (dayFilter !== 'all' && ct.day !== dayFilter) return;
-                                
-                                const courseElement = document.createElement('div');
-                                courseElement.className = course.activity === 'Lecture' ? 'lecture' : 'practical';
-                                const courseLevel = getCourseLevel(course.code);
-                                
-                                courseElement.innerHTML = `
-                                    <div class="course-code">${course.code} <span class="level-indicator level-${courseLevel}">${courseLevel}</span></div>
-                                    <div class="course-name">${course.name}</div>
-                                    <div class="location">${ct.location}</div>
-                                `;
-                                courseElement.addEventListener('click', () => showCourseDetails(course, staff));
-                                timeCell.appendChild(courseElement);
-                            });
+                            const courseElement = document.createElement('div');
+                            courseElement.className = course.activity === 'Lecture' ? 'lecture' : 'practical';
+                            const courseLevel = getCourseLevel(course.code);
+                            
+                            courseElement.innerHTML = `
+                                <div class="course-code">${course.code} <span class="level-indicator level-${courseLevel}">${courseLevel}</span></div>
+                                <div class="course-name">${course.name}</div>
+                                <div class="location">${getPrimaryLocation(course.time)}</div>
+                            `;
+                            courseElement.addEventListener('click', () => showCourseDetails(course, staff));
+                            timeCell.appendChild(courseElement);
                         });
                     } else {
                         const emptyElement = document.createElement('div');
@@ -1378,25 +1416,6 @@
                 
                 timetableBody.appendChild(staffRow);
             });
-        }
-
-        // Parse course time string into structured data
-        function parseCourseTime(timeStr) {
-            const parts = timeStr.split(' / ');
-            const result = [];
-            
-            parts.forEach(part => {
-                const match = part.match(/([A-Z]{2}) \[ ([0-9]{2}:[0-9]{2})_([0-9]{2}:[0-9]{2}) \] (.+)/);
-                if (match) {
-                    result.push({
-                        day: match[1],
-                        time: `${match[2]}_${match[3]}`,
-                        location: match[4]
-                    });
-                }
-            });
-            
-            return result;
         }
 
         // Show course details in modal
@@ -1444,9 +1463,6 @@
                 <div class="detail-item">
                     <span class="detail-label">Units:</span> ${course.units}
                 </div>
-                <div class="detail-item">
-                    <span class="detail-label">Student Count:</span> ${course.count}
-                </div>
                 ${timesHtml}
             `;
             
@@ -1477,8 +1493,6 @@
             });
             
             document.getElementById('collapseAll').addEventListener('click', () => {
-                // In a real implementation, this would collapse rows to show only staff names
-                // For now, we'll just refresh the view
                 renderTimetable();
             });
             
