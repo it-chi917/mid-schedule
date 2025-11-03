@@ -101,6 +101,7 @@
             <th style="padding:8px; background:#eef2ff;">Subject</th>
             <th style="padding:8px; background:#eef2ff;">Section</th>
             <th style="padding:8px; background:#eef2ff;">Teacher</th>
+            <th style="padding:8px; background:#eef2ff;">Weeks</th>
             <th style="padding:8px; background:#eef2ff;">Date</th>
             <th style="padding:8px; background:#eef2ff;">Time</th>
             <th style="padding:8px; background:#eef2ff;">Actions</th>
@@ -130,140 +131,140 @@
   </div>
 
   <script>
-    // Exam data
+    // Exam data with weeks information
     const examData = {
       "ARIN2101": {
         "subject": "Artificial Intelligence: Knowledge",
-        "Section 1": { "teacher": "Dr. Rashid", "date": "2025-11-11", "time": "10:00 - 11:00" }
+        "Section 1": { "teacher": "Dr. Rashid", "date": "2025-11-11", "time": "10:00 - 11:00", "weeks": "TBD" }
       },
       "COMP1116": {
         "subject": "Computer Programming",
-        "Section 1": { "teacher": "Dr. Eimad", "date": "2025-11-06", "time": "14:00 - 15:00" },
-        "Section 2": { "teacher": "Dr. Eimad", "date": "2025-11-05", "time": "11:00 - 12:00" },
-        "Section 3": { "teacher": "Dr. Belal", "date": "2025-11-05", "time": "11:00 - 12:00" },
-        "Section 4": { "teacher": "Dr. Belal", "date": "2025-11-05", "time": "12:00 - 13:00" },
-        "Section 5": { "teacher": "Dr. Belal", "date": "2025-11-05", "time": "13:00 - 14:00" },
-        "Section 6": { "teacher": "Dr. Eimad", "date": "2025-11-05", "time": "12:00 - 13:00" },
-        "Section 7": { "teacher": "Dr. Eimad", "date": "2025-11-03", "time": "13:00 - 14:00" }
+        "Section 1": { "teacher": "Dr. Eimad", "date": "2025-11-06", "time": "14:00 - 15:00", "weeks": "3, 4, 6, 7" },
+        "Section 2": { "teacher": "Dr. Eimad", "date": "2025-11-05", "time": "11:00 - 12:00", "weeks": "3, 4, 6, 7" },
+        "Section 3": { "teacher": "Dr. Belal", "date": "2025-11-05", "time": "11:00 - 12:00", "weeks": "3, 4, 6, 7" },
+        "Section 4": { "teacher": "Dr. Belal", "date": "2025-11-05", "time": "12:00 - 13:00", "weeks": "3, 4, 6, 7" },
+        "Section 5": { "teacher": "Dr. Belal", "date": "2025-11-05", "time": "13:00 - 14:00", "weeks": "3, 4, 6, 7" },
+        "Section 6": { "teacher": "Dr. Eimad", "date": "2025-11-05", "time": "12:00 - 13:00", "weeks": "3, 4, 6, 7" },
+        "Section 7": { "teacher": "Dr. Eimad", "date": "2025-11-03", "time": "13:00 - 14:00", "weeks": "3, 4, 6, 7" }
       },
       "COMP1117": {
         "subject": "Computer Architecture & Organization",
-        "Section 1": { "teacher": "Dr. Mohammed Khan", "date": "2025-11-06", "time": "15:00 - 16:00" },
-        "Section 2": { "teacher": "Dr. Mohammed Khan", "date": "2025-11-06", "time": "10:00 - 11:00" },
-        "Section 3": { "teacher": "Dr. Mohammed Zeeshan", "date": "2025-11-06", "time": "12:00 - 13:00" },
-        "Section 4": { "teacher": "Dr. Mohammed Zeeshan", "date": "2025-11-06", "time": "15:00 - 16:00" },
-        "Section 5": { "teacher": "Dr. Mohammed Khan", "date": "2025-11-06", "time": "14:00 - 15:00" },
-        "Section 6": { "teacher": "Dr. Mohammed Zeeshan", "date": "2025-11-04", "time": "16:00 - 17:00" }
+        "Section 1": { "teacher": "Dr. Mohammed Khan", "date": "2025-11-06", "time": "15:00 - 16:00", "weeks": "4, 5, 6, 7" },
+        "Section 2": { "teacher": "Dr. Mohammed Khan", "date": "2025-11-06", "time": "10:00 - 11:00", "weeks": "4, 5, 6, 7" },
+        "Section 3": { "teacher": "Dr. Mohammed Zeeshan", "date": "2025-11-06", "time": "12:00 - 13:00", "weeks": "4, 5, 6, 7" },
+        "Section 4": { "teacher": "Dr. Mohammed Zeeshan", "date": "2025-11-06", "time": "15:00 - 16:00", "weeks": "4, 5, 6, 7" },
+        "Section 5": { "teacher": "Dr. Mohammed Khan", "date": "2025-11-06", "time": "14:00 - 15:00", "weeks": "4, 5, 6, 7" },
+        "Section 6": { "teacher": "Dr. Mohammed Zeeshan", "date": "2025-11-04", "time": "16:00 - 17:00", "weeks": "4, 5, 6, 7" }
       },
       "COMP1118": {
         "subject": "Discrete Mathematics",
-        "Section 1": { "teacher": "Dr. Khaled", "date": "2025-11-12", "time": "14:00 - 15:00" },
-        "Section 2": { "teacher": "Dr. Khaled", "date": "2025-11-12", "time": "12:00 - 13:00" },
-        "Section 3": { "teacher": "Dr. Heba", "date": "2025-11-12", "time": "15:00 - 16:00" },
-        "Section 4": { "teacher": "Dr. Taher", "date": "2025-11-10", "time": "16:00 - 17:00" },
-        "Section 5": { "teacher": "Dr. Taher", "date": "2025-11-10", "time": "16:00 - 18:00" },
-        "Section 6": { "teacher": "Dr. Heba", "date": "2025-11-13", "time": "15:00 - 16:00" }
+        "Section 1": { "teacher": "Dr. Khaled", "date": "2025-11-12", "time": "14:00 - 15:00", "weeks": "TBD" },
+        "Section 2": { "teacher": "Dr. Khaled", "date": "2025-11-12", "time": "12:00 - 13:00", "weeks": "TBD" },
+        "Section 3": { "teacher": "Dr. Heba", "date": "2025-11-12", "time": "15:00 - 16:00", "weeks": "TBD" },
+        "Section 4": { "teacher": "Dr. Taher", "date": "2025-11-10", "time": "16:00 - 17:00", "weeks": "TBD" },
+        "Section 5": { "teacher": "Dr. Taher", "date": "2025-11-10", "time": "16:00 - 18:00", "weeks": "TBD" },
+        "Section 6": { "teacher": "Dr. Heba", "date": "2025-11-13", "time": "15:00 - 16:00", "weeks": "TBD" }
       },
       "COMP1120": {
         "subject": "Introduction to CyberSecurity",
-        "Section 1": { "teacher": "Dr. Marwan", "date": "2025-11-10", "time": "16:00 - 17:00" }
+        "Section 1": { "teacher": "Dr. Marwan", "date": "2025-11-10", "time": "16:00 - 17:00", "weeks": "TBD" }
       },
       "COMP1217": {
         "subject": "Fundamentals of Database Systems",
-        "Section 1": { "teacher": "Dr. Ibrahim Ahmed", "date": "2025-11-05", "time": "08:00 - 09:00" },
-        "Section 2": { "teacher": "Dr. Ibrahim Ahmed", "date": "2025-11-05", "time": "15:00 - 16:00" }
+        "Section 1": { "teacher": "Dr. Ibrahim Ahmed", "date": "2025-11-05", "time": "08:00 - 09:00", "weeks": "TBD" },
+        "Section 2": { "teacher": "Dr. Ibrahim Ahmed", "date": "2025-11-05", "time": "15:00 - 16:00", "weeks": "TBD" }
       },
       "COMP1218": {
         "subject": "Introduction to Web & Multimedia",
-        "Section 1": { "teacher": "Dr. Furqan", "date": "2025-11-02", "time": "08:00 - 09:00" }
+        "Section 1": { "teacher": "Dr. Furqan", "date": "2025-11-02", "time": "08:00 - 09:00", "weeks": "TBD" }
       },
       "COMP2000": {
         "subject": "Computer Networks II",
-        "Section 1": { "teacher": "Dr. Abdallah", "date": "2025-11-13", "time": "09:00 - 10:00" },
-        "Section 2": { "teacher": "Dr. Abdallah", "date": "2025-11-13", "time": "12:00 - 13:00" },
-        "Section 3": { "teacher": "Dr. Abdallah", "date": "2025-11-13", "time": "10:00 - 11:00" }
+        "Section 1": { "teacher": "Dr. Abdallah", "date": "2025-11-13", "time": "09:00 - 10:00", "weeks": "5, 6, 7, 8" },
+        "Section 2": { "teacher": "Dr. Abdallah", "date": "2025-11-13", "time": "12:00 - 13:00", "weeks": "5, 6, 7, 8" },
+        "Section 3": { "teacher": "Dr. Abdallah", "date": "2025-11-13", "time": "10:00 - 11:00", "weeks": "5, 6, 7, 8" }
       },
       "COMP2100": {
         "subject": "Human Computer Interaction",
-        "Section 1": { "teacher": "Dr. Zakarya", "date": "2025-11-04", "time": "15:00 - 16:00" },
-        "Section 2": { "teacher": "Dr. Zakarya", "date": "2025-11-06", "time": "12:00 - 13:00" }
+        "Section 1": { "teacher": "Dr. Zakarya", "date": "2025-11-04", "time": "15:00 - 16:00", "weeks": "3, 4, 6" },
+        "Section 2": { "teacher": "Dr. Zakarya", "date": "2025-11-06", "time": "12:00 - 13:00", "weeks": "3, 4, 6" }
       },
       "COMP2108": {
         "subject": "Object-Oriented Programming",
-        "Section 1": { "teacher": "Dr. Nehal", "date": "2025-11-12", "time": "10:00 - 11:00" },
-        "Section 2": { "teacher": "Dr. Shumayla", "date": "2025-11-10", "time": "17:00 - 18:00" },
-        "Section 3": { "teacher": "Dr. Shumayla", "date": "2025-11-11", "time": "17:00 - 18:00" },
-        "Section 4": { "teacher": "Dr. Nehal", "date": "2025-11-10", "time": "16:00 - 17:00" },
-        "Section 5": { "teacher": "Dr. Nehal", "date": "2025-11-10", "time": "12:00 - 13:00" },
-        "Section 6": { "teacher": "Dr. Nehal", "date": "2025-11-09", "time": "11:00 - 12:00" }
+        "Section 1": { "teacher": "Dr. Nehal", "date": "2025-11-12", "time": "10:00 - 11:00", "weeks": "TBD" },
+        "Section 2": { "teacher": "Dr. Shumayla", "date": "2025-11-10", "time": "17:00 - 18:00", "weeks": "TBD" },
+        "Section 3": { "teacher": "Dr. Shumayla", "date": "2025-11-11", "time": "17:00 - 18:00", "weeks": "TBD" },
+        "Section 4": { "teacher": "Dr. Nehal", "date": "2025-11-10", "time": "16:00 - 17:00", "weeks": "TBD" },
+        "Section 5": { "teacher": "Dr. Nehal", "date": "2025-11-10", "time": "12:00 - 13:00", "weeks": "TBD" },
+        "Section 6": { "teacher": "Dr. Nehal", "date": "2025-11-09", "time": "11:00 - 12:00", "weeks": "TBD" }
       },
       "COMP2111": {
         "subject": "System Analysis & Design",
-        "Section 1": { "teacher": "Dr. Mohammed", "date": "2025-11-06", "time": "13:00 - 14:00" },
-        "Section 2": { "teacher": "Dr. Hesham", "date": "2025-11-05", "time": "17:00 - 18:00" },
-        "Section 3": { "teacher": "Dr. Mohammed", "date": "2025-11-06", "time": "15:00 - 16:00" },
-        "Section 4": { "teacher": "Dr. Hesham", "date": "2025-11-05", "time": "12:00 - 13:00" },
-        "Section 5": { "teacher": "Dr. Mohammed", "date": "2025-11-05", "time": "14:00 - 15:00" }
+        "Section 1": { "teacher": "Dr. Mohammed", "date": "2025-11-06", "time": "13:00 - 14:00", "weeks": "2, 3, 4, 5" },
+        "Section 2": { "teacher": "Dr. Hesham", "date": "2025-11-05", "time": "17:00 - 18:00", "weeks": "2, 3, 4, 5" },
+        "Section 3": { "teacher": "Dr. Mohammed", "date": "2025-11-06", "time": "15:00 - 16:00", "weeks": "2, 3, 4, 5" },
+        "Section 4": { "teacher": "Dr. Hesham", "date": "2025-11-05", "time": "12:00 - 13:00", "weeks": "2, 3, 4, 5" },
+        "Section 5": { "teacher": "Dr. Mohammed", "date": "2025-11-05", "time": "14:00 - 15:00", "weeks": "2, 3, 4, 5" }
       },
       "COMP2132": {
         "subject": "Software Requirement Engineering",
-        "Section 1": { "teacher": "Dr. Jabar", "date": "2025-11-19", "time": "TBD" }
+        "Section 1": { "teacher": "Dr. Jabar", "date": "2025-11-19", "time": "TBD", "weeks": "TBD" }
       },
       "NEDB2101": {
         "subject": "Database Administration",
-        "Section 1": { "teacher": "Ms. Maryam", "date": "2025-11-12", "time": "09:00 - 10:00" },
-        "Section 2": { "teacher": "Ms. Maryam", "date": "2025-11-12", "time": "11:00 - 12:00" }
+        "Section 1": { "teacher": "Ms. Maryam", "date": "2025-11-12", "time": "09:00 - 10:00", "weeks": "TBD" },
+        "Section 2": { "teacher": "Ms. Maryam", "date": "2025-11-12", "time": "11:00 - 12:00", "weeks": "TBD" }
       },
       "COMP3107": {
         "subject": "Distributed Database Design",
-        "Section 1": { "teacher": "Dr. Falah", "date": "2025-11-05", "time": "TBD" },
-        "Section 2": { "teacher": "Dr. Falah", "date": "2025-11-09", "time": "TBD" }
+        "Section 1": { "teacher": "Dr. Falah", "date": "2025-11-05", "time": "TBD", "weeks": "TBD" },
+        "Section 2": { "teacher": "Dr. Falah", "date": "2025-11-09", "time": "TBD", "weeks": "TBD" }
       },
       "COMP3109": {
         "subject": "Mobile Application",
-        "Section 1": { "teacher": "Dr. Syed", "date": "2025-11-02", "time": "TBD" },
-        "Section 3": { "teacher": "Dr. Syed", "date": "2025-11-05", "time": "TBD" }
+        "Section 1": { "teacher": "Dr. Syed", "date": "2025-11-02", "time": "TBD", "weeks": "TBD" },
+        "Section 3": { "teacher": "Dr. Syed", "date": "2025-11-05", "time": "TBD", "weeks": "TBD" }
       },
       "COMP3110": {
         "subject": "Pattern Recognition",
-        "Section 1": { "teacher": "Dr. Sanad", "date": "2025-10-29", "time": "TBD" }
+        "Section 1": { "teacher": "Dr. Sanad", "date": "2025-10-29", "time": "TBD", "weeks": "TBD" }
       },
       "COMP3111": {
         "subject": "GIS & Spatial Databases",
-        "Section 1": { "teacher": "Dr. Amir", "date": "2025-11-04", "time": "10:00 - 11:00" }
+        "Section 1": { "teacher": "Dr. Amir", "date": "2025-11-04", "time": "10:00 - 11:00", "weeks": "TBD" }
       },
       "COMP3113": {
         "subject": "Cloud Computing and Web Services",
-        "Section 1": { "teacher": "Dr. Madi", "date": "2025-11-23", "time": "TBD" }
+        "Section 1": { "teacher": "Dr. Madi", "date": "2025-11-23", "time": "TBD", "weeks": "TBD" }
       },
       "COMP3131": {
         "subject": "Software Constructions",
-        "Section 1": { "teacher": "Dr. Arshad", "date": "2025-11-13", "time": "TBD" }
+        "Section 1": { "teacher": "Dr. Arshad", "date": "2025-11-13", "time": "TBD", "weeks": "TBD" }
       },
       "COMP3132": {
         "subject": "Software Design & Architecture",
-        "Section 1": { "teacher": "Dr. Izaz", "date": "2025-11-05", "time": "13:00 - 14:00" }
+        "Section 1": { "teacher": "Dr. Izaz", "date": "2025-11-05", "time": "13:00 - 14:00", "weeks": "TBD" }
       },
       "NEDB3101": {
         "subject": "Switching & Routing Technique",
-        "Section 1": { "teacher": "Dr. Hussein", "date": "2025-11-10", "time": "TBD" }
+        "Section 1": { "teacher": "Dr. Hussein", "date": "2025-11-10", "time": "TBD", "weeks": "TBD" }
       },
       "COMP4102": {
         "subject": "Software Project Management",
-        "Section 1": { "teacher": "Dr. Abid", "date": "2025-11-09", "time": "17:00 - 18:00" },
-        "Section 2": { "teacher": "Dr. Abid", "date": "2025-11-11", "time": "16:00 - 17:00" }
+        "Section 1": { "teacher": "Dr. Abid", "date": "2025-11-09", "time": "17:00 - 18:00", "weeks": "TBD" },
+        "Section 2": { "teacher": "Dr. Abid", "date": "2025-11-11", "time": "16:00 - 17:00", "weeks": "TBD" }
       },
       "COMP4107": {
         "subject": "Special Topics",
-        "Section 1": { "teacher": "Dr. Mahmood", "date": "2025-11-11", "time": "17:00 - 18:00" }
+        "Section 1": { "teacher": "Dr. Mahmood", "date": "2025-11-11", "time": "17:00 - 18:00", "weeks": "TBD" }
       },
       "COMP4108": {
         "subject": "Big Data Analytics",
-        "Section 1": { "teacher": "Dr. Saeid", "date": "2025-11-13", "time": "12:00 - 13:00" }
+        "Section 1": { "teacher": "Dr. Saeid", "date": "2025-11-13", "time": "12:00 - 13:00", "weeks": "TBD" }
       },
       "COMP4109": {
         "subject": "Internet Of Things",
-        "Section 1": { "teacher": "Dr. Mahmood", "date": "2025-11-11", "time": "17:00 - 18:00" }
+        "Section 1": { "teacher": "Dr. Mahmood", "date": "2025-11-11", "time": "17:00 - 18:00", "weeks": "TBD" }
       }
     };
 
@@ -284,7 +285,7 @@
     const scheduleHeader = document.getElementById('scheduleHeader');
 
     // Track entries to prevent exact duplicates (subject + section)
-    const entries = new Map(); // key -> {subject, section, teacher, date, time}
+    const entries = new Map(); // key -> {subject, section, teacher, date, time, weeks}
 
     // Calendar state
     let currentWeekStart = new Date();
@@ -444,12 +445,13 @@
             return {
               teacher: course[sectionKey].teacher,
               date: course[sectionKey].date,
-              time: course[sectionKey].time
+              time: course[sectionKey].time,
+              weeks: course[sectionKey].weeks || 'TBD'
             };
           }
         }
       }
-      return { teacher: 'N/A', date: 'N/A', time: 'N/A' };
+      return { teacher: 'N/A', date: 'N/A', time: 'N/A', weeks: 'TBD' };
     }
 
     // Calendar functions
@@ -551,7 +553,7 @@
       doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 20, 30);
 
       // Table headers
-      const headers = ['Subject', 'Section', 'Teacher', 'Date', 'Time'];
+      const headers = ['Subject', 'Section', 'Teacher', 'Weeks', 'Date', 'Time'];
       let yPosition = 50;
       
       doc.setFontSize(10);
@@ -559,8 +561,9 @@
       doc.rect(20, 40, 250, 10, 'F');
       doc.setTextColor(0, 0, 0);
       
+      let xPositions = [25, 70, 105, 145, 185, 230];
       headers.forEach((header, index) => {
-        doc.text(header, 25 + (index * 50), 47);
+        doc.text(header, xPositions[index], 47);
       });
 
       // Table content
@@ -575,12 +578,13 @@
           item.subject,
           item.section,
           item.teacher,
+          item.weeks,
           formatDateForDisplay(item.date),
           item.time
         ];
         
         row.forEach((cell, cellIndex) => {
-          doc.text(cell, 25 + (cellIndex * 50), yPosition);
+          doc.text(cell, xPositions[cellIndex], yPosition);
         });
         
         yPosition += 10;
@@ -633,6 +637,7 @@
         <td style="padding:8px;">${escapeHtml(item.subject)}</td>
         <td style="padding:8px; text-align:center;">${escapeHtml(item.section || '—')}</td>
         <td style="padding:8px; text-align:center;">${escapeHtml(item.teacher || '—')}</td>
+        <td style="padding:8px; text-align:center;">${escapeHtml(item.weeks || 'TBD')}</td>
         <td style="padding:8px; text-align:center;">${escapeHtml(formatDateForDisplay(item.date))}</td>
         <td style="padding:8px; text-align:center;">${escapeHtml(item.time || '—')}</td>
         <td style="padding:8px; text-align:center;">
@@ -676,7 +681,8 @@
         section, 
         teacher: examDetails.teacher,
         date: examDetails.date,
-        time: examDetails.time
+        time: examDetails.time,
+        weeks: examDetails.weeks
       };
       
       entries.set(key, item);
