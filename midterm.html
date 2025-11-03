@@ -7,6 +7,39 @@
   <link rel="stylesheet" href="styles.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    /* Add styles for notifications and header color change */
+    .notification-area {
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 5px;
+      display: none;
+    }
+    
+    .notification {
+      padding: 8px 12px;
+      margin: 5px 0;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+    
+    .same-day-notification {
+      background-color: #fff3cd;
+      border: 1px solid #ffeaa7;
+      color: #856404;
+    }
+    
+    .same-time-warning {
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+      color: #721c24;
+    }
+    
+    .schedule-header-colored {
+      color: #2c5aa0 !important;
+      transition: color 0.3s ease;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -16,6 +49,11 @@
       <div style="text-align:right;">
         <button id="exportPdfBtn" class="action-btn">📄 Export PDF</button>
       </div>
+    </div>
+
+    <!-- Notification Area -->
+    <div id="notificationArea" class="notification-area">
+      <!-- Notifications will be inserted here -->
     </div>
 
     <p>Select a subject (or choose Custom), select section then click <b>Add</b>.<br>
@@ -56,7 +94,7 @@
     </div>
 
     <div class="schedule-area">
-      <h2>Your Midterm Schedule | جدول الاختبارات</h2>
+      <h2 id="scheduleHeader">Your Midterm Schedule | جدول الاختبارات</h2>
       <table id="scheduleTable" style="width:100%; border-collapse:collapse;">
         <thead>
           <tr>
@@ -242,6 +280,8 @@
     const calendarView = document.getElementById('calendarView');
     const prevWeekBtn = document.getElementById('prevWeek');
     const nextWeekBtn = document.getElementById('nextWeek');
+    const notificationArea = document.getElementById('notificationArea');
+    const scheduleHeader = document.getElementById('scheduleHeader');
 
     // Track entries to prevent exact duplicates (subject + section)
     const entries = new Map(); // key -> {subject, section, teacher, date, time}
@@ -297,6 +337,68 @@
             sectionSelect.appendChild(option);
           }
         });
+      }
+    }
+
+    // NEW FUNCTION: Check for exam conflicts
+    function checkExamConflicts() {
+      const sameDayExams = {};
+      const sameTimeExams = {};
+      
+      // Group exams by date and by date+time
+      Array.from(entries.values()).forEach(exam => {
+        if (exam.date && exam.date !== 'N/A' && exam.date !== 'TBD') {
+          // Check for same day
+          if (!sameDayExams[exam.date]) {
+            sameDayExams[exam.date] = [];
+          }
+          sameDayExams[exam.date].push(exam);
+          
+          // Check for same day and time
+          const dateTimeKey = `${exam.date}|${exam.time}`;
+          if (!sameTimeExams[dateTimeKey]) {
+            sameTimeExams[dateTimeKey] = [];
+          }
+          sameTimeExams[dateTimeKey].push(exam);
+        }
+      });
+      
+      // Clear previous notifications
+      notificationArea.innerHTML = '';
+      notificationArea.style.display = 'none';
+      
+      // Show same day notifications
+      Object.keys(sameDayExams).forEach(date => {
+        if (sameDayExams[date].length > 1) {
+          notificationArea.style.display = 'block';
+          const notification = document.createElement('div');
+          notification.className = 'notification same-day-notification';
+          const examNames = sameDayExams[date].map(e => `${e.subject} (Sec ${e.section})`).join(', ');
+          notification.textContent = `⚠️ You have ${sameDayExams[date].length} exams on ${formatDateForDisplay(date)}: ${examNames}`;
+          notificationArea.appendChild(notification);
+        }
+      });
+      
+      // Show same time warnings
+      Object.keys(sameTimeExams).forEach(key => {
+        if (sameTimeExams[key].length > 1) {
+          notificationArea.style.display = 'block';
+          const [date, time] = key.split('|');
+          const warning = document.createElement('div');
+          warning.className = 'notification same-time-warning';
+          const examNames = sameTimeExams[key].map(e => `${e.subject} (Sec ${e.section})`).join(', ');
+          warning.textContent = `🚨 CONFLICT! You have ${sameTimeExams[key].length} exams at the same time (${formatDateForDisplay(date)} at ${time}): ${examNames}`;
+          notificationArea.appendChild(warning);
+        }
+      });
+    }
+
+    // NEW FUNCTION: Update header color based on number of subjects
+    function updateHeaderColor() {
+      if (entries.size > 0) {
+        scheduleHeader.classList.add('schedule-header-colored');
+      } else {
+        scheduleHeader.classList.remove('schedule-header-colored');
       }
     }
 
@@ -541,6 +643,10 @@
       scheduleBody.appendChild(tr);
       updateEmptyHint();
       renderCalendar(); // Update calendar when schedule changes
+      
+      // NEW: Check for conflicts and update header color
+      checkExamConflicts();
+      updateHeaderColor();
     }
 
     function escapeHtml(str) {
@@ -602,6 +708,10 @@
         if (tr) tr.remove();
         updateEmptyHint();
         renderCalendar();
+        
+        // NEW: Check for conflicts and update header color after removal
+        checkExamConflicts();
+        updateHeaderColor();
       }
 
       if (e.target.classList.contains('editBtn')) {
@@ -619,6 +729,10 @@
         if (tr) tr.remove();
         updateEmptyHint();
         renderCalendar();
+        
+        // NEW: Check for conflicts and update header color after edit
+        checkExamConflicts();
+        updateHeaderColor();
       }
     });
 
@@ -648,6 +762,7 @@
     populateSubjects();
     updateEmptyHint();
     renderCalendar();
+    updateHeaderColor(); // Initialize header color
   </script>
 </body>
 </html>
